@@ -1,0 +1,56 @@
+.switch_section input {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 0.25rem;
+    outline: none;
+    border: none;
+    border: 1px solid #0597ff;
+  }
+  
+  .demo_changer .form_holder {
+    min-height: max-content !important;
+    height: auto !important;
+  }
+  
+  ::ng-deep {
+    color-picker{
+      position: relative;
+    }
+    .color-picker {
+      position: absolute !important;
+      top: 0 !important;
+      inset-inline-end: 0 !important;
+      left: inherit !important;
+    }
+    .dark-mode {
+      app-switcher {
+        .color-picker {
+          // visibility: visible;
+          // width: 230px;
+          // top: 100.562px;
+          // left: 516px;
+          // position: fixed;
+        }
+      }
+    }
+    .transparent-mode{
+      .color-picker.open{
+      // display: block !important;
+      // left: 10px !important;
+      // right: inherit !important;
+      // top:0 !important;
+      // bottom: 0 
+    }}
+
+    .rtl{
+      .color-picker{
+        left: 0px !important;
+      }
+    }
+
+
+  }
+  
+  .sidebar-right1{
+    overflow-x: hidden;
+  }
