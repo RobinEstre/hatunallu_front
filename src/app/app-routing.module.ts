@@ -17,13 +17,11 @@ const routes: Routes = [
   {
     path: '',
     loadChildren: () => import('./shared/shared.module').then(m => m.SharedModule),
-  },
+  }
 ];
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule
-  ]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
 })
 export class AppRoutingModule { }

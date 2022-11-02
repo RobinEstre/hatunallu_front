@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { AuthenticationRoutingModule } from './authentication-routing.module';
-import { LoginPageComponent } from '../../../../hemilia_frontend/src/app/authentication/login-page/login-page.component';
-import { RegisterComponent } from '../../../../hemilia_frontend/src/app/authentication/register/register.component';
+import { LoginPageComponent } from './login-page/login-page.component';
+import { RegisterComponent } from './register/register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
