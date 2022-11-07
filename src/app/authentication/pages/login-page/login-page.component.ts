@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../../shared/services/auth.service';
+import { AuthService } from '../../../shared/services/auth.service';
 
 @Component({
   selector: 'app-login-page',
@@ -9,45 +9,39 @@ import { AuthService } from '../../shared/services/auth.service';
   styleUrls: ['./login-page.component.scss']
 })
 export class LoginPageComponent implements OnInit {
+  //angular
+  public error:any = '';
+
   disabled = ""
   active:any;
   constructor(private authservice: AuthService, private router: Router, private formBuilder : FormBuilder) { }
 
-  ngOnInit(): void {
-    this.loginForm = this.formBuilder.group({
-      username : ['spruko@admin.com',[Validators.required, Validators.email]],
-      password : ['sprukoadmin', Validators.required]
-    });
-  }
+  loginForm = this.formBuilder.group({
+    username : ['',[Validators.required, Validators.email]],
+    password : ['', Validators.required]
+  });
 
-  // firebase
-  email = "spruko@admin.com";
-  password = "sprukoadmin";
   errorMessage = ''; // validation _error handle
-  _error: { name: string, message: string } = { name: '', message: '' }; // for firbase _error handle
 
-  clearErrorMessage() {
-    this.errorMessage = '';
-    this._error = { name: '', message: '' };
+  ngOnInit(): void {
+
   }
 
-  login()
-  {
+  login(){
     this.disabled = "btn-loading"
-    this.clearErrorMessage();
-    if (this.validateForm(this.email, this.password)) {
-      this.authservice.loginWithEmail(this.email, this.password)
-        .then(() => {
-         this.router.navigate(['/dashboard'])
-         console.clear()
-        }).catch((_error:any)=> {
-          this._error = _error
-          this.router.navigate(['/'])
-        })
+    let user= this.loginForm.controls['username'].value
+    let pass= this.loginForm.controls['password'].value
+    console.log(this.loginForm.controls['username'].value)
+    console.log(this.loginForm.controls['password'].value)
+    this.router.navigate(['/almacen/dashboard'])
+    if (this.validateForm(user, pass)) {
+      this.router.navigate(['/almacen/dashboard'])
+      this.errorMessage = "Success";
+      console.clear()
     }
   }
 
-  validateForm(email:string, password:string) {
+  validateForm(email:any, password:any) {
     if (email.length === 0) {
       this.errorMessage = "please enter email id";
       return false;
@@ -66,14 +60,6 @@ export class LoginPageComponent implements OnInit {
     this.errorMessage = '';
     return true;
 
-  }
-
-  //angular
-  public loginForm! : FormGroup;
-  public error:any = '';
-
-  get form(){
-    return this.loginForm.controls;
   }
 
   Submit(){

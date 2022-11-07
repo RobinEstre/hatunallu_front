@@ -1,0 +1,95 @@
+<div class="page-style1 light-mode default-sidebar error-page1">
+  <div class="login-img">
+      <div class="page">
+          <div class="container">
+              <div class="row">
+                  <div class="col mx-auto">
+                      <div class="row justify-content-center">
+                          <div class="col-md-7 col-lg-5">
+                              <div class="login-option">
+                                  <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+                                      <li ngbNavItem="Firebase">
+                                          <a ngbNavLink>
+                                              <img src="../../../../assets/images/firebase.svg" alt="">
+                                          </a>
+                                          <ng-template ngbNavContent>
+                                              <form [formGroup]="loginForm" (ngSubmit)="login()">
+                                                  <div class="text-center title-style mb-6">
+                                                      <h1 class="mb-2">HEMILIA</h1>
+                                                      <hr>
+                                                      <p class="text-muted">Iniciar Sesión | HERITAGE</p>
+                                                  </div>
+                                                  <div class="input-group mb-3">
+                                                    <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
+                                                      <i class="zmdi zmdi-email text-muted" aria-hidden="true"></i>
+                                                    </a>
+                                                    <input type="email" name="email" class="input100 border-start-0 form-control ms-0"
+                                                            placeholder="Ingrese usuario" formControlName="username" required>
+                                                  </div>
+                                                  <div class="input-group mb-4">
+                                                    <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
+                                                      <i class="zmdi zmdi-eye text-muted" aria-hidden="true"></i>
+                                                    </a>
+                                                    <input type="password" name="password" class="input100 border-start-0 form-control ms-0"
+                                                           placeholder="Ingrese contraseña" formControlName="password" required>
+                                                  </div>
+                                                  <div class="col-12">
+                                                      <button type="submit" class="btn btn-lg btn-primary btn-block {{disabled}}">Login</button>
+                                                  </div>
+                                                  <div class="text-center col-12">
+                                                      <a routerLink="/custompages/forgot-password" class="text-primary ms-1 btn">Recuperar contraseña</a>
+                                                  </div>
+                                              </form>
+                                             <!-- <div class="text-center pt-3">
+                                                <p class="text-dark mb-0">
+                                                  Not a member?<a
+                                                    routerLink="/auth/register"
+                                                    class="text-primary ms-1"
+                                                    >Sign UP</a
+                                                  >
+                                                </p>
+                                              </div>
+                                              <div class="form-group">
+                                              <p *ngIf="errorMessage.length > 0" class="text-danger">
+                                                  {{errorMessage}}</p>
+
+                                              <p *ngIf="_error.message.length > 0" class="text-danger">
+                                                  {{_error.message}} </p>
+                                              </div>
+                                              <label class="login-social-icon"><span>Login with Social</span></label>
+                                              <div class="d-flex justify-content-center">
+                                                <a href="https://www.google.com/gmail/">
+                                                  <div class="social-login me-4 text-center">
+                                                    <i class="fa fa-google"></i>
+                                                  </div>
+                                                </a>
+                                                <a href="https://www.facebook.com/">
+                                                  <div class="social-login me-4 text-center">
+                                                    <i class="fa fa-facebook"></i>
+                                                  </div>
+                                                </a>
+                                                <a href="https://twitter.com/">
+                                                  <div class="social-login text-center">
+                                                    <i class="fa fa-twitter"></i>
+                                                  </div>
+                                                </a>
+                                              </div>-->
+                                          </ng-template>
+                                        </li>
+                                  </ul>
+                              </div>
+                              <div class="card card-group mb-0">
+                                  <div class="card p-4">
+                                      <div class="card-body">
+                                          <div [ngbNavOutlet]="nav" class="ml-4"></div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

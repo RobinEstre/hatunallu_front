@@ -25,34 +25,15 @@ export class HeaderComponent implements OnInit {
     public SwitcherService : SwitcherService,
     private router: Router,
     //public ShopService: ShopService,
-    private store: Store<any>
-  ){
-    this.price();
-  }
+    //private store: Store<any>
+  ){}
 
 
-  data$ = this.store.select('data')
+  //data$ = this.store.select('data')
   totalMoney:any = 0
   totalLength = 1
   delectFunction = false
   getdelectData:any
-  price(){
-    this.data$.forEach((item) =>{
-
-      this.totalLength = item.length
-      if(item.length>1){
-
-        this.totalMoney =this.totalMoney+item[this.totalLength-1].offer_price
-      }
-      else{
-        this.totalMoney = item[0].offer_price
-      }
-      if(this.delectFunction){
-        this.totalMoney = 0
-        this.delectFunction = false
-      }
-    })
-  }
 
   /*delect(id:any){
     if(confirm('Are you sure you want to delete this item?')){

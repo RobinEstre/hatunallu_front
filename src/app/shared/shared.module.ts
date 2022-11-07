@@ -23,6 +23,7 @@ import { RightSidebarComponent } from './layout-components/right-sidebar/right-s
 import { HeaderOneComponent } from './layout-components/header-one/header-one.component';
 import { ElementCardHeaderComponent } from './layout-components/element-card-header/element-card-header.component';
 import { AuthService } from './services/auth.service';
+import {HoverEffectSidebarDirective} from "./directives/hover-effect-sidebar.directive";
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
   wheelPropagation: false
@@ -45,6 +46,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     RightSidebarComponent,
     HeaderOneComponent,
     ElementCardHeaderComponent,
+    HoverEffectSidebarDirective,
   ],
   imports: [
     CommonModule,
