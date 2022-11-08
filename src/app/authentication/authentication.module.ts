@@ -7,6 +7,7 @@ import { RegisterComponent } from './pages/register/register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { NotifierModule, NotifierOptions } from 'angular-notifier';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,7 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
     FormsModule,
     ReactiveFormsModule,
     AngularFireAuthModule,
-
+    NotifierModule
   ],
   providers: [
 

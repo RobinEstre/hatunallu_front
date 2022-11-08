@@ -24,6 +24,7 @@ import { HeaderOneComponent } from './layout-components/header-one/header-one.co
 import { ElementCardHeaderComponent } from './layout-components/element-card-header/element-card-header.component';
 import { AuthService } from './services/auth.service';
 import {HoverEffectSidebarDirective} from "./directives/hover-effect-sidebar.directive";
+import {ToggleThemeDirective} from "./directives/toggle-theme.directive";
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
   wheelPropagation: false
@@ -47,6 +48,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     HeaderOneComponent,
     ElementCardHeaderComponent,
     HoverEffectSidebarDirective,
+    ToggleThemeDirective,
+    ToggleThemeDirective,
   ],
   imports: [
     CommonModule,
@@ -58,10 +61,11 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     MatProgressBarModule,
     NgbModule,
   ],
-  exports : [
-    PageHeaderComponent,
-    ElementCardHeaderComponent
-  ],
+    exports: [
+        PageHeaderComponent,
+        ElementCardHeaderComponent,
+        ToggleThemeDirective
+    ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
   ],
