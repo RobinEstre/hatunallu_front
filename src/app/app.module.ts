@@ -15,6 +15,8 @@ import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/h
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import {TokenInterceptor} from './interceptor/token.interceptor';
+import { DataTablesModule } from 'angular-datatables';
+
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
@@ -41,6 +43,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         deps: [HttpClient]
       },
     }),
+    DataTablesModule
   ],
   providers: [
     ColorPickerService,  {provide: HTTP_INTERCEPTORS, useClass:TokenInterceptor, multi:true}

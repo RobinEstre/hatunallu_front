@@ -33,6 +33,7 @@ export class SidebarComponent {
 
   }
   public user!: { id: number };
+
   ngOnInit() {
     this.menuitemsSubscribe$ = this.navServices.items.subscribe(
       (items) => (this.menuItems = items)
@@ -183,6 +184,7 @@ export class SidebarComponent {
     }
     item.active = !item.active;
   }
+
   setNavActive(item: any) {
 
     this.menuItems.filter((main) => {
@@ -261,6 +263,7 @@ export class SidebarComponent {
       }
     });
   }
+
   closeNavActive() {
     this.menuItems.filter((main) => {
       main.active = false;

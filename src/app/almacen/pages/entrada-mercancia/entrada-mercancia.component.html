@@ -1,0 +1,36 @@
+<div class="card my-5">
+  <div class="card-header pb-0">
+    <div>
+      <h6 class="main-content-label mb-1">Basic Table</h6>
+      <p class="text-muted card-sub-title">Basic Angular material table, as shown in this example.</p>
+    </div>
+  </div>
+  <div class="card-body row">
+    <div class="col-sm-12 col-md-12 col-lg-12">
+      <div class="table-responsive invoice-table" id="table" *ngIf="montosProyeccion">
+        <table class="table table-striped table-bordered" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+          <thead>
+          <tr>
+            <th class="text-center">DIPLOMADO</th>
+            <th class="text-center">MONTO POR COBRAR</th>
+            <th class="text-center">MENSUALIDAD</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let valcobro of montosProyeccion">
+            <td class="text-dark">
+              {{valcobro.diplomado_name}}
+            </td>
+            <td class="text-center text-dark">
+              S/ {{valcobro.monto_deben}}
+            </td>
+            <td class="text-center text-dark">
+              {{valcobro.mensualidad}}
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

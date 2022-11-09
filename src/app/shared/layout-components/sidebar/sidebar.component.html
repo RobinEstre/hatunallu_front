@@ -46,30 +46,10 @@
             />
           </svg>
         </div>
-        <!-- <div class="slide-leftRTL disabled" id="slide-leftRTL">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="#7b8191"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z"
-            />
-          </svg>
-        </div> -->
         <ul class="side-menu">
           <!-- 1st Level Menu -->
-          <li
-            *ngFor="let menuItem of menuItems"
-            [ngClass]="{
-              'sub-category': menuItem.headTitle,
-              slide: menuItem.title,
-              active: menuItem.selected,
-              'is-expanded': menuItem.active
-            }"
-          >
+          <li *ngFor="let menuItem of menuItems" [ngClass]="{ 'sub-category': menuItem.headTitle,
+              slide: menuItem.title, active: menuItem.selected, 'is-expanded': menuItem.active}">
             <h3 *ngIf="menuItem.headTitle">{{ menuItem.headTitle }}</h3>
 
             <!-- has-Link -->
@@ -338,19 +318,6 @@
             />
           </svg>
         </div>
-        <!-- <div class="slide-rightRTL" id="slide-rightRTL">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="#7b8191"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M10.707 17.707 16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z"
-            />
-          </svg>
-        </div> -->
       </div>
     </perfect-scrollbar>
   </div>

@@ -42,7 +42,8 @@ export class HeaderComponent implements OnInit {
   }
 
   signout() {
-    const path = 'users/logout/?token=' + this.token;
+    return this.router.navigate(['/authentication/login']);
+    /*const path = 'users/logout/?token=' + this.token;
     this.logoutService.logout(path).subscribe(resp => {
       if (resp['success'] === true) {
         localStorage.removeItem('token');
@@ -51,6 +52,6 @@ export class HeaderComponent implements OnInit {
         localStorage.removeItem('user');
         return this.router.navigate(['/authentication/login']);
       }
-    });
+    });*/
   }
 }
