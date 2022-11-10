@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { Store } from '@ngrx/store';/*
-import { deleteShopData } from '../../ngrx/e-commerce/shop.action';
-import { ShopService } from '../../services/e-commerce/shop.service';*/
 import { LayoutService } from '../../services/layout.service';
 import { Menu, NavService } from '../../services/nav.service';
 import { SwitcherService } from '../../services/switcher.service';
@@ -25,14 +22,17 @@ export class HeaderComponent implements OnInit {
   empresas:any=[
     {
       id: '01',
+      icon: 'institution',
       name: 'HERITAGE'
     },
     {
       id: '02',
+      icon: 'institution',
       name: 'TEXTILES'
     },
     {
       id: '03',
+      icon: 'institution',
       name: 'ROBIN SAC'
     },
   ]
@@ -100,8 +100,6 @@ export class HeaderComponent implements OnInit {
     this.body?.classList.remove("dark-mode")
     localStorage.removeItem("SashTransparentTheme")
     localStorage.removeItem("SashDarkTheme")
-
-    console.log('cambiado')
   }
 
   DarkTheme(){

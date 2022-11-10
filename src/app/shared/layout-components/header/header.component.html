@@ -112,14 +112,14 @@
                   <div  class="notifications-menu">
                     <div *ngFor="let emp of empresas">
                       <a href="javascript:void(0)" ngbDropdownItem class="dropdown-item d-flex" (click)="changeTheme(emp.id)">
-                        <div class="me-3 notifyimg bg-primary brround box-shadow-primary">
-                          <i class="fe fe-mail"></i>
+                        <div class="notifyimg bg-primary brround box-shadow-primary">
+                          <i class="fa fa-{{emp.icon}}" style="margin-top: -0.5vw"></i>
                         </div>
                         <div class="mt-1 wd-80p">
                           <h5 class="notification-label mb-1">
                             {{emp.name}}
                           </h5>
-                          <span class="notification-subtext">3 days ago</span>
+                          <span class="notification-subtext">RUC: 100000021212</span>
                         </div>
                       </a>
                     </div>
