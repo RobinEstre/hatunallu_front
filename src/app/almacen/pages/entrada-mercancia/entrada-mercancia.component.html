@@ -1,31 +1,53 @@
 <div class="card my-5">
-  <div class="card-header pb-0">
-    <div>
-      <h6 class="main-content-label mb-1">Basic Table</h6>
+  <div class="card-header row pb-0">
+    <div class="col-sm-12 col-md-6 col-lg-6">
+      <h4 class="main-content-label mb-1">Entrada Productos</h4>
       <p class="text-muted card-sub-title">Basic Angular material table, as shown in this example.</p>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-6 text-end">
+      <button class="modal-effect btn btn-primary-light" (click)="openModal(scale)">Agregar Productos</button>
     </div>
   </div>
   <div class="card-body row">
     <div class="col-sm-12 col-md-12 col-lg-12">
-      <div class="table-responsive invoice-table" id="table" *ngIf="montosProyeccion">
+      <!--TABLA-->
+      <div class="table-responsive invoice-table" id="table">
         <table class="table table-striped table-bordered" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
           <thead>
           <tr>
-            <th class="text-center">DIPLOMADO</th>
-            <th class="text-center">MONTO POR COBRAR</th>
-            <th class="text-center">MENSUALIDAD</th>
+            <th class="text-center">CODIGO</th>
+            <th class="text-center">NOMBRE</th>
+            <th class="text-center">CANTIDAD</th>
+            <th class="text-center">COSTO UNITARIO</th>
+            <th class="text-center">COSTO TOTAL</th>
+            <th class="text-center">REGISTRO</th>
+            <th class="text-center">ACCIONES</th>
           </tr>
           </thead>
           <tbody>
           <tr *ngFor="let valcobro of montosProyeccion">
-            <td class="text-dark">
-              {{valcobro.diplomado_name}}
+            <td class="text-center text-dark">
+              {{valcobro.cod}}
             </td>
             <td class="text-center text-dark">
-              S/ {{valcobro.monto_deben}}
+              {{valcobro.nombre}}
             </td>
             <td class="text-center text-dark">
-              {{valcobro.mensualidad}}
+              {{valcobro.cantidad}}
+            </td>
+            <td class="text-center text-dark">
+              S/ {{valcobro.unit}}
+            </td>
+            <td class="text-center text-dark">
+              S/ {{valcobro.total}}
+            </td>
+            <td class="text-center text-dark">
+              20 Noviembre 2022
+            </td>
+            <td class="text-center">
+              <a class="" href="javascript:void(0);">
+                <i class="fa fa-pencil" aria-hidden="true"></i>
+              </a>
             </td>
           </tr>
           </tbody>
@@ -34,3 +56,118 @@
     </div>
   </div>
 </div>
+<!--MODAL AGREGAR PRODUCTO-->
+<ng-template #scale let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title"><b>Agregar Producto</b></h4>
+    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form  [formGroup]="formReserva" (submit)="agregar()">
+      <div class="form-body row">
+        <!--SELECT-->
+        <div class="col-md-6 col-sm-12 col-lg-6 mb-2">
+          <div class="form-group">
+            <ng-select formControlName="categoria"
+                       [items]="categoria"
+                       bindLabel='course_name'
+                       bindValue='course_code'
+                       placeholder="SELECCIONAR CATEGORIA*">
+            </ng-select>
+          </div>
+        </div>
+        <!--<div class="col-md-4 col-sm-12 col-lg-4 mb-2">
+          <div class="form-group">
+            <ng-select formControlName="tipo_stock"
+                       [items]="tipo_stock"
+                       bindLabel='course_name'
+                       bindValue='course_code'
+                       placeholder="TIPO DE STOCK*">
+            </ng-select>
+          </div>
+        </div>-->
+        <div class="col-md-6 col-sm-12 col-lg-6 mb-2">
+          <div class="form-group">
+            <ng-select formControlName="color"
+                       [items]="color"
+                       bindLabel='course_name'
+                       bindValue='course_code'
+                       placeholder="ESCOGER COLOR*">
+            </ng-select>
+          </div>
+        </div>
+        <!--INPUT-->
+        <div class="col-md-6 col-sm-12 col-lg-6 mb-2">
+          <div class="form-group">
+            <div class="input-group mb-3">
+              <span class="input-group-text">
+                  <i class="fa fa-barcode" aria-hidden="true"></i>
+              </span>
+              <input class="form-control" autocomplete="off" formControlName="codigo">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-12 col-lg-6 mb-2">
+          <div class="form-group">
+            <div class="input-group mb-3">
+              <span class="input-group-text">
+                  <i class="fa fa-pencil" aria-hidden="true"></i>
+              </span>
+              <input class="form-control" autocomplete="off" formControlName="nombre">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-12 col-lg-6 mb-2">
+          <div class="form-group">
+            <ng-select formControlName="u_medida"
+                       [items]="u_medida"
+                       bindLabel='course_name'
+                       bindValue='course_code'
+                       placeholder="UNIDAD DE MEDIDA*">
+            </ng-select>
+          </div>
+        </div>
+        <!--DETALLE-->
+        <div class="col-md-6 col-sm-12 col-lg-6 mb-2">
+          <div class="form-group">
+            <div class="input-group mb-3">
+              <span class="input-group-text">
+                  <i class="fe fe-clipboard" aria-hidden="true"></i>
+              </span>
+              <input class="form-control" type="number" autocomplete="off" formControlName="metros"
+                     placeholder="CANTIDAD">
+            </div>
+          </div>
+        </div>
+        <!--<div class="col-md-4 col-sm-12 col-lg-4 mb-2">
+          <div class="form-group">
+            <div class="input-group mb-3">
+              <span class="input-group-text">
+                  <i class="fa fa-money" aria-hidden="true"></i>
+              </span>
+              <input class="form-control" type="number" autocomplete="off" formControlName="costo_unitario"
+                     placeholder="COSTO UNITARIO">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 col-sm-12 col-lg-4 mb-2">
+          <div class="form-group">
+            <div class="input-group mb-3">
+              <span class="input-group-text">
+                  <i class="fa fa-money" aria-hidden="true"></i>
+              </span>
+              <input class="form-control" type="number" autocomplete="off" formControlName="total"
+                     placeholder="TOTAL">
+            </div>
+          </div>
+        </div>-->
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn ripple btn-primary">Guardar</button>
+    <button type="button" class="btn ripple btn-danger" (click)="modal.close('Save click')">Cancelar</button>
+  </div>
+</ng-template>

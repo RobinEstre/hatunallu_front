@@ -2,6 +2,11 @@
 <div class="app-header header sticky">
   <div class="container-fluid main-container">
     <div class="d-flex">
+      <a href="javascript:void(0)"
+         aria-label="Hide Sidebar"
+         class="app-sidebar__toggle"
+         data-bs-toggle="sidebar"
+         (click)="toggleSidebar()"></a>
       <!-- sidebar-toggle-->
       <a class="logo-horizontal" routerLink="/dashboard">
         <img
@@ -16,32 +21,6 @@
         />
       </a>
       <!-- LOGO -->
-      <!--<div class="main-header-center ms-3 d-none d-lg-block">
-        <input type="search" class="form-control dropdown-toggle"
-          placeholder="Search for results..." aria-label="Search" tabindex="1" [(ngModel)]="text"
-          [ngModelOptions]="{standalone: true}" autocomplete="off"/>
-        <button class="btn px-0 pt-2 search-header">
-          <i class="fe fe-search" aria-hidden="true"></i>
-        </button>
-        <div class="search-result p-absolute w-100 card border mt-1" *ngIf="menuItems?.length; else elseBlock">
-          <div class="card-header">
-            <h4 class="card-title me-2">Search result of "{{text}}" </h4> <small> limit dropdown 5 only</small>
-          </div>
-          <ul class="list-group text-break">
-            <li *ngFor="let menuItem of menuItems | slice:0:5" [routerLink]="menuItem?.path"
-              class="list-group-item header-list-group border-start-end-top-0 br-0" (click)="clearSearch()">
-              <i class="fa fa-angle-double-right me-2" aria-hidden="true"></i>{{menuItem?.title}}
-            </li>
-          </ul>
-        </div>
-        <ng-template #elseBlock>
-          <ul class="list-group p-absolute w-100 mt-1 serach-result-empty text-break">
-            <li class="list-group-item no-result" [ngClass]="{'show':SearchResultEmpty}"><i
-                class="fa fa-frown-o text-primary me-2" aria-hidden="true"></i>No Search Result Found with "{{text}}"
-            </li>
-          </ul>
-        </ng-template>
-      </div>-->
       <div class="d-flex order-lg-2 ms-auto header-right-icons">
         <div class="dropdown d-none">
           <a
@@ -101,21 +80,15 @@
                 </div>
               </div>
               <div ngbDropdown class="d-flex country">
-                <a
-                  class="nav-link icon text-center"
-                  data-bs-target="#country-selector"
-                  data-bs-toggle="modal">
-<!--                  (click)="open(content)"-->
-                  <i class="fe fe-globe"></i
-                  ><span class="fs-16 ms-2 d-none d-xl-block">Perú</span>
+                <a class="nav-link icon text-center" data-bs-target="#country-selector" data-bs-toggle="modal">
+                    <!--(click)="open(content)"-->
+                  <i class="fe fe-globe"></i>
+                  <span class="fs-16 ms-2 d-none d-xl-block">Perú</span>
                 </a>
               </div>
               <!-- COUNTRY -->
               <div class="d-flex country">
-                <a
-                  class="nav-link icon theme-layout nav-link-bg layout-setting"
-                  appToggleTheme
-                >
+                <a class="nav-link icon theme-layout nav-link-bg layout-setting" appToggleTheme>
                   <span class="dark-layout"><i class="fe fe-moon"></i></span>
                   <span class="light-layout"><i class="fe fe-sun"></i></span>
                 </a>
@@ -125,99 +98,32 @@
               <!-- CART -->
               <!-- FULL-SCREEN -->
               <div ngbDropdown class="dropdown d-flex notifications">
-                <a class="nav-link icon" data-bs-toggle="dropdown"
-                ngbDropdownToggle><i class="fe fe-bell"></i><span class="pulse"></span>
+                <a class="nav-link icon" data-bs-toggle="dropdown" ngbDropdownToggle>
+                  <i class="bi-bank"></i><span class="pulse"></span>
                 </a>
-                <div ngbDropdownMenu
-                  class="dropdown-menu dropdown-menu-end dropdown-menu-arrow"
-                >
+                <div ngbDropdownMenu class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                   <div ngbDropdownItem class="drop-heading border-bottom">
                     <div class="d-flex">
                       <h6 class="mt-1 mb-0 fs-16 fw-semibold text-dark">
-                        Notifications
+                        Empresas
                       </h6>
                     </div>
                   </div>
                   <div  class="notifications-menu">
-                    <a ngbDropdownItem
-                      class="dropdown-item d-flex"
-                      routerLink="/pages/notifications-list"
-                    >
-                      <div
-                        class="me-3 notifyimg bg-primary brround box-shadow-primary"
-                      >
-                        <i class="fe fe-mail"></i>
-                      </div>
-                      <div class="mt-1 wd-80p">
-                        <h5 class="notification-label mb-1">
-                          New Application received
-                        </h5>
-                        <span class="notification-subtext"
-                          >3 days ago</span
-                        >
-                      </div>
-                    </a>
-                    <a ngbDropdownItem
-                      class="dropdown-item d-flex"
-                      routerLink="/pages/notifications-list"
-                    >
-                      <div
-                        class="me-3 notifyimg bg-secondary brround box-shadow-secondary"
-                      >
-                        <i class="fe fe-check-circle"></i>
-                      </div>
-                      <div class="mt-1 wd-80p">
-                        <h5 class="notification-label mb-1">
-                          Project has been approved
-                        </h5>
-                        <span class="notification-subtext"
-                          >2 hours ago</span
-                        >
-                      </div>
-                    </a>
-                    <a ngbDropdownItem
-                      class="dropdown-item d-flex"
-                      routerLink="/pages/notifications-list"
-                    >
-                      <div
-                        class="me-3 notifyimg bg-success brround box-shadow-success"
-                      >
-                        <i class="fe fe-shopping-cart"></i>
-                      </div>
-                      <div class="mt-1 wd-80p">
-                        <h5 class="notification-label mb-1">
-                          Your Product Delivered
-                        </h5>
-                        <span class="notification-subtext"
-                          >30 min ago</span
-                        >
-                      </div>
-                    </a>
-                    <a ngbDropdownItem
-                      class="dropdown-item d-flex"
-                      routerLink="/pages/notifications-list"
-                    >
-                      <div
-                        class="me-3 notifyimg bg-pink brround box-shadow-pink"
-                      >
-                        <i class="fe fe-user-plus"></i>
-                      </div>
-                      <div class="mt-1 wd-80p">
-                        <h5 class="notification-label mb-1">
-                          Friend Requests
-                        </h5>
-                        <span class="notification-subtext"
-                          >1 day ago</span
-                        >
-                      </div>
-                    </a>
+                    <div *ngFor="let emp of empresas">
+                      <a href="javascript:void(0)" ngbDropdownItem class="dropdown-item d-flex" (click)="changeTheme(emp.id)">
+                        <div class="me-3 notifyimg bg-primary brround box-shadow-primary">
+                          <i class="fe fe-mail"></i>
+                        </div>
+                        <div class="mt-1 wd-80p">
+                          <h5 class="notification-label mb-1">
+                            {{emp.name}}
+                          </h5>
+                          <span class="notification-subtext">3 days ago</span>
+                        </div>
+                      </a>
+                    </div>
                   </div>
-                  <div class="dropdown-divider m-0"></div>
-                  <a
-                    routerLink="/pages/notifications-list"
-                    class="dropdown-item text-center p-3 text-muted"
-                    >View all Notification</a
-                  >
                 </div>
               </div>
               <!-- NOTIFICATIONS -->
@@ -388,7 +294,7 @@
 </div>
 <!-- /app-Header -->
 <!--MODAL COUNTRY-->
-<ng-template #content let-modal>
+<!--<ng-template #content let-modal>
   <div class="modal-header align-items-center">
     <h6 class="modal-title">Choose Country</h6>
     <button
@@ -474,4 +380,4 @@
       </li>
     </ul>
   </div>
-</ng-template>
+</ng-template>-->

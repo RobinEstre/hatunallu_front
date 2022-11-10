@@ -16,6 +16,7 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import {TokenInterceptor} from './interceptor/token.interceptor';
 import { DataTablesModule } from 'angular-datatables';
+import { NotifierModule, NotifierOptions } from 'angular-notifier';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -43,7 +44,8 @@ export function HttpLoaderFactory(http: HttpClient) {
         deps: [HttpClient]
       },
     }),
-    DataTablesModule
+    DataTablesModule,
+    NotifierModule
   ],
   providers: [
     ColorPickerService,  {provide: HTTP_INTERCEPTORS, useClass:TokenInterceptor, multi:true}

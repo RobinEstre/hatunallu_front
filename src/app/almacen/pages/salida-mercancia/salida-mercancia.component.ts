@@ -1,15 +1,15 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {DataTableDirective} from "angular-datatables";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {FormBuilder, Validators} from "@angular/forms";
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {Subject} from "rxjs";
 
 @Component({
-  selector: 'app-entrada-mercancia',
-  templateUrl: './entrada-mercancia.component.html',
-  styleUrls: ['./entrada-mercancia.component.scss']
+  selector: 'app-salida-mercancia',
+  templateUrl: './salida-mercancia.component.html',
+  styleUrls: ['./salida-mercancia.component.scss']
 })
-export class EntradaMercanciaComponent implements OnInit {
+export class SalidaMercanciaComponent implements OnInit {
   public static spanish_datatables = {
     processing: "Procesando...",
     search: "Buscar:",
@@ -68,19 +68,25 @@ export class EntradaMercanciaComponent implements OnInit {
   dtTrigger: Subject<any> = new Subject<any>();
 
   formReserva = this.fb.group({
-    categoria: [null, Validators.required],
-    u_medida: [null, Validators.required],
-    color: [null, Validators.required],
-    codigo: ['COD-001', Validators.required],
-    nombre: ['TELA JEAN AMARILLO', Validators.required],
-    metros: ['', Validators.required]
+    orden: [null, Validators.required],
+    transporte: [null, Validators.required],
+    tipo_transporte: [null, Validators.required],
+    departamento: [null, Validators.required],
+    provincia: [null, Validators.required],
+    distrito: [null, Validators.required],
+
+    fecha_salida: ['', Validators.required],
+    direccion: ['', Validators.required],
+    url: ['', Validators.required],
   })
 
   montosProyeccion:any=[]
-  categoria:any
-  u_medida:any
-  tipo_stock:any
-  color:any
+  orden:any
+  transporte:any
+  tipo_transporte:any
+  departamento:any
+  provincia:any
+  distrito:any
 
   ngOnInit(): void {
     this.init()
@@ -99,7 +105,7 @@ export class EntradaMercanciaComponent implements OnInit {
         { extend: 'print', className: 'btn btn-danger text-white', title:'Entrada Productos'},
         { extend: 'excelHtml5', className: 'btn btn-success text-white', title:'Entrada Productos'}
       ],
-      language: EntradaMercanciaComponent.spanish_datatables
+      language: SalidaMercanciaComponent.spanish_datatables
     }
     this.montosProyeccion=[
       {
@@ -123,7 +129,7 @@ export class EntradaMercanciaComponent implements OnInit {
   }
 
   openModal(modal:any){
-    this.modalService.open(modal, {centered: true, windowClass: 'animate__animated animate__backInUp', size: 'md' });
+    this.modalService.open(modal, {centered: true, windowClass: 'animate__animated animate__backInUp', size: 'lg' });
   }
 
   agregar(){

@@ -87,7 +87,7 @@ export class NavService implements OnDestroy {
       type: 'link',
     },
     {
-      path: '/landing-page',
+      path: 'almacen/salida',
       icon: 'file-minus',
       title: 'Salida Producto',
       type: 'link',
@@ -366,7 +366,7 @@ export class NavService implements OnDestroy {
       ],
     },*/
     {
-      path: '/landing-page',
+      path: 'almacen/pedidos',
       icon: 'inbox',
       title: 'Pedidos',
       type: 'link',

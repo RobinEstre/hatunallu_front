@@ -1,15 +1,15 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {DataTableDirective} from "angular-datatables";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {FormBuilder, Validators} from "@angular/forms";
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {Subject} from "rxjs";
 
 @Component({
-  selector: 'app-entrada-mercancia',
-  templateUrl: './entrada-mercancia.component.html',
-  styleUrls: ['./entrada-mercancia.component.scss']
+  selector: 'app-pedidos',
+  templateUrl: './pedidos.component.html',
+  styleUrls: ['./pedidos.component.scss']
 })
-export class EntradaMercanciaComponent implements OnInit {
+export class PedidosComponent implements OnInit {
   public static spanish_datatables = {
     processing: "Procesando...",
     search: "Buscar:",
@@ -67,20 +67,7 @@ export class EntradaMercanciaComponent implements OnInit {
   dtOptions: any;
   dtTrigger: Subject<any> = new Subject<any>();
 
-  formReserva = this.fb.group({
-    categoria: [null, Validators.required],
-    u_medida: [null, Validators.required],
-    color: [null, Validators.required],
-    codigo: ['COD-001', Validators.required],
-    nombre: ['TELA JEAN AMARILLO', Validators.required],
-    metros: ['', Validators.required]
-  })
-
   montosProyeccion:any=[]
-  categoria:any
-  u_medida:any
-  tipo_stock:any
-  color:any
 
   ngOnInit(): void {
     this.init()
@@ -99,7 +86,7 @@ export class EntradaMercanciaComponent implements OnInit {
         { extend: 'print', className: 'btn btn-danger text-white', title:'Entrada Productos'},
         { extend: 'excelHtml5', className: 'btn btn-success text-white', title:'Entrada Productos'}
       ],
-      language: EntradaMercanciaComponent.spanish_datatables
+      language: PedidosComponent.spanish_datatables
     }
     this.montosProyeccion=[
       {
@@ -120,13 +107,5 @@ export class EntradaMercanciaComponent implements OnInit {
   ngOnDestroy(): void {
     // Do not forget to unsubscribe the event
     this.dtTrigger.unsubscribe();
-  }
-
-  openModal(modal:any){
-    this.modalService.open(modal, {centered: true, windowClass: 'animate__animated animate__backInUp', size: 'md' });
-  }
-
-  agregar(){
-
   }
 }

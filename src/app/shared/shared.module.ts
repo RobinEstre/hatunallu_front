@@ -25,6 +25,7 @@ import { ElementCardHeaderComponent } from './layout-components/element-card-hea
 import { AuthService } from './services/auth.service';
 import {HoverEffectSidebarDirective} from "./directives/hover-effect-sidebar.directive";
 import {ToggleThemeDirective} from "./directives/toggle-theme.directive";
+import {NgSelectModule} from "@ng-select/ng-select";
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true,
   wheelPropagation: false
@@ -51,16 +52,17 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ToggleThemeDirective,
     ToggleThemeDirective,
   ],
-  imports: [
-    CommonModule,
-    NgbModule,
-    RouterModule,
-    PerfectScrollbarModule,
-    ColorPickerModule,
-    FormsModule,
-    MatProgressBarModule,
-    NgbModule,
-  ],
+    imports: [
+        CommonModule,
+        NgbModule,
+        RouterModule,
+        PerfectScrollbarModule,
+        ColorPickerModule,
+        FormsModule,
+        MatProgressBarModule,
+        NgbModule,
+        NgSelectModule,
+    ],
     exports: [
         PageHeaderComponent,
         ElementCardHeaderComponent,

@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../shared/services/auth.service';
 import {AuthServiceService} from "../../services/auth-service.service";
-import {NotifierService} from 'angular-notifier'
 import * as CryptoJS from 'crypto-js';
+import {NotifierService} from "angular-notifier";
 
 @Component({
   selector: 'app-login-page',

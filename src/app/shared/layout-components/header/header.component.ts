@@ -20,6 +20,23 @@ export class HeaderComponent implements OnInit {
   token = localStorage.getItem('token');
   text:any =''
 
+  body = document.querySelector('body');
+
+  empresas:any=[
+    {
+      id: '01',
+      name: 'HERITAGE'
+    },
+    {
+      id: '02',
+      name: 'TEXTILES'
+    },
+    {
+      id: '03',
+      name: 'ROBIN SAC'
+    },
+  ]
+
   constructor(
     private layoutService: LayoutService, public navServices: NavService, private modalService: NgbModal,
     public SwitcherService : SwitcherService, private router: Router, private logoutService: AuthServiceService
@@ -35,6 +52,12 @@ export class HeaderComponent implements OnInit {
   toggleSwitcher() {
     this.SwitcherService.emitChange(true);
     document.querySelector('body')?.classList.remove("sidenav-toggled-open")
+  }
+
+  toggleSidebar(){
+    if ((this.navServices.collapseSidebar = true)) {
+      document.querySelector("body")?.classList.toggle("sidenav-toggled")
+    }
   }
 
   toggleSidebarNotification() {
@@ -53,5 +76,76 @@ export class HeaderComponent implements OnInit {
         return this.router.navigate(['/authentication/login']);
       }
     });*/
+  }
+
+  changeTheme(n){
+    if(n=='01'){
+      this.LightTheme()
+    }else if(n=='02'){
+      this.DarkTheme()
+    }else{
+      this.TransparentTheme()
+    }
+  }
+
+  LightTheme(){
+    // localStorage.clear()
+
+    // Adding
+    this.body?.classList.add('light-mode');
+
+    // Removing
+    localStorage.setItem("SashLightTheme","true")
+    this.body?.classList.remove("transparent-mode")
+    this.body?.classList.remove("dark-mode")
+    localStorage.removeItem("SashTransparentTheme")
+    localStorage.removeItem("SashDarkTheme")
+
+    console.log('cambiado')
+  }
+
+  DarkTheme(){
+    // localStorage.clear()
+
+    //Adding
+    localStorage.setItem("SashDarkTheme","true")
+    this.body?.classList.add("dark-mode")
+
+    // Removing
+    this.body?.classList.remove("transparent-mode")
+    this.body?.classList.remove("light-mode")
+    localStorage.removeItem("SashTransparentTheme")
+    localStorage.removeItem("SashLightTheme")
+  }
+
+  TransparentTheme(){
+    // localStorage.clear()
+    document.documentElement.style.setProperty('--primary-bg-color', 'var(--primary)');
+    document.documentElement.style.setProperty('--primary02', 'rgba(var(--primary),0.2)');
+    document.documentElement.style.setProperty('--primary0', 'var(--primary)');
+
+    //Adding
+    localStorage.setItem("SashTransparentTheme","true")
+    this.body?.classList.add("transparent-mode")
+    document.querySelector('.app-header')?.classList.add("hor-header", "fixed-header", "visible-title", "stickyClass")
+
+    // Removing
+    this.body?.classList.remove("dark-mode")
+    this.body?.classList.remove("light-mode")
+    document.querySelector('body')?.classList.remove('light-mode');
+    document.querySelector('body')?.classList.remove('bg-img1');
+    document.querySelector('body')?.classList.remove('bg-img2');
+    document.querySelector('body')?.classList.remove('bg-img3');
+    document.querySelector('body')?.classList.remove('bg-img4');
+    localStorage.removeItem("SashDarkTheme")
+    localStorage.removeItem("SashLightTheme")
+    localStorage.removeItem("SashbgImage")
+    localStorage.removeItem("SashBgImage")
+    localStorage.removeItem("Sashdark-primary-hover")
+    localStorage.removeItem("Sashdark-mode")
+    let lightheader = document.getElementById('myonoffswitch6') as HTMLInputElement;
+    lightheader.checked = false;
+    let lightmenu = document.getElementById('myonoffswitch3') as HTMLInputElement;
+    lightmenu.checked = false;
   }
 }
