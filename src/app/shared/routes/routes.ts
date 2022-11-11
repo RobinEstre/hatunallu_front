@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import {AlmacenModule} from "../../almacen/almacen.module";
 
 
 export const content: Routes = [
@@ -10,5 +9,9 @@ export const content: Routes = [
   {
     path:'almacen',
     loadChildren: () => import('../../almacen/almacen.module').then(m => m.AlmacenModule)
+  },
+  {
+    path:'venta',
+    loadChildren: () => import('../../ventas/ventas.module').then(m => m.VentasModule)
   }
 ];
