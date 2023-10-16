@@ -19,7 +19,7 @@ export class LoginPageComponent implements OnInit {
   constructor(private authservice: AuthService, private router: Router, private formBuilder : FormBuilder,
               private loginService: AuthServiceService, private notifier: NotifierService ) {
     this.loginForm = this.formBuilder.group({
-      username : ['',[Validators.required, Validators.email]],
+      username : ['',[Validators.required]],
       password : ['', Validators.required]
     });
   }
@@ -35,54 +35,6 @@ export class LoginPageComponent implements OnInit {
     this.notifier.notify('success', '¡Logeado Coreectamente!');
   }
 
-/*  verifyIsLogout(){
-    const  tokenAuth = localStorage.getItem('token');
-    if (tokenAuth != null){
-      const rus = localStorage.getItem('rus');
-      const rol = this.CryptoJSAesDecrypt(this.secretrol, rus);
-      switch (rol) {
-        case 'is_student':
-          this.navigate = ['/alumno/panel'];
-          break;
-        case 'is_teacher':
-          this.navigate = ['/docente/panel-profesor'];
-          break;
-        case 'is_academic':
-          this.navigate = ['/academico/panel'];
-          break;
-        case 'is_superuser':
-          this.navigate = ['/inicio/panel/super-admin'];
-          break;
-        case 'is_seller':
-          this.navigate = ['/ventas/panel'];
-          break;
-        case 'is_accounting':
-          this.navigate = ['/contabilidad/panel'];
-          break;
-        case 'is_cobranza':
-          this.navigate = ['/cobranza/panel'];
-          break;
-        case 'is_finance':
-          this.navigate = ['/finanza/panel'];
-          break;
-        case 'is_gerente':
-          this.navigate = ['/gerencia/panel'];
-          break;
-        case 'is_admin':
-          this.navigate = ['/admin-academico/panel'];
-          break;
-        case 'is_lider_venta':
-          this.navigate = ['/vendedor-lider/panel'];
-          break;
-        case 'is_jefe_cobranza':
-          this.navigate = ['/jefe-cobranza/panel'];
-          break;
-        default:
-          this.navigate = ['/']
-      }
-      return this.routes.navigate(this.navigate);
-    }
-  }*/
 
   login(){
     this.disabled = "btn-loading"
@@ -90,14 +42,18 @@ export class LoginPageComponent implements OnInit {
     let pass= this.loginForm.controls['password'].value
 
     const body={
-      "username": user,
+      "usuario": user,
       "password": pass
     }
     this.loginService.login(body).subscribe( resp => {
-      if (resp.token) {
+      if (resp.access) {
         console.log('123')
+
+        console.log(resp['access'])
+        localStorage.setItem('token', resp['access']);
+        this.getConfig()
         this.notifier.notify('success', '¡Logeado Coreectamente!');
-        this.router.navigate(['/almacen/dashboard'])
+        this.router.navigate(['/panel'])
         console.clear()
       }
     }, error => {
@@ -105,6 +61,12 @@ export class LoginPageComponent implements OnInit {
         console.log('123')
         this.notifier.notify('error', '¡Nombre de usuario o contraseña incorrectos!');
       }
+    })
+  }
+
+  getConfig(){
+    this.loginService.listConfig().subscribe( data => {
+      localStorage.setItem('config', data['jwt_body']);
     })
   }
 

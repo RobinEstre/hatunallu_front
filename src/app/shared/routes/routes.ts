@@ -7,11 +7,7 @@ export const content: Routes = [
     loadChildren: () => import('../../authentication/authentication.module').then(m => m.AuthenticationModule)
   },
   {
-    path:'almacen',
-    loadChildren: () => import('../../almacen/almacen.module').then(m => m.AlmacenModule)
-  },
-  {
-    path:'venta',
-    loadChildren: () => import('../../ventas/ventas.module').then(m => m.VentasModule)
+    path:'panel',
+    loadChildren: () => import('../../panel/panel.module').then(m => m.PanelModule)
   }
 ];

@@ -12,7 +12,7 @@ import {Router} from '@angular/router';
 
 
 @Injectable()
-export class TokenInterceptor implements HttpInterceptor {
+export class TokenInterceptorLOGIN implements HttpInterceptor {
     constructor(private loginService: AuthServiceService, private routes: Router) {}
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
@@ -21,6 +21,13 @@ export class TokenInterceptor implements HttpInterceptor {
 
         }, (err: any) => {
             if (err.status === 401) {
+                // redirect to the login route
+                // or show a modal
+                this.loginService.isLogoutUnathorizated();
+
+                return this.routes.navigate(['/']);
+            }
+            if (err.status === 403) {
                 // redirect to the login route
                 // or show a modal
                 this.loginService.isLogoutUnathorizated();

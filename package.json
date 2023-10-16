@@ -87,6 +87,7 @@
     "ngx-owl-carousel-o": "^14.0.1",
     "ngx-perfect-scrollbar": "^10.1.1",
     "ngx-quill": "^18.0.0",
+    "ngx-spinner": "^14.0.0",
     "ngx-toastr": "^15.0.0",
     "npm": "^8.15.1",
     "perfect-scrollbar": "^1.5.5",

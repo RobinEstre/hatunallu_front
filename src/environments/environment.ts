@@ -13,7 +13,7 @@ export const environment = {
     appId: "********************************",
     measurementId: "********************************"
   },
-  urlAddress: 'http://192.168.1.15:5000/api/'
+  urlAddress: 'http://127.0.0.1:8000/api/'
 };
 
 /*

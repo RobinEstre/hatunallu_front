@@ -17,6 +17,10 @@ export class AuthServiceService {
     return this.httpClient.get(this.envUrl.urlAddress + url_paht);
   }
 
+  listConfig(){
+    return this.httpClient.get<any>(this.envUrl.urlAddress + 'au/faa3db6f/', )
+  }
+
   setLoggedIn(value: boolean) {
     this.loggedInStatus = value;
     localStorage.setItem('loggedIn', 'true');

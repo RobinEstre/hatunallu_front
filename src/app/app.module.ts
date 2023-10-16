@@ -14,7 +14,8 @@ import { environment } from 'src/environments/environment';
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-import {TokenInterceptor} from './interceptor/token.interceptor';
+import{TokenInterceptor} from "./shared/interceptor/token.interceptor"
+import {TokenInterceptorLOGIN} from "./interceptor/token.interceptor";
 import { DataTablesModule } from 'angular-datatables';
 import { NotifierModule, NotifierOptions } from 'angular-notifier';
 
@@ -48,7 +49,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     NotifierModule
   ],
   providers: [
-    ColorPickerService,  {provide: HTTP_INTERCEPTORS, useClass:TokenInterceptor, multi:true}
+    ColorPickerService,
+    {provide: HTTP_INTERCEPTORS, useClass:TokenInterceptor, multi:true},
+    {provide: HTTP_INTERCEPTORS, useClass:TokenInterceptorLOGIN, multi:true}
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
