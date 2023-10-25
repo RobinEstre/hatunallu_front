@@ -1,0 +1,171 @@
+<div class="page-header">
+    <h1 class="page-title my-auto">Crypto</h1>
+    <div>
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"> <a href="javascript:void(0)"><i class="fe fe-home"></i></a></li>
+            <li class="breadcrumb-item"> <a href="javascript:void(0)">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Referidos</li>
+        </ol>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-1 col-md-1 col-sm-12"></div>
+    <div class="col-lg-3 col-md-3 col-sm-12 card mx-3">
+        <div class="row" style="margin: 5% 2% 5% 2%;">
+            <div class="col-lg-8 col-md-8 col-sm-12">
+                <h5>Escanear código QR</h5>
+                <h3 style="color: #7366FF">17</h3>
+                <p style="margin-top: -10px; font-size: 12px; font-weight: 600;">↑ +5.7%</p>
+                <p style="font-size: 13px; font-weight: 300;">Presiona para mostrar QR</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 text-center" style="display: flex;align-items: center;justify-content: center;">
+                <circle-progress [percent]="70" [radius]="40" [space]="-5" [outerStrokeWidth]="5"
+                            [innerStrokeWidth]="5" [showInnerStroke]="true" [outerStrokeColor]="'#7366FF'"
+                            [innerStrokeColor]="'#e5e4e3'" [showSubtitle]="false" [animation]="true" [animationDuration]="1000"
+                            [showImage]="true" [imageHeight]="12"
+                            [imageWidth]="12">
+                </circle-progress>
+                <h4 style="position: absolute;">70%</h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-12 card mx-3">
+        <div class="row" style="margin: 5% 2% 5% 2%;">
+            <div class="col-lg-8 col-md-8 col-sm-12">
+                <h5>Descargar código QR</h5>
+                <h3 style="color: #FF3364">4</h3>
+                <p style="margin-top: -10px; font-size: 12px; font-weight: 600;">↑ +2.7%</p>
+                <p style="font-size: 13px; font-weight: 300;">Presiona para descargar QR</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 text-center" style="display: flex;align-items: center;justify-content: center;">
+                <circle-progress [percent]="80" [radius]="40" [space]="-5" [outerStrokeWidth]="5"
+                            [innerStrokeWidth]="5" [showInnerStroke]="true" [outerStrokeColor]="'#FF3364'"
+                            [innerStrokeColor]="'#e5e4e3'" [showSubtitle]="false" [animation]="true" [animationDuration]="1000"
+                            [showImage]="true" [imageHeight]="12"
+                            [imageWidth]="12">
+                </circle-progress>
+                <h4 style="position: absolute;">80%</h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-12 card mx-3">
+        <div class="row" style="margin: 5% 2% 5% 2%;">
+            <div class="col-lg-8 col-md-8 col-sm-12">
+                <h5>Link de Referidos</h5>
+                <h3 style="color: #54BA4A">36</h3>
+                <p style="margin-top: -10px; font-size: 12px; font-weight: 600;">↑ +2.7%</p>
+                <p style="font-size: 13px; font-weight: 300;">Presiona para copiar link</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 text-center" style="display: flex;align-items: center;justify-content: center;">
+                <circle-progress [percent]="48" [radius]="40" [space]="-5" [outerStrokeWidth]="5"
+                            [innerStrokeWidth]="5" [showInnerStroke]="true" [outerStrokeColor]="'#54BA4A'"
+                            [innerStrokeColor]="'#e5e4e3'" [showSubtitle]="false" [animation]="true" [animationDuration]="1000"
+                            [showImage]="true" [imageHeight]="12"
+                            [imageWidth]="12">
+                </circle-progress>
+                <h4 style="position: absolute;">48%</h4>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-1 col-md-1 col-sm-12"></div>
+</div>
+<div class="row my-3">
+    <div class="col-lg-3 col-md-3 col-sm-12"></div>
+    <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="card">
+            <div class="row g-0">
+                <div class="col-md-4" style="border-top-left-radius: 10px; border-bottom-left-radius: 10px; background-color: #4393FC;">
+                </div>
+                <div class="col-md-8" style="border-radius: 10px;">
+                    <div class="card-body">
+                        <h2>Añade un amigo</h2>
+                        <form [formGroup]="loginForm" (ngSubmit)="sendData()" class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
+                                            <i class="zmdi zmdi-account" aria-hidden="true"></i>
+                                        </a>
+                                        <input autocomplete="off" class="form-control" type="text" formControlName="nombres"
+                                            placeholder="NOMBRES" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
+                                            <i class="zmdi zmdi-account" aria-hidden="true"></i>
+                                        </a>
+                                        <input autocomplete="off" class="form-control" type="text" formControlName="apellidos"
+                                            placeholder="APELLIDOS" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
+                                            <i class="zmdi zmdi-email" aria-hidden="true"></i>
+                                        </a>
+                                        <input autocomplete="off" class="form-control" type="text" formControlName="email"
+                                            placeholder="CORREO ELECTRÓNICO" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-12">
+                                <div class="form-group">
+                                    <ng-select formControlName="pais"
+                                            [items]="pais"
+                                            bindLabel="name"
+                                            bindValue="id"
+                                            placeholder="SELECCIONAR PAIS*"
+                                            (change)="selectPais($event)">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    <ng-select formControlName="prefijo"
+                                            [items]="prefijo"
+                                            bindLabel="name"
+                                            bindValue="id"
+                                            placeholder="PREFIJO*"
+                                            (change)="selectPais($event)">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-12">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
+                                            <i class="zmdi zmdi-phone" aria-hidden="true"></i>
+                                        </a>
+                                        <input autocomplete="off" class="form-control" placeholder="CELULAR"
+                                           formControlName="celular" maxlength="9" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <label class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input">
+                                    <span class="custom-control-label">Yo acepto los <a routerLink="/pages/extension/faqs">
+                                        términos y política de privacidad
+                                    </a></span>
+                                </label>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <button type="submit" class="btn btn-block" style="color:#4393FC; font-size:15px" [disabled]="!loginForm.valid">
+                                  Registrarse
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-3 col-sm-12"></div>
+</div>
+<!-- SPINNER -->
+<ngx-spinner type="timer"></ngx-spinner>

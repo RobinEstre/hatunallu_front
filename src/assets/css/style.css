@@ -157,13 +157,13 @@ License        :   Licensed under ThemeForest License
 /*Transparent variables*/
 /* ###### Bootstrap ###### */
 :root {
-    --primary-bg-color: #6c5ffc;
+    --primary-bg-color: #0a1993;
     --primary-bg-hover: #233ac5;
     --primary-bg-border: #5161c1;
     --dark-body: #292e4a;
     --dark-border: #30314e;
-    --transparent-primary: #6c5ffc;
-    --transparent-body: #584cd9;
+    --transparent-primary: #0a1993;
+    --transparent-body: #0a1993;
     --transparent-theme: rgba(0, 0, 0, 0.2);
     --transparent-border: rgba(255, 255, 255, 0.1);
     --blue: #1a1a3c;

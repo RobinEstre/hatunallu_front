@@ -18,6 +18,10 @@ import{TokenInterceptor} from "./shared/interceptor/token.interceptor"
 import {TokenInterceptorLOGIN} from "./interceptor/token.interceptor";
 import { DataTablesModule } from 'angular-datatables';
 import { NotifierModule, NotifierOptions } from 'angular-notifier';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { NgxSpinnerModule } from "ngx-spinner";
+// Import ng-circle-progress
+import { NgCircleProgressModule } from 'ng-circle-progress';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -29,6 +33,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppComponent,
   ],
   imports: [
+    NgSelectModule,
+    NgxSpinnerModule,
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
@@ -38,6 +44,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     AngularFireAuthModule,
     AngularFireDatabaseModule,
     HttpClientModule,
+    NgCircleProgressModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

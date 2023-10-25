@@ -1,0 +1,27 @@
+::ng-deep{
+    .rtl .me-2 {
+        margin-right: 0.5rem !important;
+    }
+}
+h2{
+    font-family: sans-serif;
+    font-weight: 600;
+}
+h3{
+    font-family: sans-serif;
+    font-weight: bold;
+}
+h4{
+    font-size: 20px;
+    margin-top: 10px;
+    font-family: sans-serif;
+    font-weight: 500;
+}
+h5{
+    font-family: sans-serif;
+    font-weight: bold;
+}
+p{    
+    color: #747489;
+    font-family: sans-serif;    
+}

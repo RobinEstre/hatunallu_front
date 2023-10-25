@@ -37,6 +37,4 @@ export class ContentLayoutComponent implements OnInit {
   onWindowScroll() {
     this.scrolled = window.scrollY > 74;
   }
-
-
 }

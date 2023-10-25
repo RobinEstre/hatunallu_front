@@ -62,35 +62,44 @@ export class NavService implements OnDestroy {
 
   MENUITEMS: Menu[] = [
     {
-      headTitle: 'INCIO',
+      headTitle: 'INICIO',
     },
     {
       title: 'Dashboard',
       selected: false,
       icon: 'home',
       active: true,
-      path: 'almacen/dashboard',
+      path: '/panel',
       type: 'link',
-      badgeClass:
-        'badge bg-green br-5 side-badg, selected: falsee blink-text pb-1',
-      badgeValue: 'New',
+      // badgeClass:
+      //   'badge bg-green br-5 side-badg, selected: falsee blink-text pb-1',
+      // badgeValue: 'New',
     },
+    // {
+    //   headTitle: 'UI KIT',
+    // },
     {
-      headTitle: 'UI KIT',
-    },
-    {
-      title: 'Entrada Producto',
+      title: 'Referidos',
       selected: false,
       icon: 'file-plus',
       active: true,
-      path: 'almacen/entrada',
+      path: '/panel/referidos',
       type: 'link',
     },
     {
       path: 'almacen/salida',
       icon: 'file-minus',
-      title: 'Salida Producto',
+      title: 'Mi Red',
       type: 'link',
+    },
+    {
+      path: 'almacen/pedidos',
+      icon: 'inbox',
+      title: 'Mi Perfil',
+      type: 'link',
+      // badgeClass:
+      //   'badge bg-red br-5 side-badg, selected: falsee blink-text pb-1',
+      // badgeValue: '5',
     },
     /*
     {
@@ -365,15 +374,6 @@ export class NavService implements OnDestroy {
         },
       ],
     },*/
-    {
-      path: 'almacen/pedidos',
-      icon: 'inbox',
-      title: 'Pedidos',
-      type: 'link',
-      badgeClass:
-        'badge bg-red br-5 side-badg, selected: falsee blink-text pb-1',
-      badgeValue: '5',
-    },
   ];
 
   // Array

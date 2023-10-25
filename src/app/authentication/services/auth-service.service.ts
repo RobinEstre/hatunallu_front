@@ -13,6 +13,10 @@ export class AuthServiceService {
     return this.httpClient.post<any>(this.envUrl.urlAddress + 'token/', data);
   }
 
+  listCountry(){
+    return this.httpClient.get<any>('https://restcountries.com/v3.1/all');
+  }
+
   logout(url_paht){
     return this.httpClient.get(this.envUrl.urlAddress + url_paht);
   }

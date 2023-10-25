@@ -1,12 +1,9 @@
 <!-- BACKGROUND-IMAGE -->
 <div class="login-img">
-
-
     <!-- PAGE -->
     <div class="page">
         <div class="">
             <!-- Theme-Layout -->
-
             <!-- CONTAINER OPEN -->
             <div class="col col-login mx-auto mt-7">
                 <div class="text-center">
@@ -14,47 +11,110 @@
                 </div>
             </div>
             <div class="container-login100">
-                <div class="wrap-login100 p-6">
-                    <form (ngSubmit)="register()" class="login100-form validate-form">
-                        <span class="login100-form-title">
-                                Registration
-                            </span>
-                        <div class="wrap-input100 validate-input input-group" data-bs-validate="Valid email is required: ex@abc.xyz">
-                            <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
-                                <i class="zmdi zmdi-email" aria-hidden="true"></i>
-                            </a>
-                            <input class="input100 border-start-0 ms-0 form-control" type="email" name="email" [(ngModel)]="email" placeholder="Enter email Id" required>
-                        </div>
-                        <div class="wrap-input100 validate-input input-group" id="Password-toggle">
-                            <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
-                                <i class="zmdi zmdi-eye" aria-hidden="true"></i>
-                            </a>
-                            <input class="input100 border-start-0 ms-0 form-control" name="password" type="password" [(ngModel)]="password" placeholder="Enter Password" required>
+                <div class="wrap-login100 p-6" style="width: 25%;">
+                    <form [formGroup]="formRegister" (ngSubmit)="register()" class="validate-form">
+                        <span class="login100-form-title">Registrarse</span>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="form-group">
+                                    <ng-select formControlName="pais"
+                                            [items]="pais"
+                                            bindLabel="name"
+                                            bindValue="id"
+                                            placeholder="SELECCIONAR PAIS*"
+                                            (change)="selectPais($event)">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
+                                            <i class="zmdi zmdi-email" aria-hidden="true"></i>
+                                        </a>
+                                        <input autocomplete="off" class="form-control" type="text" formControlName="nombres" 
+                                            placeholder="NOMBRES" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
+                                            <i class="zmdi zmdi-email" aria-hidden="true"></i>
+                                        </a>
+                                        <input autocomplete="off" class="form-control" type="text" formControlName="apellidos" 
+                                            placeholder="APELLIDOS" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    <ng-select formControlName="prefijo"
+                                            [items]="prefijo"
+                                            bindLabel="name"
+                                            bindValue="id"
+                                            placeholder="PREFIJO*"
+                                            (change)="selectPais($event)">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-12">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
+                                            <i class="zmdi zmdi-email" aria-hidden="true"></i>
+                                        </a>
+                                        <input autocomplete="off" class="form-control" placeholder="CELULAR"
+                                           formControlName="celular" maxlength="9" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" >
+                                    </div>
+                                    <div *ngIf="formRegister.controls['celular'].invalid&&(formRegister.controls['celular'].dirty||
+                                        formRegister.controls['celular'].touched)" >
+                                        <div *ngIf="formRegister.controls['celular'].errors?.required">
+                                            <small class="text-danger">Por favor ingrese su celular</small>
+                                        </div>
+                                        <div *ngIf="formRegister.controls['celular'].errors?.maxlength">
+                                            <small class="text-danger">El celular debe tener como maximo 15 caracteres</small>
+                                        </div>
+                                        <div *ngIf="formRegister.controls['celular'].errors?.minlength">
+                                            <small class="text-danger">Debe contener como maximo 9 caracteres</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
+                                            <i class="zmdi zmdi-email" aria-hidden="true"></i>
+                                        </a>
+                                        <input autocomplete="off" class="form-control" type="email" formControlName="email" 
+                                            placeholder="CORREO ELECTRÓNICO" required>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <p *ngIf="errorMessage.length > 0" class="text-danger">
                                 {{errorMessage}}</p>
-
                             <p *ngIf="error.message.length > 0" class="text-danger">
                                 {{error.message}} </p>
-
-                                <p *ngIf="message.length > 0" class="text-info">
-                                    {{message}} </p>
+                            <p *ngIf="message.length > 0" class="text-info">
+                                {{message}} </p>
                         </div>
                         <label class="custom-control custom-checkbox mt-4">
-                                <input type="checkbox" class="custom-control-input">
-                                <span class="custom-control-label">Agree the <a routerLink="/pages/extension/faqs">terms and policy</a></span>
-                            </label>
+                            <input type="checkbox" class="custom-control-input">
+                            <span class="custom-control-label">Aceptar los <a routerLink="/pages/extension/faqs">términos y condiciones</a></span>
+                        </label>
                         <div class="container-login100-form-btn">
                             <button type="submit" class="login100-form-btn btn-primary">
-                                    Register
-                                </button>
+                                Register
+                            </button>
                         </div>
                         <div class="text-center pt-3">
-                            <p class="text-dark mb-0">Already have account?<a routerLink="/auth/login" class="text-primary ms-1">Sign In</a></p>
+                            <p class="text-dark mb-0">Ya tienes una cuenta?<a routerLink="/auth/login" class="text-primary ms-1">Ingresar</a></p>
                         </div>
-                        <label class="login-social-icon"><span>Register with Social</span></label>
-                        <div class="d-flex justify-content-center">
+                        <!-- <div class="d-flex justify-content-center">
                             <a href="javascript:void(0)">
                                 <div class="social-login me-4 text-center">
                                     <i class="fa fa-google"></i>
@@ -70,7 +130,7 @@
                                     <i class="fa fa-twitter"></i>
                                 </div>
                             </a>
-                        </div>
+                        </div> -->
                     </form>
                 </div>
             </div>
@@ -78,6 +138,6 @@
         </div>
     </div>
     <!-- END PAGE -->
-
 </div>
 <!-- BACKGROUND-IMAGE CLOSED -->
+<ngx-spinner type="timer"></ngx-spinner>

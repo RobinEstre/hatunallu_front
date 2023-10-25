@@ -47,8 +47,6 @@ export class LoginPageComponent implements OnInit {
     }
     this.loginService.login(body).subscribe( resp => {
       if (resp.access) {
-        console.log('123')
-
         console.log(resp['access'])
         localStorage.setItem('token', resp['access']);
         this.getConfig()

@@ -7,6 +7,9 @@ import { RegisterComponent } from './pages/register/register.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { SharedModule } from '../shared/shared.module';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 @NgModule({
   declarations: [
@@ -14,8 +17,11 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
     RegisterComponent
   ],
   imports: [
+    NgSelectModule,
+    NgxSpinnerModule,
     CommonModule,
     AuthenticationRoutingModule,
+    SharedModule,
     NgbModule,
     FormsModule,
     ReactiveFormsModule,
