@@ -93,7 +93,7 @@ export class NavService implements OnDestroy {
       type: 'link',
     },
     {
-      path: 'almacen/pedidos',
+      path: '/panel/perfil',
       icon: 'inbox',
       title: 'Mi Perfil',
       type: 'link',

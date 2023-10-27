@@ -10,6 +10,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { RedComponent } from './pages/red/red.component';
 import { D3OrgChartComponent } from './pages/red/d3-org-chart/d3-org-chart.component';
+import { PerfilComponent } from './pages/perfil/perfil.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { D3OrgChartComponent } from './pages/red/d3-org-chart/d3-org-chart.compo
     DashboardComponent,
     ReferidosComponent,
     RedComponent,
-    D3OrgChartComponent
+    D3OrgChartComponent,
+    PerfilComponent
   ],
   imports: [
     CommonModule,
