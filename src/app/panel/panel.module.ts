@@ -8,15 +8,17 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { RedComponent } from './pages/red/red.component';
 
 
 @NgModule({
   declarations: [
     DashboardComponent,
-    ReferidosComponent
+    ReferidosComponent,
+    RedComponent
   ],
   imports: [
-    CommonModule,    
+    CommonModule,
     NgCircleProgressModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,

@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {DashboardComponent} from "./pages/dashboard/dashboard.component";
 import { ReferidosComponent } from './pages/referidos/referidos.component';
+import { RedComponent } from './pages/red/red.component';
 
 const routes: Routes = [
   {
@@ -11,6 +12,10 @@ const routes: Routes = [
   {
     path: 'referidos',
     component: ReferidosComponent
+  },
+  {
+    path: 'red',
+    component: RedComponent
   }
 ];
 

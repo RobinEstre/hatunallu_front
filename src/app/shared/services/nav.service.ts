@@ -87,7 +87,7 @@ export class NavService implements OnDestroy {
       type: 'link',
     },
     {
-      path: 'almacen/salida',
+      path: '/panel/red',
       icon: 'file-minus',
       title: 'Mi Red',
       type: 'link',
