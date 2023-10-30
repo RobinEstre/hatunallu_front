@@ -45,7 +45,7 @@
                     </div>
                     <div class="col-lg-12 col-md-12 text-center">
                         <hr>
-                        <button class="btn btn-primary">Restablecer Contraseña</button>
+                        <button class="btn btn-primary" (click)="openModal()">Restablecer Contraseña</button>
                     </div>
                 </div>
             </div>
@@ -53,5 +53,51 @@
         </div>
     </div>
 </div>
+<!-- MODAL AGREGAR -->
+<ng-template #add let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title"><b>Restablecer Contraseña</b></h5>
+        <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <form [formGroup]="formPass" class="modal-body row">
+        <div class="col-sm-12 col-md-12 col-lg-12 mb-2">
+            <small>Contraseña antigua</small>
+            <div class="input-group mb-4">
+                <a href="javascript:void(0)" class="input-group-text bg-white text-muted"
+                   (click)="togglePasswordMode()">
+                  <i [className]="'text-muted fa fa-'+iconpassword" aria-hidden="true"></i>
+                </a>
+                <input #passwordEyeRegister [type]="passwordTypeInput" name="password" class="form-control"
+                    placeholder="******" formControlName="old_pass" >
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-12 mb-2">
+            <small>Nueva contraseña</small>
+            <div class="input-group mb-4">
+                <a href="javascript:void(0)" class="input-group-text bg-white text-muted"
+                   (click)="togglePasswordMode2()">
+                  <i [className]="'text-muted fa fa-'+iconpassword2" aria-hidden="true"></i>
+                </a>
+                <input #passwordEyeRegister2 [type]="passwordTypeInput2" name="new_pass" class="form-control"
+                    placeholder="******" formControlName="old_pass" >
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-12 mb-2">
+            <small>Confirmar contraseña</small>
+            <div class="input-group mb-4">
+                <a href="javascript:void(0)" class="input-group-text bg-white text-muted"
+                   (click)="togglePasswordMode3()">
+                  <i [className]="'text-muted fa fa-'+iconpassword3" aria-hidden="true"></i>
+                </a>
+                <input #passwordEyeRegister3 [type]="passwordTypeInput3" name="confirm_pass" class="form-control"
+                    placeholder="******" formControlName="old_pass" >
+            </div>
+        </div>
+        <button class="col-sm-12 col-md-12 col-lg-12 my-2 btn btn-primary" [disabled]="!formPass.valid" (click)="update()">
+            <i class="fa fa-save"></i> Guardar</button>
+    </form>
+</ng-template>
 <!-- SPINNER -->
 <ngx-spinner type="timer"></ngx-spinner>
