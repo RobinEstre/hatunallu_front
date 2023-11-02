@@ -2,8 +2,8 @@
     <h1 class="page-title my-auto">Crypto</h1>
     <div>
         <ol class="breadcrumb mb-0">
-            <li class="breadcrumb-item"> <a href="javascript:void(0)"><i class="fe fe-home"></i></a></li>
-            <li class="breadcrumb-item"> <a href="javascript:void(0)">Dashboard</a></li>
+            <li class="breadcrumb-item"> <a href="/"><i class="fe fe-home"></i></a></li>
+            <li class="breadcrumb-item"> <a href="/">Dashboard</a></li>
             <li class="breadcrumb-item active" aria-current="page">Mi Perfil</li>
         </ol>
     </div>
@@ -14,7 +14,7 @@
             <div class="card-body">
             <div class="wideget-user mb-2">
                 <div class="row">
-                    <div class="col-lg-12 col-md-12">
+                    <div class="col-lg-12 col-md-12" *ngIf="profile">
                         <div class="row">
                             <div class="panel profile-cover">
                                 <div class="profile-cover__action bg-img"></div>
@@ -24,7 +24,7 @@
                                     </div>
                                     <div class="profile-img-content text-dark text-start">
                                         <div class="text-dark">
-                                            <h3 class="h3 mb-2">Percy Kewshun</h3>
+                                            <h3 class="h3 mb-2 text-capitalize">{{profile.nombre}} {{profile.apellido}}</h3>
                                             <h5 class="text-muted">Web Developer</h5>
                                         </div>
                                     </div>
@@ -34,10 +34,10 @@
                         <div class="row">
                             <div class="px-0 px-sm-4">
                                 <div class="social social-profile-buttons mt-5 float-end" style="display: flex;">
-                                    <p class="mx-4"><i class="fe fe-mail fs-15"></i> Email <br> robin@gmail.com</p>
-                                    <p class="mx-4"><i class="fe fe-phone fs-15"></i> Celular <br> robin@gmail.com</p>
-                                    <p class="mx-4"><i class="fe fe-calendar fs-15"></i> Nacimiento <br> robin@gmail.com</p>
-                                    <p class="mx-4"><i class="fe fe-map-pin fs-15"></i> Dirección <br> Alameda de ñaña 3 mz D lote 34</p>
+                                    <p class="mx-4"><i class="fe fe-mail fs-15"></i> Email <br> {{profile.email}}</p>
+                                    <p class="mx-4"><i class="fe fe-phone fs-15"></i> Celular <br> {{profile.telefono}}</p>
+                                    <p class="mx-4"><i class="fe fe-calendar fs-15"></i> Nacimiento <br> {{profile.fecha_nacimiento | date:'dd/MM/yyyy'}}</p>
+                                    <p class="mx-4"><i class="fe fe-map-pin fs-15"></i> Dirección <br> {{profile.direccion}}</p>
                                     <!-- <p class="mx-4"><i class="fe fe-map fs-15"></i> Pais <br> robin@gmail.com</p> -->
                                 </div>
                             </div>

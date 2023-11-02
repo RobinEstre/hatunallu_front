@@ -1,12 +1,18 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, LOCALE_ID, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 import { FormBuilder, Validators } from '@angular/forms';
+import { GeneralService } from '../../services/general.service';
+import Swal from "sweetalert2";
+import localeEs from '@angular/common/locales/es';
+import { DatePipe, registerLocaleData } from '@angular/common';
+registerLocaleData(localeEs, 'es');
 
 @Component({
   selector: 'app-perfil',
   templateUrl: './perfil.component.html',
-  styleUrls: ['./perfil.component.scss']
+  styleUrls: ['./perfil.component.scss'],
+  providers: [ { provide: LOCALE_ID, useValue: 'es' }, DatePipe]
 })
 export class PerfilComponent implements OnInit {
   @ViewChild('passwordEyeRegister') passwordEye:any;
@@ -15,7 +21,7 @@ export class PerfilComponent implements OnInit {
   @ViewChild('add') private modalContentAdd: TemplateRef<PerfilComponent>;
   private modalRefAdd: NgbModalRef;
 
-  constructor(private spinner: NgxSpinnerService,private modalService: NgbModal, private fb: FormBuilder,) { }
+  constructor(private spinner: NgxSpinnerService,private modalService: NgbModal, private fb: FormBuilder, private service: GeneralService) { }
   
   formPass = this.fb.group({
     old_pass: [null, Validators.required],
@@ -26,7 +32,44 @@ export class PerfilComponent implements OnInit {
   passwordTypeInput  =  'password';  passwordTypeInput2  =  'password';  passwordTypeInput3  =  'password';
   iconpassword  =  'eye';  iconpassword2  =  'eye';  iconpassword3  =  'eye';
 
+  profile:any;
+
   ngOnInit(): void {
+    this.listInit()
+  }
+
+  listInit(){
+    this.spinner.show()
+    this.service.getProfile().subscribe(resp=>{
+      if(resp.success){
+        this.profile=resp.data;
+        this.spinner.hide()
+      }
+    },error => {
+      if(error.status==400){
+        Swal.fire({
+          title: 'Advertencia!',
+          text: error.error.message,
+          icon: 'error',
+          showCancelButton: true,
+          showConfirmButton: false,
+          cancelButtonColor: '#c02c2c',
+          cancelButtonText: 'Cerrar'
+        })
+      }
+      if(error.status==500){
+        Swal.fire({
+          title: 'Advertencia!',
+          text: 'Comuniquese con el Área de Sistemas',
+          icon: 'error',
+          showCancelButton: true,
+          showConfirmButton: false,
+          cancelButtonColor: '#c02c2c',
+          cancelButtonText: 'Cerrar'
+        })
+      }
+      this.spinner.hide()
+    })
   }
 
   openModal(){

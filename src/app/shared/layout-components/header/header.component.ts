@@ -5,6 +5,7 @@ import { LayoutService } from '../../services/layout.service';
 import { Menu, NavService } from '../../services/nav.service';
 import { SwitcherService } from '../../services/switcher.service';
 import {AuthServiceService} from "../../../authentication/services/auth-service.service";
+import { GeneralService } from 'src/app/panel/services/general.service';
 
 @Component({
   selector: 'app-header',
@@ -38,11 +39,23 @@ export class HeaderComponent implements OnInit {
   ]
 
   constructor(
-    private layoutService: LayoutService, public navServices: NavService, private modalService: NgbModal,
+    private layoutService: LayoutService, public navServices: NavService, private modalService: NgbModal,private service: GeneralService,
     public SwitcherService : SwitcherService, private router: Router, private logoutService: AuthServiceService
   ){}
 
+  profile:any
+
   ngOnInit(): void {
+    this.listInit()
+  }
+  
+  listInit(){
+    this.service.getProfile().subscribe(resp=>{
+      if(resp.success){
+        this.profile=resp.data;
+      }
+    },error => {
+    })
   }
 
   open(content:any) {
