@@ -79,7 +79,7 @@
                 <div class="col-md-8" style="border-radius: 10px;">
                     <div class="card-body">
                         <h2>Añade un amigo</h2>
-                        <form [formGroup]="loginForm" (ngSubmit)="sendData()" class="row">
+                        <form [formGroup]="formRegister" (ngSubmit)="sendData()" class="row">
                             <div class="col-lg-6 col-md-6 col-sm-12">
                                 <div class="form-group">
                                     <div class="input-group">
@@ -135,7 +135,7 @@
                                     </ng-select>
                                 </div>
                             </div>
-                            <div class="col-lg-8 col-md-8 col-sm-12">
+                            <div class="col-lg-6 col-md-6 col-sm-12">
                                 <div class="form-group">
                                     <div class="input-group">
                                         <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
@@ -146,6 +146,23 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
+                                            <i class="zmdi zmdi-money" aria-hidden="true"></i>
+                                        </a>
+                                        <input autocomplete="off" class="form-control" placeholder="MONTO" (keyup)="getPack($event)"
+                                           formControlName="monto" maxlength="4" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" >
+                                    </div>
+                                </div>
+                            </div>
+                            <div  class="col-sm-12 col-md-12 col-lg-12 text-center my-3 text-white">
+                                <ngb-alert type="success">
+                                    <button type="button" class="btn-close text-center text-white"><i class="fe fe-x"></i></button>
+                                    <i class="fa fa-bell-o me-2" aria-hidden="true"></i> <b>TODAS MIS ÓRDENES DE VENTAS GENERADAS.</b>
+                                </ngb-alert>
+                            </div>                              
                             <div class="col-lg-12 col-md-12 col-sm-12">
                                 <label class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input">
@@ -155,8 +172,8 @@
                                 </label>
                             </div>
                             <div class="col-lg-12 col-md-12 col-sm-12">
-                                <button type="submit" class="btn btn-block" style="color:#4393FC; font-size:15px" [disabled]="!loginForm.valid">
-                                  Registrarse
+                                <button type="submit" class="btn btn-block" style="color:#4393FC; font-size:15px" [disabled]="!formRegister.valid">
+                                  Registrar
                                 </button>
                             </div>
                         </form>

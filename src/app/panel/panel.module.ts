@@ -11,6 +11,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { RedComponent } from './pages/red/red.component';
 import { D3OrgChartComponent } from './pages/red/d3-org-chart/d3-org-chart.component';
 import { PerfilComponent } from './pages/perfil/perfil.component';
+import { NgbModule} from "@ng-bootstrap/ng-bootstrap";
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { PerfilComponent } from './pages/perfil/perfil.component';
   ],
   imports: [
     CommonModule,
+    NgbModule,
     NgCircleProgressModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,

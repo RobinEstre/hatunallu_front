@@ -58,6 +58,7 @@ export class LoginPageComponent implements OnInit {
       if (error.status === 401) {
         console.log('123')
         this.notifier.notify('error', '¡Nombre de usuario o contraseña incorrectos!');
+        this.disabled = ""
       }
     })
   }
