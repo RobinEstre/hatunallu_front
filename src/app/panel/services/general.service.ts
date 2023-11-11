@@ -235,6 +235,9 @@ export class GeneralService {
   getProfile(){
     return this.httpClient.get<any>(this.envUrl.urlAddress + 'au/listar/datos-user/');
   }
+  validateCodeURL(data){
+    return this.httpClient.get<any>(this.envUrl.urlAddress + 'red/validate/link-referido/?code_url='+ data);
+  }
   getPacks(){
     return this.httpClient.post<any>(this.envUrl.urlAddress + 'red/data-table-packs/', this.data_pack);
   }
@@ -243,5 +246,8 @@ export class GeneralService {
   }
   registerQr(data=''){
     return this.httpClient.post<any>(this.envUrl.urlAddress + 'red/codigo-qr/',data);
+  }
+  registerClient(data){
+    return this.httpClient.post<any>(this.envUrl.urlAddress + 'red/cliente/',data);
   }
 }

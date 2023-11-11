@@ -10,11 +10,13 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { SharedModule } from '../shared/shared.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
+import { RegisterLinkComponent } from './pages/register-link/register-link.component';
 
 @NgModule({
   declarations: [
     LoginPageComponent,
-    RegisterComponent
+    RegisterComponent,
+    RegisterLinkComponent
   ],
   imports: [
     NgSelectModule,

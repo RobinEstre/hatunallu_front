@@ -1,0 +1,144 @@
+<!-- BACKGROUND-IMAGE -->
+<div class="login-img">
+    <!-- PAGE -->
+    <div class="page">
+        <div class="">
+            <!-- Theme-Layout -->
+            <!-- CONTAINER OPEN -->
+            <div class="col col-login mx-auto mt-7">
+                <div class="text-center">
+                    <a routerLink="/dashboard"><img src="../../../../../../theme-sash-front/src/assets/images/brand/logo-white.png" class="header-brand-img m-0" alt=""></a>
+                </div>
+            </div>
+            <div class="container-login100">
+                <div class="wrap-login100 p-6" style="width: 25%;">
+                    <form [formGroup]="formRegister" (ngSubmit)="register()" class="validate-form">
+                        <span class="login100-form-title">Registrarse</span>
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 text-center" *ngIf="code_url">
+                                <small>Patrocinador: {{code_url.nombre}} {{code_url.apellido}}</small>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <br>
+                                <div class="form-group">
+                                    <ng-select formControlName="pais"
+                                            [items]="pais"
+                                            bindLabel="name"
+                                            bindValue="id"
+                                            placeholder="SELECCIONAR PAIS*"
+                                            (change)="selectPais($event)">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
+                                            <i class="zmdi zmdi-email" aria-hidden="true"></i>
+                                        </a>
+                                        <input autocomplete="off" class="form-control" type="text" formControlName="nombres" 
+                                            placeholder="NOMBRES" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
+                                            <i class="zmdi zmdi-email" aria-hidden="true"></i>
+                                        </a>
+                                        <input autocomplete="off" class="form-control" type="text" formControlName="apellidos" 
+                                            placeholder="APELLIDOS" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-12">
+                                <div class="form-group">
+                                    <ng-select formControlName="prefijo"
+                                            [items]="prefijo"
+                                            bindLabel="name"
+                                            bindValue="id"
+                                            placeholder="PREFIJO*"
+                                            (change)="selectPais($event)">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div class="col-lg-8 col-md-8 col-sm-12">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
+                                            <i class="zmdi zmdi-email" aria-hidden="true"></i>
+                                        </a>
+                                        <input autocomplete="off" class="form-control" placeholder="CELULAR"
+                                           formControlName="celular" maxlength="9" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" >
+                                    </div>
+                                    <div *ngIf="formRegister.controls['celular'].invalid&&(formRegister.controls['celular'].dirty||
+                                        formRegister.controls['celular'].touched)" >
+                                        <div *ngIf="formRegister.controls['celular'].errors?.required">
+                                            <small class="text-danger">Por favor ingrese su celular</small>
+                                        </div>
+                                        <div *ngIf="formRegister.controls['celular'].errors?.maxlength">
+                                            <small class="text-danger">El celular debe tener como maximo 15 caracteres</small>
+                                        </div>
+                                        <div *ngIf="formRegister.controls['celular'].errors?.minlength">
+                                            <small class="text-danger">Debe contener como maximo 9 caracteres</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
+                                            <i class="zmdi zmdi-email" aria-hidden="true"></i>
+                                        </a>
+                                        <input autocomplete="off" class="form-control" type="email" formControlName="email" 
+                                            placeholder="EMAIL" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-12">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
+                                            <i class="zmdi zmdi-money" aria-hidden="true"></i>
+                                        </a>
+                                        <input autocomplete="off" class="form-control" placeholder="MONTO" (keyup)="getPack($event)"
+                                           formControlName="monto" maxlength="4" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" >
+                                    </div>
+                                </div>
+                            </div>
+                            <div  class="col-sm-12 col-md-12 col-lg-12 text-center my-3 text-white" *ngIf="validate_pack">
+                                <ngb-alert type="success" [dismissible]="false">
+                                    <i class="fa fa-money me-2" aria-hidden="true"></i> <b>{{detail_pack.name}}</b><br>
+                                    <small>{{detail_pack.descriptions}}</small>
+                                </ngb-alert>
+                            </div>   
+                        </div>
+                        <div class="form-group">
+                            <p *ngIf="errorMessage.length > 0" class="text-danger">
+                                {{errorMessage}}</p>
+                            <p *ngIf="error.message.length > 0" class="text-danger">
+                                {{error.message}} </p>
+                            <p *ngIf="message.length > 0" class="text-info">
+                                {{message}} </p>
+                        </div>
+                        <!-- <label class="custom-control custom-checkbox mt-4">
+                            <input type="checkbox" class="custom-control-input">
+                            <span class="custom-control-label">Aceptar los <a routerLink="/pages/extension/faqs">términos y condiciones</a></span>
+                        </label> -->
+                        <div class="container-login100-form-btn">
+                            <button type="submit" class="btn btn-block btn-outline-primary" [disabled]="!formRegister.valid">
+                                Registrarme
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- CONTAINER CLOSED -->
+        </div>
+    </div>
+    <!-- END PAGE -->
+</div>
+<!-- BACKGROUND-IMAGE CLOSED -->
+<ngx-spinner type="timer"></ngx-spinner>

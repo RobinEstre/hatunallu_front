@@ -13,57 +13,66 @@
     <div class="col-lg-3 col-md-3 col-sm-12 card mx-3">
         <div class="row" style="margin: 5% 2% 5% 2%;">
             <div class="col-lg-8 col-md-8 col-sm-12">
-                <h5>Escanear código QR</h5>
-                <h3 style="color: #7366FF">17</h3>
-                <p style="margin-top: -10px; font-size: 12px; font-weight: 600;">↑ +5.7%</p>
-                <p style="font-size: 13px; font-weight: 300;">Presiona para mostrar QR</p>
+                <a  href="javascript:void(0)" (click)="openModal('Escanear código QR')">
+                    <h5>Escanear código QR</h5>
+                    <h3 style="color: #7366FF">17</h3>
+                    <p style="margin-top: -10px; font-size: 12px; font-weight: 600;">↑ +5.7%</p>
+                    <p style="font-size: 13px; font-weight: 300;">Presiona para mostrar QR</p>
+                </a>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-12 text-center" style="display: flex;align-items: center;justify-content: center;">
-                <circle-progress [percent]="70" [radius]="40" [space]="-5" [outerStrokeWidth]="5"
+                <i class="fa fa-qrcode" style="font-size: 10vh;"></i>
+                <!-- <circle-progress [percent]="70" [radius]="40" [space]="-5" [outerStrokeWidth]="5"
                             [innerStrokeWidth]="5" [showInnerStroke]="true" [outerStrokeColor]="'#7366FF'"
                             [innerStrokeColor]="'#e5e4e3'" [showSubtitle]="false" [animation]="true" [animationDuration]="1000"
                             [showImage]="true" [imageHeight]="12"
                             [imageWidth]="12">
                 </circle-progress>
-                <h4 style="position: absolute;">70%</h4>
+                <h4 style="position: absolute;">70%</h4> -->
             </div>
         </div>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-12 card mx-3">
         <div class="row" style="margin: 5% 2% 5% 2%;">
             <div class="col-lg-8 col-md-8 col-sm-12">
-                <h5>Descargar código QR</h5>
-                <h3 style="color: #FF3364">4</h3>
-                <p style="margin-top: -10px; font-size: 12px; font-weight: 600;">↑ +2.7%</p>
-                <p style="font-size: 13px; font-weight: 300;">Presiona para descargar QR</p>
+                <a  href="javascript:void(0)" (click)="openModal('Descargar código QR')">
+                    <h5>Descargar código QR</h5>
+                    <h3 style="color: #FF3364">4</h3>
+                    <p style="margin-top: -10px; font-size: 12px; font-weight: 600;">↑ +2.7%</p>
+                    <p style="font-size: 13px; font-weight: 300;">Presiona para descargar QR</p>
+                </a>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-12 text-center" style="display: flex;align-items: center;justify-content: center;">
-                <circle-progress [percent]="80" [radius]="40" [space]="-5" [outerStrokeWidth]="5"
+                <i class="fa fa-download" style="font-size: 10vh;"></i>
+                <!-- <circle-progress [percent]="80" [radius]="40" [space]="-5" [outerStrokeWidth]="5"
                             [innerStrokeWidth]="5" [showInnerStroke]="true" [outerStrokeColor]="'#FF3364'"
                             [innerStrokeColor]="'#e5e4e3'" [showSubtitle]="false" [animation]="true" [animationDuration]="1000"
                             [showImage]="true" [imageHeight]="12"
                             [imageWidth]="12">
                 </circle-progress>
-                <h4 style="position: absolute;">80%</h4>
+                <h4 style="position: absolute;">80%</h4> -->
             </div>
         </div>
     </div>
     <div class="col-lg-3 col-md-3 col-sm-12 card mx-3">
         <div class="row" style="margin: 5% 2% 5% 2%;">
             <div class="col-lg-8 col-md-8 col-sm-12">
-                <h5>Link de Referidos</h5>
-                <h3 style="color: #54BA4A">36</h3>
-                <p style="margin-top: -10px; font-size: 12px; font-weight: 600;">↑ +2.7%</p>
-                <p style="font-size: 13px; font-weight: 300;">Presiona para copiar link</p>
+                <a  href="javascript:void(0)" (click)="openModal('Link de Referidos')">
+                    <h5>Link de Referidos</h5>
+                    <h3 style="color: #54BA4A">36</h3>
+                    <p style="margin-top: -10px; font-size: 12px; font-weight: 600;">↑ +2.7%</p>
+                    <p style="font-size: 13px; font-weight: 300;">Presiona para copiar link</p>
+                </a>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-12 text-center" style="display: flex;align-items: center;justify-content: center;">
-                <circle-progress [percent]="48" [radius]="40" [space]="-5" [outerStrokeWidth]="5"
+                <i class="fa fa-link" style="font-size: 10vh;"></i>
+                <!-- <circle-progress [percent]="48" [radius]="40" [space]="-5" [outerStrokeWidth]="5"
                             [innerStrokeWidth]="5" [showInnerStroke]="true" [outerStrokeColor]="'#54BA4A'"
                             [innerStrokeColor]="'#e5e4e3'" [showSubtitle]="false" [animation]="true" [animationDuration]="1000"
                             [showImage]="true" [imageHeight]="12"
                             [imageWidth]="12">
                 </circle-progress>
-                <h4 style="position: absolute;">48%</h4>
+                <h4 style="position: absolute;">48%</h4> -->
             </div>
         </div>
     </div>
@@ -108,7 +117,7 @@
                                         <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
                                             <i class="zmdi zmdi-email" aria-hidden="true"></i>
                                         </a>
-                                        <input autocomplete="off" class="form-control" type="text" formControlName="email"
+                                        <input autocomplete="off" class="form-control" type="email" formControlName="email"
                                             placeholder="CORREO ELECTRÓNICO" required>
                                     </div>
                                 </div>
@@ -157,22 +166,22 @@
                                     </div>
                                 </div>
                             </div>
-                            <div  class="col-sm-12 col-md-12 col-lg-12 text-center my-3 text-white">
-                                <ngb-alert type="success">
-                                    <button type="button" class="btn-close text-center text-white"><i class="fe fe-x"></i></button>
-                                    <i class="fa fa-bell-o me-2" aria-hidden="true"></i> <b>TODAS MIS ÓRDENES DE VENTAS GENERADAS.</b>
+                            <div  class="col-sm-12 col-md-12 col-lg-12 text-center my-3 text-white" *ngIf="validate_pack">
+                                <ngb-alert type="success" [dismissible]="false">
+                                    <i class="fa fa-money me-2" aria-hidden="true"></i> <b>{{detail_pack.name}}</b><br>
+                                    <small>{{detail_pack.descriptions}}</small>
                                 </ngb-alert>
                             </div>                              
-                            <div class="col-lg-12 col-md-12 col-sm-12">
+                            <!-- <div class="col-lg-12 col-md-12 col-sm-12">
                                 <label class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input">
-                                    <span class="custom-control-label">Yo acepto los <a routerLink="/pages/extension/faqs">
+                                    <span class="custom-control-label">Yo acepto los <a href="javascript:void(0)">
                                         términos y política de privacidad
                                     </a></span>
                                 </label>
-                            </div>
+                            </div> -->
                             <div class="col-lg-12 col-md-12 col-sm-12">
-                                <button type="submit" class="btn btn-block" style="color:#4393FC; font-size:15px" [disabled]="!formRegister.valid">
+                                <button type="submit" class="btn btn-block btn-outline-primary" style="font-size:15px" [disabled]="!formRegister.valid">
                                   Registrar
                                 </button>
                             </div>
@@ -184,5 +193,24 @@
     </div>
     <div class="col-lg-3 col-md-3 col-sm-12"></div>
 </div>
+<!-- Modal pago -->
+<ng-template #modal_pago let-modal>
+    <div class="modal-body row">
+        <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+            <h5>{{text_modal}}</h5>
+            <hr>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+            <a href="{{info_qr.img_qr_url}}" target="_blank" *ngIf="text_modal!='Link de Referidos'"><img src="{{info_qr.img_qr_url}}" alt=""></a>
+            <a href="javascript:void(0)" (click)="copiar()" *ngIf="text_modal=='Link de Referidos'">
+                <img src="https://img.freepik.com/vector-premium/icono-programa-afiliados-referencias-blanco_116137-7006.jpg" alt="">
+            </a>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+            <hr>
+            <button class="btn btn-danger" (click)="closeModal()"> Cerrar</button>
+        </div>
+    </div>
+</ng-template>
 <!-- SPINNER -->
 <ngx-spinner type="timer"></ngx-spinner>
