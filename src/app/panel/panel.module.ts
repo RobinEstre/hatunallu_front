@@ -12,7 +12,7 @@ import { RedComponent } from './pages/red/red.component';
 import { D3OrgChartComponent } from './pages/red/d3-org-chart/d3-org-chart.component';
 import { PerfilComponent } from './pages/perfil/perfil.component';
 import { NgbModule} from "@ng-bootstrap/ng-bootstrap";
-
+import { NgxDropzoneModule } from 'ngx-dropzone';
 
 @NgModule({
   declarations: [
@@ -24,6 +24,7 @@ import { NgbModule} from "@ng-bootstrap/ng-bootstrap";
   ],
   imports: [
     CommonModule,
+    NgxDropzoneModule,
     NgbModule,
     NgCircleProgressModule.forRoot(),
     FormsModule,

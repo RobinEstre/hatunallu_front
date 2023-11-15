@@ -15,8 +15,9 @@
             <div class="col-lg-8 col-md-8 col-sm-12">
                 <a  href="javascript:void(0)" (click)="openModal('Escanear código QR')">
                     <h5>Escanear código QR</h5>
-                    <h3 style="color: #7366FF">17</h3>
-                    <p style="margin-top: -10px; font-size: 12px; font-weight: 600;">↑ +5.7%</p>
+                    <!-- <h3 style="color: #7366FF">17</h3> -->
+                    <br>
+                    <p style="margin-top: -10px; font-size: 12px; font-weight: 600;">Es para que tu afiliado escanee el QR y pueda obtener el formulario</p>
                     <p style="font-size: 13px; font-weight: 300;">Presiona para mostrar QR</p>
                 </a>
             </div>
@@ -37,8 +38,9 @@
             <div class="col-lg-8 col-md-8 col-sm-12">
                 <a  href="javascript:void(0)" (click)="openModal('Descargar código QR')">
                     <h5>Descargar código QR</h5>
-                    <h3 style="color: #FF3364">4</h3>
-                    <p style="margin-top: -10px; font-size: 12px; font-weight: 600;">↑ +2.7%</p>
+                    <!-- <h3 style="color: #FF3364">4</h3> -->
+                    <br>
+                    <p style="margin-top: -10px; font-size: 12px; font-weight: 600;">Es para descargar tu QR y guardarlo en tu carrete</p>
                     <p style="font-size: 13px; font-weight: 300;">Presiona para descargar QR</p>
                 </a>
             </div>
@@ -59,8 +61,9 @@
             <div class="col-lg-8 col-md-8 col-sm-12">
                 <a  href="javascript:void(0)" (click)="openModal('Link de Referidos')">
                     <h5>Link de Referidos</h5>
-                    <h3 style="color: #54BA4A">36</h3>
-                    <p style="margin-top: -10px; font-size: 12px; font-weight: 600;">↑ +2.7%</p>
+                    <!-- <h3 style="color: #54BA4A">36</h3> -->
+                    <br>
+                    <p style="margin-top: -10px; font-size: 12px; font-weight: 600;">Es para copiar el link y enviárselo a tus afiliados para el registro</p>
                     <p style="font-size: 13px; font-weight: 300;">Presiona para copiar link</p>
                 </a>
             </div>
@@ -182,10 +185,13 @@
                             </div> -->
                             <div class="col-lg-12 col-md-12 col-sm-12">
                                 <button type="submit" class="btn btn-block btn-outline-primary" style="font-size:15px" [disabled]="!formRegister.valid">
-                                  Registrar
+                                  Procesar Pago
                                 </button>
                             </div>
                         </form>
+                        <!-- <button class="btn btn-block btn-outline-primary" style="font-size:15px" (click)="openModalBinance()">
+                          Modal
+                        </button> -->
                     </div>
                 </div>
             </div>
@@ -193,7 +199,7 @@
     </div>
     <div class="col-lg-3 col-md-3 col-sm-12"></div>
 </div>
-<!-- Modal pago -->
+<!-- Modal referidos -->
 <ng-template #modal_pago let-modal>
     <div class="modal-body row">
         <div class="col-lg-12 col-md-12 col-sm-12 text-center">
@@ -201,7 +207,8 @@
             <hr>
         </div>
         <div class="col-lg-12 col-md-12 col-sm-12 text-center">
-            <a href="{{info_qr.img_qr_url}}" target="_blank" *ngIf="text_modal!='Link de Referidos'"><img src="{{info_qr.img_qr_url}}" alt=""></a>
+            <a href="{{info_qr.img_qr_url}}" target="_blank" *ngIf="text_modal!='Link de Referidos'">
+                <img src="{{info_qr.img_qr_url}}" alt=""></a>
             <a href="javascript:void(0)" (click)="copiar()" *ngIf="text_modal=='Link de Referidos'">
                 <img src="https://img.freepik.com/vector-premium/icono-programa-afiliados-referencias-blanco_116137-7006.jpg" alt="">
             </a>
@@ -209,6 +216,28 @@
         <div class="col-lg-12 col-md-12 col-sm-12 text-center">
             <hr>
             <button class="btn btn-danger" (click)="closeModal()"> Cerrar</button>
+        </div>
+    </div>
+</ng-template>
+<!-- Modal referidos -->
+<ng-template #modal_binance let-modal>
+    <div class="modal-body row">
+        <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+            <h5>Finalizar Registro</h5>
+            <hr>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+            <a href="{{data_binance.data.qrcodeLink}}" target="_blank">
+                <img src="{{data_binance.data.qrcodeLink}}" alt=""></a>
+            <br>
+            <a href="javascript:void(0)" (click)="copiarLink()">
+                <!-- {{data_binance.data.checkoutUrl}} -->
+                Copiar Link
+            </a>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+            <hr>
+            <button class="btn btn-danger" (click)="closeModalBinance()"> Cerrar</button>
         </div>
     </div>
 </ng-template>

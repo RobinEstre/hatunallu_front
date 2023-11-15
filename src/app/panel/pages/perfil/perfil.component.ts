@@ -6,6 +6,7 @@ import { GeneralService } from '../../services/general.service';
 import Swal from "sweetalert2";
 import localeEs from '@angular/common/locales/es';
 import { DatePipe, registerLocaleData } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
 registerLocaleData(localeEs, 'es');
 
 @Component({
@@ -20,8 +21,12 @@ export class PerfilComponent implements OnInit {
   @ViewChild('passwordEyeRegister3') passwordEye3:any;
   @ViewChild('add') private modalContentAdd: TemplateRef<PerfilComponent>;
   private modalRefAdd: NgbModalRef;
+  @ViewChild('modal_img') private modalContentIMG: TemplateRef<PerfilComponent>;
+  private modalRefIMG: NgbModalRef;
 
-  constructor(private spinner: NgxSpinnerService,private modalService: NgbModal, private fb: FormBuilder, private service: GeneralService) { }
+  constructor(private spinner: NgxSpinnerService,private modalService: NgbModal, private fb: FormBuilder, private service: GeneralService,
+    private toastr: ToastrService) { 
+  }
   
   formPass = this.fb.group({
     old_pass: [null, Validators.required],
@@ -32,7 +37,7 @@ export class PerfilComponent implements OnInit {
   passwordTypeInput  =  'password';  passwordTypeInput2  =  'password';  passwordTypeInput3  =  'password';
   iconpassword  =  'eye';  iconpassword2  =  'eye';  iconpassword3  =  'eye';
 
-  profile:any;
+  profile:any;files: File[] = [];
 
   ngOnInit(): void {
     this.listInit()
@@ -83,6 +88,18 @@ export class PerfilComponent implements OnInit {
     this.modalRefAdd.close()
   }
 
+  openModalIMG(){
+    this.files=[]
+    this.formPass.reset()
+    this.modalRefIMG = this.modalService.open(this.modalContentIMG, {backdrop : 'static', centered: true, keyboard: false,
+      windowClass: 'animate__animated animate__backInUp', size: 'sm' });
+    this.modalRefIMG.result.then();
+  }
+
+  closeModalIMG(){
+    this.modalRefIMG.close()
+  }
+
   update(){}
 
   togglePasswordMode() {
@@ -101,5 +118,96 @@ export class PerfilComponent implements OnInit {
     this.passwordTypeInput3 = this.passwordTypeInput3 === 'text' ? 'password' : 'text';
     this.iconpassword3 = this.iconpassword3 === 'eye-slash' ? 'eye' : 'eye-slash';
     //this.passwordEye.el.setFocus()
+  }
+
+  onSelect(event: { addedFiles: any; }) {
+    this.files=[]
+    this.files.push(...event.addedFiles);
+  }
+  
+  onRemove(event: File) {
+    this.files.splice(this.files.indexOf(event), 1);
+  }
+
+  subirIMG(){    
+    this.spinner.show()
+    for(let a=0; a<this.files.length; a++){
+      const formData = new FormData()
+      formData.append("bucket", 'aigo-files');
+      formData.append("nombre", this.files[a].name);
+      formData.append("folder", 'fotos-usuarios/');
+      formData.append('files', this.files[a], this.files[a].name);
+
+      this.service.subirIMG(formData).subscribe(data => {
+        if(data['success']==true){
+          let url= data['data'][0]['url']
+          this.actualizarIMG(url)
+        }
+      },error => {
+        if(error.status==400){
+          Swal.fire({
+            title: 'Advertencia!',
+            text: error.error.message,
+            icon: 'error',
+            showCancelButton: true,
+            showConfirmButton: false,
+            cancelButtonColor: '#c02c2c',
+            cancelButtonText: 'Cerrar'
+          })
+        }
+        if(error.status==500){
+          Swal.fire({
+            title: 'Advertencia!',
+            text: 'Comuniquese con el Área de Sistemas',
+            icon: 'error',
+            showCancelButton: true,
+            showConfirmButton: false,
+            cancelButtonColor: '#c02c2c',
+            cancelButtonText: 'Cerrar'
+          })
+        }
+        // this.closeModal()
+        this.spinner.hide()
+      })
+    }
+  }
+
+  actualizarIMG(url){
+    let body={
+      "url_perfil":url
+    }
+    this.service.updateIMG(body).subscribe(resp=>{
+      if(resp.success){
+        this.closeModalIMG()
+        this.spinner.hide()
+        this.toastr.success('Foto actualizada', 'Genial!');
+        this.listInit()
+      }
+    },error => {
+      if(error.status==400){
+        Swal.fire({
+          title: 'Advertencia!',
+          text: error.error.message,
+          icon: 'error',
+          showCancelButton: true,
+          showConfirmButton: false,
+          cancelButtonColor: '#c02c2c',
+          cancelButtonText: 'Cerrar'
+        })
+      }
+      if(error.status==500){
+        Swal.fire({
+          title: 'Advertencia!',
+          text: 'Comuniquese con el Área de Sistemas',
+          icon: 'error',
+          showCancelButton: true,
+          showConfirmButton: false,
+          cancelButtonColor: '#c02c2c',
+          cancelButtonText: 'Cerrar'
+        })
+      }
+      // this.closeModal()
+      this.spinner.hide()
+    })
   }
 }

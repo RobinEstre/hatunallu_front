@@ -16,6 +16,8 @@ import { ToastrService } from 'ngx-toastr';
 export class ReferidosComponent implements OnInit {
   @ViewChild('modal_pago') private modalContent: TemplateRef<ReferidosComponent>;
   private modalRef: NgbModalRef;
+  @ViewChild('modal_binance') private modalContentBinance: TemplateRef<ReferidosComponent>;
+  private modalRefBinance: NgbModalRef;
 
   constructor(private fb: FormBuilder,private spinner: NgxSpinnerService,private authservice: AuthServiceService,private modalService: NgbModal,
     private service: GeneralService, private clipboard: Clipboard, private toastr: ToastrService) { }
@@ -31,6 +33,7 @@ export class ReferidosComponent implements OnInit {
   });
 
   pais:any=[]; prefijo:any=[]; packs:any; validate_pack:any=false; detail_pack:any; info_qr:any; text_modal:any; textoACopiar:any
+  data_binance:any; txtCopiarBinance:any
 
   ngOnInit(): void {
     this.listCountries()
@@ -85,7 +88,7 @@ export class ReferidosComponent implements OnInit {
   }
 
   copiar() {
-    this.clipboard.copy(this.textoACopiar);    
+    this.clipboard.copy(this.textoACopiar);
     this.toastr.success('Link copiado', 'Genial!');
   }
 
@@ -134,6 +137,38 @@ export class ReferidosComponent implements OnInit {
     this.modalRef.close();
   }
 
+  openModalBinance() {
+    // let data={
+    //   "status": "SUCCESS",
+    //   "code": "000000",
+    //   "data": {
+    //       "currency": "USDT",
+    //       "totalFee": "1",
+    //       "prepayId": "262139744935919616",
+    //       "terminalType": "APP",
+    //       "expireTime": 1699908731489,
+    //       "qrcodeLink": "https://public.bnbstatic.com/static/payment/20231113/cd42b80f-6c2d-4bd4-a67d-41daa07b5e29.jpg",
+    //       "qrContent": "https://app.binance.com/qr/dplkb7eb5d832ef34bc4b5501326e52930c9",
+    //       "checkoutUrl": "https://pay.binance.com/en/checkout/af42b0ceb35e41a8b2ad79ec75f8e8ec",
+    //       "deeplink": "bnc://app.binance.com/payment/secpay?tempToken=vChl2bGxDlPdCtqDqsg4hNwF05d5CxgC",
+    //       "universalUrl": "https://app.binance.com/payment/secpay?linkToken=af42b0ceb35e41a8b2ad79ec75f8e8ec&_dp=Ym5jOi8vYXBwLmJpbmFuY2UuY29tL3BheW1lbnQvc2VjcGF5P3RlbXBUb2tlbj12Q2hsMmJHeERsUGRDdHFEcXNnNGhOd0YwNWQ1Q3hnQw"
+    //   }
+    // }
+    // this.data_binance=data
+    this.txtCopiarBinance = this.data_binance.data.checkoutUrl
+    this.modalRefBinance = this.modalService.open(this.modalContentBinance, { centered: true, size: 'md', keyboard: false, backdrop: 'static' });
+    this.modalRefBinance.result.then();
+  }
+
+  closeModalBinance() {
+    this.modalRefBinance.close();
+  }
+
+  copiarLink() {
+    this.clipboard.copy(this.txtCopiarBinance);
+    this.toastr.success('Link copiado', 'Genial!');
+  }
+
   sendData(){
     this.spinner.show()
     let body={
@@ -173,6 +208,8 @@ export class ReferidosComponent implements OnInit {
         this.validate_pack=false
         this.formRegister.reset()
         this.spinner.hide()
+        this.data_binance=resp.data
+        this.openModalBinance()
       }
     }, error => {
       this.spinner.hide()

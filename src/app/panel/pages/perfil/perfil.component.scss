@@ -3,4 +3,210 @@
       background : url('https://i.blogs.es/a42497/south-america-8k-timelapse/1366_2000.jpg')  no-repeat  center center / cover !important
     }
   }
-  
+  ::ng-deep {
+    #ng-select-sash{
+        width: 90%;
+    }
+    .iti--allow-dropdown input {
+        border: 0;
+        outline: none;
+    }
+
+    .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value {
+        background-color: #e0e2f7;
+        color: #1d212f;
+        padding: 1px;
+        font-size: 0.875rem;
+    }
+    .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-icon.left {
+        border: 0 !important;
+    }
+    .ng-select.ng-select-disabled > .ng-select-container {
+        background-color: #f2f1ff;
+    }
+    .ng-select.ng-select-disabled .ng-select-container .ng-value-container,
+    .ng-select.ng-select-disabled .ng-select-container .ng-value-container .ng-input {
+        cursor: not-allowed !important;
+    }
+
+    //angular multiselect
+    .selected-list .c-btn:focus {
+        outline: 0;
+    }
+    .selected-list .c-angle-down,
+    .selected-list .c-angle-up {
+        width: 8px !important;
+        height: 8px !important;
+        top: 40% !important;
+        color: #a8afc7;
+    }
+
+    .selected-item,
+    .dropdown-list ul li:hover {
+        background: #f1f2f9;
+    }
+    .c-btn {
+        background: #fff;
+        border: 1px solid #e0e2f7;
+        color: #a8afc7;
+    }
+    .c-btn.disabled {
+        background: #f2f1ff !important;
+        cursor: not-allowed !important;
+    }
+
+    .pure-checkbox input[type="checkbox"] + label:before {
+        color: #6259ca;
+        border: 1px solid #6259ca;
+    }
+    .pure-checkbox input[type="checkbox"]:focus + label:before,
+    .pure-checkbox input[type="checkbox"]:hover + label:before {
+        border: #6259ca;
+    }
+
+    .single-select-mode .pure-checkbox input[type="checkbox"] + label:after {
+        border-color: #6259ca !important;
+    }
+
+    .selected-list .c-list .c-token {
+        background: #e0e2f7;
+        border-radius: 4px !important;
+    }
+    .selected-list .c-list .c-token .c-label,
+    .selected-list .c-list .c-token .c-remove svg {
+        color: #1d212f !important;
+        fill: #1d212f !important;
+    }
+    .arrow-down.arrow-2,
+    .arrow-2.arrow-up,
+    .arrow-2,
+    .arrow-down,
+    .arrow-up {
+        display: none;
+        border: 0;
+    }
+
+    //dropzone
+    .dropzone {
+        border: 1px solid #e0e2f7;
+        border-radius: 4px;
+    }
+    .dz-message.needsclick {
+        color: #a8afc7;
+    }
+    .dz-message h6 {
+        font-weight: 400;
+    }
+    .dz-message i {
+        font-size: 1.5rem;
+    }
+    .dropzone.dropzone-primary.disable {
+        cursor: not-allowed;
+    }
+    .md-drppicker .btn {
+        margin-left: 4px;
+    }
+
+    .dropdown-list{
+        z-index: 2 !important;
+    }
+    .md-drppicker{
+        z-index: 1;
+    }
+    .custom.ng-pristine.ng-valid.ng-touched{
+        padding-top: 0;
+    }
+
+    .dark-theme{
+        .selected-list .c-angle-down svg, .selected-list .c-angle-up svg {
+            fill: #fff;
+        }
+        .iti--allow-dropdown input {
+            background: #23243b;
+            color: #eee;
+        }
+        .iti__country-name{
+            color: #ccc !important;
+        }
+        .country-dropdown{
+            border: 1px solid #23233d;
+        }
+        .dropzone {
+            border: 1px solid #ffffff1f;
+            background-color: #24243e;
+        }
+        .c-btn {
+            background: #23243d;
+            border: 1px solid #fdfdff1f;
+            color: #a8afc7;
+        }
+        .list-area {
+            border: 1px solid #ffffff45;
+            background: #23243e;
+            box-shadow: 0px 1px 5px #161212;
+
+        }
+        .selected-item, .dropdown-list ul li:hover {
+            background: #0e0e23;
+        }
+        .single-select-mode .pure-checkbox input[type="checkbox"] + label,
+        .pure-checkbox input[type="checkbox"] + label {
+            color: #ccc;
+        }
+        .list-filter input{
+            background-color: transparent;
+            color: #ccc;
+        }
+        .c-remove{
+            fill: #ccc;
+        }
+        .c-btn.disabled {
+            background: #191932 !important;
+        }
+    }
+
+    .rtl{
+        .clear-all{
+            right: initial !important;
+            left: 30px;
+        }
+        ng-select.form-control {
+            padding: 0rem .75rem .175rem 0rem !important;
+        }
+        .selected-list .c-angle-down, .selected-list .c-angle-up{
+            right: initial !important;
+            left: 10px;
+        }
+        
+        .iti--allow-dropdown input, 
+        .iti--allow-dropdown input[type=text], 
+        .iti--allow-dropdown input[type=tel], 
+        .iti--separate-dial-code input, 
+        .iti--separate-dial-code input[type=text], 
+        .iti--separate-dial-code input[type=tel] {
+            padding-left: 6px;
+            padding-right: 52px;
+            margin-left: 0;
+        }
+        .iti--allow-dropdown .iti__flag-container,
+        .iti--separate-dial-code .iti__flag-container {
+            right: 0;
+            left: auto;
+        }
+        .country-dropdown{
+            inset: 100% 0 auto 0px !important;
+        }
+        .iti__country-list{
+            text-align: right;
+        }
+    }
+
+    @media (min-width: 564px) {
+        .md-drppicker.ltr {
+            left: 0;
+        }
+    }
+    .timepicker-dial__control {
+        outline: none;
+    }
+}

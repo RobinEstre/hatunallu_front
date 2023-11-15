@@ -5,6 +5,7 @@ import { AuthService } from '../../../shared/services/auth.service';
 import {AuthServiceService} from "../../services/auth-service.service";
 import * as CryptoJS from 'crypto-js';
 import {NotifierService} from "angular-notifier";
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login-page',
@@ -17,7 +18,7 @@ export class LoginPageComponent implements OnInit {
   public loginForm: FormGroup;
 
   constructor(private authservice: AuthService, private router: Router, private formBuilder : FormBuilder,
-              private loginService: AuthServiceService, private notifier: NotifierService ) {
+              private loginService: AuthServiceService, private notifier: NotifierService, private toastr: ToastrService ) {
     this.loginForm = this.formBuilder.group({
       username : ['',[Validators.required]],
       password : ['', Validators.required]
@@ -50,13 +51,14 @@ export class LoginPageComponent implements OnInit {
         console.log(resp['access'])
         localStorage.setItem('token', resp['access']);
         this.getConfig()
+        this.toastr.success('¡Logeado Coreectamente!', 'Genial!');
         this.notifier.notify('success', '¡Logeado Coreectamente!');
         this.router.navigate(['/panel'])
         console.clear()
       }
     }, error => {
       if (error.status === 401) {
-        console.log('123')
+        this.toastr.error(error.error.detail, 'Error!');
         this.notifier.notify('error', '¡Nombre de usuario o contraseña incorrectos!');
         this.disabled = ""
       }
