@@ -140,5 +140,27 @@
     </div>
     <!-- END PAGE -->
 </div>
+<!-- Modal finalizar -->
+<ng-template #modal_binance let-modal>
+    <div class="modal-body row">
+        <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+            <h5>Finalizar Registro</h5>
+            <hr>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+            <a href="{{data_binance.data.qrcodeLink}}" target="_blank">
+                <img src="{{data_binance.data.qrcodeLink}}" alt=""></a>
+            <br>
+            <a href="javascript:void(0)" (click)="copiarLink()">
+                <!-- {{data_binance.data.checkoutUrl}} -->
+                Copiar Link
+            </a>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+            <hr>
+            <button class="btn btn-danger" (click)="closeModalBinance()"> Cerrar</button>
+        </div>
+    </div>
+</ng-template>
 <!-- BACKGROUND-IMAGE CLOSED -->
 <ngx-spinner type="timer"></ngx-spinner>

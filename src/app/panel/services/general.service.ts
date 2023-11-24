@@ -250,6 +250,9 @@ export class GeneralService {
   registerClient(data){
     return this.httpClient.post<any>(this.envUrl.urlAddress + 'red/cliente/',data);
   }
+  registerClientLink(data){
+    return this.httpClient.post<any>(this.envUrl.urlAddress + 'red/link-referido/',data);
+  }
   subirIMG(data){
     return this.httpClient.post<any>(this.envUrl.urlAddress + 'au/subir/archivo-s3/?type=jpeg',data);
   }

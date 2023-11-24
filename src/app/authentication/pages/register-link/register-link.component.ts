@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { AuthService } from '../../../shared/services/auth.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
@@ -6,7 +6,9 @@ import { AuthServiceService } from '../../services/auth-service.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { GeneralService } from 'src/app/panel/services/general.service';
+import { Clipboard } from '@angular/cdk/clipboard';
 import Swal from "sweetalert2";
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-register-link',
@@ -14,6 +16,8 @@ import Swal from "sweetalert2";
   styleUrls: ['./register-link.component.scss']
 })
 export class RegisterLinkComponent implements OnInit {
+  @ViewChild('modal_binance') private modalContentBinance: TemplateRef<RegisterLinkComponent>;
+  private modalRefBinance: NgbModalRef;
 
   email="";
   password="";
@@ -23,7 +27,8 @@ export class RegisterLinkComponent implements OnInit {
   code:any
 
   constructor(private authservice: AuthServiceService, private router:Router, private fb: FormBuilder,private spinner: NgxSpinnerService,
-    private service: GeneralService, private toastr: ToastrService,private route: ActivatedRoute,) { 
+    private service: GeneralService, private toastr: ToastrService,private route: ActivatedRoute,private modalService: NgbModal, 
+    private clipboard: Clipboard,) { 
     this.code = this.route.snapshot.params['code']
   }
 
@@ -37,7 +42,8 @@ export class RegisterLinkComponent implements OnInit {
     prefijo: [null],
   });
 
-  pais:any=[];prefijo:any=[]; packs:any; validate_pack:any=false;detail_pack:any; code_url:any
+  pais:any=[];prefijo:any=[]; packs:any; validate_pack:any=false;detail_pack:any; code_url:any;  data_binance:any; txtCopiarBinance:any
+
 
   ngOnInit(): void {
     this.list()
@@ -135,16 +141,72 @@ export class RegisterLinkComponent implements OnInit {
   }
 
   register(){
-    this.clearErrorMessage();
-    if (this.validateForm(this.email, this.password)) {
-      // this.authservice.registerWithEmail(this.email, this.password).then(() => {
-      //   this.message = "you are register with data on firbase"
-      //   this.router.navigate(['/dashboard'])
-      // }).catch((_error:any) => {
-      //   this.error = _error
-      //   this.router.navigate(['/auth/register'])
-      // })
+    this.spinner.show()
+    let body={
+      "cliente": {
+        "nombre": this.formRegister.controls.nombres.value,
+        "apellido": this.formRegister.controls.apellidos.value,
+        "email": this.formRegister.controls.email.value,
+        "telefono": this.formRegister.controls.celular.value,
+        "dni": null,
+        "fecha_nacimiento": null,
+        "direccion": null,
+        "data": {
+          "pais": this.formRegister.controls.pais.value,
+          "prefijo": this.formRegister.controls.prefijo.value
+        }
+      },
+      "orderAmount": this.formRegister.controls.monto.value, //monto
+      "currency": "USDT", //defecto
+      "description_pay": "pago inscripcion", //defecto
+      "pack": {
+        "pack_id": this.detail_pack.id,
+        "forma_ganar_id": 1, //defecto
+        "tipo_venta_id": 1, //defecto
+        "pack_data": null //opcional
+      },
+      "red_data": null, //opcional
+      "qr_code": this.code
     }
+    this.service.registerClientLink(body).subscribe(resp=>{
+      if(resp.success){
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Registrado Correctamente",
+          showConfirmButton: false,
+          timer: 1500
+        });
+        this.validate_pack=false
+        this.formRegister.reset()
+        this.spinner.hide()
+        this.data_binance=resp.data
+        this.openModalBinance()
+      }
+    }, error => {
+      this.spinner.hide()
+      if (error.status === 500){
+        Swal.fire({
+          title: 'Oops!',
+          text: 'Ocurrio un incidente en el servidor, contactate con el area de sistemas',
+          icon: 'error',
+          showCancelButton: true,
+          showConfirmButton: false,
+          cancelButtonColor: '#c02c2c',
+          cancelButtonText: 'Cerrar ventana'
+        })
+      }else if (error.status === 400){
+        Swal.fire({
+          title: 'Oops!',
+          text: error.error.message,
+          icon: 'error',
+          showCancelButton: true,
+          showConfirmButton: false,
+          cancelButtonColor: '#c02c2c',
+          cancelButtonText: 'Cerrar ventana'
+        })
+      }
+    })
   }
 
   validateForm(email:string, password:string){
@@ -176,5 +238,20 @@ export class RegisterLinkComponent implements OnInit {
         this.formRegister.controls.prefijo.setValue(i.id)
       }
     })
+  }
+
+  openModalBinance() {
+    this.txtCopiarBinance = this.data_binance.data.checkoutUrl
+    this.modalRefBinance = this.modalService.open(this.modalContentBinance, { centered: true, size: 'md', keyboard: false, backdrop: 'static' });
+    this.modalRefBinance.result.then();
+  }
+
+  closeModalBinance() {
+    this.modalRefBinance.close();
+  }
+  
+  copiarLink() {
+    this.clipboard.copy(this.txtCopiarBinance);
+    this.toastr.success('Link copiado', 'Genial!');
   }
 }
