@@ -14,26 +14,53 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./referidos.component.scss']
 })
 export class ReferidosComponent implements OnInit {
+  @ViewChild('add') private modalContentAdd: TemplateRef<ReferidosComponent>;
+  private modalRefAdd: NgbModalRef;
   @ViewChild('modal_pago') private modalContent: TemplateRef<ReferidosComponent>;
   private modalRef: NgbModalRef;
   @ViewChild('modal_binance') private modalContentBinance: TemplateRef<ReferidosComponent>;
   private modalRefBinance: NgbModalRef;
 
   constructor(private fb: FormBuilder,private spinner: NgxSpinnerService,private authservice: AuthServiceService,private modalService: NgbModal,
-    private service: GeneralService, private clipboard: Clipboard, private toastr: ToastrService) { }
+    private service: GeneralService, private clipboard: Clipboard, private toastr: ToastrService) { 
+  }
 
+  formPass = this.fb.group({
+    banco: [null, Validators.required],
+    operacion: [null, Validators.required],
+    fecha: [null, Validators.required]
+  });
   formRegister = this.fb.group({
     nombres : ['',Validators.required],
     apellidos : ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
     celular : ['', Validators.required],
     monto : ['', Validators.required],
+    numDoc : ['', Validators.required],
     pais : [null],
     prefijo : [null],
   });
 
+  banco:any=[
+    {
+      id:0,
+      name:"INTERBANK"
+    },
+    {
+      id:0,
+      name:"BCP"
+    },
+    {
+      id:0,
+      name:"BBVA"
+    },
+    {
+      id:0,
+      name:"SCOTIABANK"
+    },
+  ];
   pais:any=[]; prefijo:any=[]; packs:any; validate_pack:any=false; detail_pack:any; info_qr:any; text_modal:any; textoACopiar:any
-  data_binance:any; txtCopiarBinance:any
+  data_binance:any; txtCopiarBinance:any; files: File[] = [];
 
   ngOnInit(): void {
     this.listCountries()
@@ -63,7 +90,14 @@ export class ReferidosComponent implements OnInit {
         })
       })
       this.prefijo=pref
-      this.pais=dato
+      this.pais=dato 
+      let id_Peru:any='PER'
+      this.formRegister.controls.pais.setValue(id_Peru)
+      this.prefijo.forEach(i=>{
+        if(i.id=='PER'){
+          this.formRegister.controls.prefijo.setValue(i.id)
+        }
+      })
       this.listInit()
     })
   }
@@ -81,7 +115,21 @@ export class ReferidosComponent implements OnInit {
     })
     this.service.getPacks().subscribe(resp=>{
       if(resp.success){
-        this.packs=resp.data
+        let pack:any=[]
+        resp.data.forEach(i=>{
+          let obj = JSON.parse(i.data);
+          pack.push({
+            "id": i.id,
+            "name": i.name,
+            "descriptions": i.descriptions,
+            "total_price": i.total_price,
+            "is_active": i.is_active,
+            "data": obj,
+            "created_at": i.created_at,
+            "updated_at": i.updated_at
+          })
+        })
+        this.packs=pack
         this.spinner.hide();
       }
     })
@@ -135,6 +183,17 @@ export class ReferidosComponent implements OnInit {
 
   closeModal() {
     this.modalRef.close();
+  }
+
+  openModalValidate(){
+    this.formPass.reset()
+    this.modalRefAdd = this.modalService.open(this.modalContentAdd, {backdrop : 'static', centered: true, 
+      windowClass: 'animate__animated animate__backInUp', size: 'sm', keyboard: false  });
+    this.modalRefAdd.result.then();
+  }
+
+  closeModalValidate(){
+    this.modalRefAdd.close()
   }
 
   openModalBinance() {
@@ -235,5 +294,16 @@ export class ReferidosComponent implements OnInit {
         })
       }
     })
+  }
+
+  update(){}
+
+  onSelect(event: { addedFiles: any; }) {
+    this.files=[]
+    this.files.push(...event.addedFiles);
+  }
+  
+  onRemove(event: File) {
+    this.files.splice(this.files.indexOf(event), 1);
   }
 }

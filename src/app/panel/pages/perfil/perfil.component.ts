@@ -37,7 +37,7 @@ export class PerfilComponent implements OnInit {
   passwordTypeInput  =  'password';  passwordTypeInput2  =  'password';  passwordTypeInput3  =  'password';
   iconpassword  =  'eye';  iconpassword2  =  'eye';  iconpassword3  =  'eye';
 
-  profile:any;files: File[] = [];
+  profile:any;files: File[] = []; userName:any; userImg:any;
 
   ngOnInit(): void {
     this.listInit()
@@ -47,8 +47,12 @@ export class PerfilComponent implements OnInit {
     this.spinner.show()
     this.service.getProfile().subscribe(resp=>{
       if(resp.success){
-        this.profile=resp.data;
-        this.spinner.hide()
+        setTimeout(() => {
+          this.profile=resp.data;
+          this.userName = localStorage.getItem('USERNAME');
+          this.userImg = localStorage.getItem('IMG_USER');
+          this.spinner.hide()
+        }, 1500);
       }
     },error => {
       if(error.status==400){
@@ -129,11 +133,12 @@ export class PerfilComponent implements OnInit {
     this.files.splice(this.files.indexOf(event), 1);
   }
 
-  subirIMG(){    
+  subirIMG(){
+    this.closeModalIMG()
     this.spinner.show()
     for(let a=0; a<this.files.length; a++){
       const formData = new FormData()
-      formData.append("bucket", 'aigo-files');
+      formData.append("bucket", 'jatun-files');
       formData.append("nombre", this.files[a].name);
       formData.append("folder", 'fotos-usuarios/');
       formData.append('files', this.files[a], this.files[a].name);
@@ -178,6 +183,7 @@ export class PerfilComponent implements OnInit {
     }
     this.service.updateIMG(body).subscribe(resp=>{
       if(resp.success){
+        this.service.miVariable$.next(true);
         this.closeModalIMG()
         this.spinner.hide()
         this.toastr.success('Foto actualizada', 'Genial!');

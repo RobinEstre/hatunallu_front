@@ -16,6 +16,8 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./register-link.component.scss']
 })
 export class RegisterLinkComponent implements OnInit {
+  @ViewChild('add') private modalContentAdd: TemplateRef<RegisterLinkComponent>;
+  private modalRefAdd: NgbModalRef;
   @ViewChild('modal_binance') private modalContentBinance: TemplateRef<RegisterLinkComponent>;
   private modalRefBinance: NgbModalRef;
 
@@ -32,18 +34,41 @@ export class RegisterLinkComponent implements OnInit {
     this.code = this.route.snapshot.params['code']
   }
 
+  formPass = this.fb.group({
+    banco: [null, Validators.required],
+    operacion: [null, Validators.required],
+    fecha: [null, Validators.required]
+  });
   formRegister = this.fb.group({
     nombres: ['', Validators.required],
     apellidos: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
     celular: ['', [Validators.required, Validators.minLength(9), Validators.maxLength(15)]],
-    monto : ['', Validators.required],
+    numDoc : ['', Validators.required],
     pais: [null],
     prefijo: [null],
   });
 
+  banco:any=[
+    {
+      id:0,
+      name:"INTERBANK"
+    },
+    {
+      id:0,
+      name:"BCP"
+    },
+    {
+      id:0,
+      name:"BBVA"
+    },
+    {
+      id:0,
+      name:"SCOTIABANK"
+    },
+  ];
   pais:any=[];prefijo:any=[]; packs:any; validate_pack:any=false;detail_pack:any; code_url:any;  data_binance:any; txtCopiarBinance:any
-
+  files: File[] = [];
 
   ngOnInit(): void {
     this.list()
@@ -53,7 +78,21 @@ export class RegisterLinkComponent implements OnInit {
     this.spinner.show();
     this.service.getPacks().subscribe(resp=>{
       if(resp.success){
-        this.packs=resp.data
+        let pack:any=[]
+        resp.data.forEach(i=>{
+          let obj = JSON.parse(i.data);
+          pack.push({
+            "id": i.id,
+            "name": i.name,
+            "descriptions": i.descriptions,
+            "total_price": i.total_price,
+            "is_active": i.is_active,
+            "data": obj,
+            "created_at": i.created_at,
+            "updated_at": i.updated_at
+          })
+        })
+        this.packs=pack
       }
     })
     this.service.validateCodeURL(this.code).subscribe(resp=>{
@@ -112,6 +151,13 @@ export class RegisterLinkComponent implements OnInit {
       })
       this.prefijo=pref
       this.pais=dato
+      let id_Peru:any='PER'
+      this.formRegister.controls.pais.setValue(id_Peru)
+      this.prefijo.forEach(i=>{
+        if(i.id=='PER'){
+          this.formRegister.controls.prefijo.setValue(i.id)
+        }
+      })
       this.spinner.hide();
     })
   }
@@ -124,9 +170,9 @@ export class RegisterLinkComponent implements OnInit {
   getPack(event){
     const value = +event.target.value;
     //const value:any = this.formRegister.controls.monto.value;
-    if(+value<1 || +value==0){this.formRegister.controls.monto.setValue('');this.validate_pack=false}
-    else{this.validatePack(value)}
-    console.log(value)
+    // if(+value<1 || +value==0){this.formRegister.controls.monto.setValue('');this.validate_pack=false}
+    // else{this.validatePack(value)}
+    // console.log(value)
   }
 
   validatePack(value){
@@ -156,7 +202,7 @@ export class RegisterLinkComponent implements OnInit {
           "prefijo": this.formRegister.controls.prefijo.value
         }
       },
-      "orderAmount": this.formRegister.controls.monto.value, //monto
+      //"orderAmount": this.formRegister.controls.monto.value, //monto
       "currency": "USDT", //defecto
       "description_pay": "pago inscripcion", //defecto
       "pack": {
@@ -249,9 +295,31 @@ export class RegisterLinkComponent implements OnInit {
   closeModalBinance() {
     this.modalRefBinance.close();
   }
+
+  openModalValidate(){
+    this.formPass.reset()
+    this.modalRefAdd = this.modalService.open(this.modalContentAdd, {backdrop : 'static', centered: true, 
+      windowClass: 'animate__animated animate__backInUp', size: 'sm', keyboard: false  });
+    this.modalRefAdd.result.then();
+  }
+
+  closeModalValidate(){
+    this.modalRefAdd.close()
+  }
   
   copiarLink() {
     this.clipboard.copy(this.txtCopiarBinance);
     this.toastr.success('Link copiado', 'Genial!');
+  }
+
+  update(){}
+
+  onSelect(event: { addedFiles: any; }) {
+    this.files=[]
+    this.files.push(...event.addedFiles);
+  }
+  
+  onRemove(event: File) {
+    this.files.splice(this.files.indexOf(event), 1);
   }
 }

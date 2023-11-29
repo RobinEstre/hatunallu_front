@@ -10,12 +10,12 @@
       <!-- sidebar-toggle-->
       <a class="logo-horizontal" routerLink="/dashboard">
         <img
-          src="./assets/images/brand/logo.png"
+          src="https://cdn.discordapp.com/attachments/733805519617130506/1178127139413958666/Logo_JatunAyllu2.png?ex=65750366&is=65628e66&hm=9ef601f81b6e4359ff877ce3f1a55620af1b0c5785e58f67c266ce8c490e7ac9&"
           class="header-brand-img desktop-logo"
           alt="logo"
         />
         <img
-          src="./assets/images/brand/logo-3.png"
+          src="https://cdn.discordapp.com/attachments/733805519617130506/1178127139413958666/Logo_JatunAyllu2.png?ex=65750366&is=65628e66&hm=9ef601f81b6e4359ff877ce3f1a55620af1b0c5785e58f67c266ce8c490e7ac9&"
           class="header-brand-img light-logo1"
           alt="logo"
         />
@@ -250,16 +250,21 @@
                   class="nav-link leading-none d-flex"
                 >
                   <img
-                    src="{{profile.data.img_perfil}}"
+                    src="{{userImg}}"
                     alt="profile-user"
                     class="avatar profile-user brround cover-image"
                   />
+                  <!-- <img
+                    src="{{profile.data.img_perfil}}"
+                    alt="profile-user"
+                    class="avatar profile-user brround cover-image"
+                  /> -->
                 </a>
                 <div ngbDropdownMenu class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
                   <div class="drop-heading">
                     <div ngbDropdownItem class="text-center">
                       <h5 class="text-dark mb-0 fs-14 fw-semibold text-capitalize">
-                        {{profile.nombre}} {{profile.apellido}}
+                        {{userName}}
                       </h5>
                       <small class="text-muted"> {{profile.email}}</small>
                     </div>

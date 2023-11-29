@@ -11,15 +11,19 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { SharedModule } from '../shared/shared.module';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { RegisterLinkComponent } from './pages/register-link/register-link.component';
+import { NgxDropzoneModule } from 'ngx-dropzone';
+import { RecoverPasswordComponent } from './pages/recover-password/recover-password.component';
 
 @NgModule({
   declarations: [
     LoginPageComponent,
     RegisterComponent,
-    RegisterLinkComponent
+    RegisterLinkComponent,
+    RecoverPasswordComponent
   ],
   imports: [
     NgSelectModule,
+    NgxDropzoneModule,
     NgxSpinnerModule,
     CommonModule,
     AuthenticationRoutingModule,

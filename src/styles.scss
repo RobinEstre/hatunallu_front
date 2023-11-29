@@ -2,7 +2,7 @@
 /* You can add global styles to this file, and also import other style files */
 
 // chartist
-@import "~chartist/dist/scss/chartist.scss";
+@import "../node_modules/chartist/dist/scss/chartist.scss";
 @import ".././node_modules/intl-tel-input/build/css/intlTelInput.css";
 @import "../node_modules/angular-archwizard/styles/archwizard.css";
 @import "~quill/dist/quill.snow.css";
@@ -10,8 +10,8 @@
 @import "~dropzone/dist/min/dropzone.min.css";
 @import "~perfect-scrollbar/css/perfect-scrollbar.css";
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
-@import "~animate.css/animate.min";
-@import "~angular-calendar/scss/angular-calendar.scss";
+@import "../node_modules/animate.css/animate.min";
+@import "../node_modules/angular-calendar/scss/angular-calendar.scss";
 
 // notifier
 @import "~angular-notifier/styles/core.css";
@@ -30,7 +30,7 @@
 @import "../node_modules/ngx-bar-rating/themes/br-square-theme.scss";
 
 // ngx toastr
-@import "~ngx-toastr/toastr";
+@import "../node_modules/ngx-toastr/toastr";
 
 @import "~bootstrap/dist/css/bootstrap.css";
 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");

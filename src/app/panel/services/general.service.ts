@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { LocalhostKeys } from "../enum/localhost-keys";
+import { BehaviorSubject } from 'rxjs';
 import { UrlEnviromentService } from 'src/app/shared/services/url-enviroment.service';
 
 @Injectable({
@@ -16,206 +18,16 @@ export class GeneralService {
     "datatable": {
         "draw": 1,
         "columns": [
-        {
-            "data": "codigoSeguimiento",
-            "name": "",
-            "searchable": true,
-            "orderable": false,
-            "search": {
-            "value": "",
-            "regex": false
-            }
-        },
-        {
-            "data": "codigoSeguimiento",
-            "name": "",
-            "searchable": true,
-            "orderable": false,
-            "search": {
-            "value": "",
-            "regex": false
-            }
-        },
-        {
-            "data": "metodoEnvio",
-            "name": "",
-            "searchable": true,
-            "orderable": false,
-            "search": {
-            "value": "",
-            "regex": false
-            }
-        },
-        {
-            "data": "pesoVolumetrico",
-            "name": "",
-            "searchable": true,
-            "orderable": false,
-            "search": {
-            "value": "",
-            "regex": false
-            }
-        },
-        {
-            "data": "estadoZeus",
-            "name": "",
-            "searchable": true,
-            "orderable": false,
-            "search": {
-            "value": "",
-            "regex": false
-            }
-        },
-        {
-            "data": "flota",
-            "name": "",
-            "searchable": true,
-            "orderable": false,
-            "search": {
-            "value": "",
-            "regex": false
-            }
-        },
-        {
-            "data": "fechaRegistro",
-            "name": "",
-            "searchable": true,
-            "orderable": false,
-            "search": {
-            "value": "",
-            "regex": false
-            }
-        },
-        {
-            "data": "placaRecepcion",
-            "name": "",
-            "searchable": true,
-            "orderable": false,
-            "search": {
-            "value": "",
-            "regex": false
-            }
-        },
-        {
-            "data": "puertaRecepcion",
-            "name": "",
-            "searchable": true,
-            "orderable": false,
-            "search": {
-            "value": "",
-            "regex": false
-            }
-        },
-        {
-            "data": "responsableRecepcion",
-            "name": "",
-            "searchable": true,
-            "orderable": false,
-            "search": {
-            "value": "",
-            "regex": false
-            }
-        },
-        {
-            "data": "tipoRecepcion",
-            "name": "",
-            "searchable": true,
-            "orderable": false,
-            "search": {
-            "value": "",
-            "regex": false
-            }
-        },
-        {
-            "data": "negocio",
-            "name": "",
-            "searchable": true,
-            "orderable": false,
-            "search": {
-            "value": "",
-            "regex": false
-            }
-        },
-        {
-            "data": "nombreSeller",
-            "name": "",
-            "searchable": true,
-            "orderable": false,
-            "search": {
-            "value": "",
-            "regex": false
-            }
-        },
-        {
-            "data": "bultosRecepcionados",
-            "name": "",
-            "searchable": true,
-            "orderable": false,
-            "search": {
-            "value": "",
-            "regex": false
-            }
-        },
-        {
-            "data": "descripcionProducto",
-            "name": "",
-            "searchable": true,
-            "orderable": false,
-            "search": {
-            "value": "",
-            "regex": false
-            }
-        },
-        {
-            "data": "estadoRecepcio",
-            "name": "",
-            "searchable": true,
-            "orderable": false,
-            "search": {
-            "value": "",
-            "regex": false
-            }
-        },
-        {
-            "data": "estadoSistemico",
-            "name": "",
-            "searchable": true,
-            "orderable": false,
-            "search": {
-            "value": "",
-            "regex": false
-            }
-        },
-        {
-            "data": "fechaCierre",
-            "name": "",
-            "searchable": true,
-            "orderable": false,
-            "search": {
-            "value": "",
-            "regex": false
-            }
-        },
-        {
-            "data": "fechaInicio",
-            "name": "",
-            "searchable": true,
-            "orderable": false,
-            "search": {
-            "value": "",
-            "regex": false
-            }
-        },
-        {
-            "data": "vueltaRecepcion",
-            "name": "",
-            "searchable": true,
-            "orderable": false,
-            "search": {
-            "value": "",
-            "regex": false
-            }
-        }
+          {
+              "data": "codigoSeguimiento",
+              "name": "",
+              "searchable": true,
+              "orderable": false,
+              "search": {
+              "value": "",
+              "regex": false
+              }
+          },
         ],
         "order": [
         {
@@ -230,6 +42,20 @@ export class GeneralService {
         "regex": false
         }
     }
+  }
+  userName: string = '';
+  userImg: string = '';
+  
+  public miVariable$ = new BehaviorSubject<boolean>(false);
+
+  setUserName(userName: string) {
+      this.userName = userName;
+      localStorage.setItem(LocalhostKeys.USERNAME, userName);
+  }
+
+  setUserImg(userImg: string) {
+      this.userImg = userImg;
+      localStorage.setItem(LocalhostKeys.IMG_USER, userImg);
   }
 
   getProfile(){

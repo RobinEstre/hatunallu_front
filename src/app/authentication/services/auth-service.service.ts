@@ -13,6 +13,10 @@ export class AuthServiceService {
     return this.httpClient.post<any>(this.envUrl.urlAddress + 'token/', data);
   }
 
+  recoverPassword(data: any){
+    return this.httpClient.post<any>(this.envUrl.urlAddress + 'au/email-reestablecer-password/', data);
+  }
+
   listCountry(){
     return this.httpClient.get<any>('https://restcountries.com/v3.1/all');
   }

@@ -26,10 +26,10 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
 
-aws configure --profile aigo
-aws s3 ls --profile aigo
+aws configure --profile jatunallu
+aws s3 ls --profile jatunallu
 
 ng build --configuration production
 rm -r dist/hemilia_frontend/assets/
-aws s3 rm s3://aigo-client --recursive --profile aigo
-aws s3 sync dist/hemilia_frontend s3://aigo-client --acl public-read --cache-control max-age=5 --profile aigo
+aws s3 rm s3://panel-jatunayllu --recursive --profile jatunallu
+aws s3 sync dist/hemilia_frontend s3://panel-jatunayllu --acl public-read --cache-control max-age=5 --profile jatunallu

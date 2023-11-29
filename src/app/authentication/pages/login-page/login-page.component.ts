@@ -57,6 +57,7 @@ export class LoginPageComponent implements OnInit {
         console.clear()
       }
     }, error => {
+      this.disabled = ""
       if (error.status === 401) {
         this.toastr.error(error.error.detail, 'Error!');
         this.notifier.notify('error', '¡Nombre de usuario o contraseña incorrectos!');
@@ -77,31 +78,31 @@ export class LoginPageComponent implements OnInit {
     //this.passwordEye.el.setFocus()
   }
 
-  CryptoJSAesEncrypt(passphrase, plaintext) {
+  // CryptoJSAesEncrypt(passphrase, plaintext) {
 
-    var salt = CryptoJS.lib.WordArray.random(256);
-    var iv = CryptoJS.lib.WordArray.random(16);
+  //   var salt = CryptoJS.lib.WordArray.random(256);
+  //   var iv = CryptoJS.lib.WordArray.random(16);
 
-    var key = CryptoJS.PBKDF2(passphrase, salt, { hasher: CryptoJS.algo.SHA512, keySize: 64 / 8, iterations: 999 });
+  //   var key = CryptoJS.PBKDF2(passphrase, salt, { hasher: CryptoJS.algo.SHA512, keySize: 64 / 8, iterations: 999 });
 
-    var encrypted = CryptoJS.AES.encrypt(plaintext, key, {iv: iv});
+  //   var encrypted = CryptoJS.AES.encrypt(plaintext, key, {iv: iv});
 
-    var data = {
-      ciphertext : CryptoJS.enc.Base64.stringify(encrypted.ciphertext),
-      salt : CryptoJS.enc.Hex.stringify(salt),
-      iv : CryptoJS.enc.Hex.stringify(iv)
-    };
+  //   var data = {
+  //     ciphertext : CryptoJS.enc.Base64.stringify(encrypted.ciphertext),
+  //     salt : CryptoJS.enc.Hex.stringify(salt),
+  //     iv : CryptoJS.enc.Hex.stringify(iv)
+  //   };
 
-    return JSON.stringify(data);
-  }
+  //   return JSON.stringify(data);
+  // }
 
-  CryptoJSAesDecrypt(passphrase, encryptedJsonString) {
-    var objJson = JSON.parse(encryptedJsonString);
-    var encrypted = objJson.ciphertext;
-    var salt = CryptoJS.enc.Hex.parse(objJson.salt);
-    var iv = CryptoJS.enc.Hex.parse(objJson.iv);
-    var key = CryptoJS.PBKDF2(passphrase, salt, { hasher: CryptoJS.algo.SHA512, keySize: 64 / 8, iterations: 999});
-    var decrypted = CryptoJS.AES.decrypt(encrypted, key, { iv: iv});
-    return decrypted.toString(CryptoJS.enc.Utf8);
-  }
+  // CryptoJSAesDecrypt(passphrase, encryptedJsonString) {
+  //   var objJson = JSON.parse(encryptedJsonString);
+  //   var encrypted = objJson.ciphertext;
+  //   var salt = CryptoJS.enc.Hex.parse(objJson.salt);
+  //   var iv = CryptoJS.enc.Hex.parse(objJson.iv);
+  //   var key = CryptoJS.PBKDF2(passphrase, salt, { hasher: CryptoJS.algo.SHA512, keySize: 64 / 8, iterations: 999});
+  //   var decrypted = CryptoJS.AES.decrypt(encrypted, key, { iv: iv});
+  //   return decrypted.toString(CryptoJS.enc.Utf8);
+  // }
 }

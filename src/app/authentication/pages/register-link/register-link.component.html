@@ -12,29 +12,41 @@
             </div>
             <div class="container-login100">
                 <div class="wrap-login100 p-6" style="width: 25%;">
-                    <form [formGroup]="formRegister" (ngSubmit)="register()" class="validate-form">
+                    <form [formGroup]="formRegister" class="validate-form">
                         <span class="login100-form-title">Registrarse</span>
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12 text-center" *ngIf="code_url">
                                 <small>Patrocinador: {{code_url.nombre}} {{code_url.apellido}}</small>
                             </div>
-                            <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="col-lg-5 col-md-5 col-sm-12">
                                 <br>
                                 <div class="form-group">
                                     <ng-select formControlName="pais"
                                             [items]="pais"
                                             bindLabel="name"
                                             bindValue="id"
-                                            placeholder="SELECCIONAR PAIS*"
+                                            placeholder="PAIS*"
                                             (change)="selectPais($event)">
                                     </ng-select>
+                                </div>
+                            </div>
+                            <div class="col-lg-7 col-md-7 col-sm-12">
+                                <br>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
+                                            <i class="fa fa-id-card" aria-hidden="true"></i>
+                                        </a>
+                                        <input autocomplete="off" class="form-control" type="text" formControlName="numDoc" 
+                                            placeholder="N° Documento" required>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-lg-12 col-md-12 col-sm-12">
                                 <div class="form-group">
                                     <div class="input-group">
                                         <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
-                                            <i class="zmdi zmdi-email" aria-hidden="true"></i>
+                                            <i class="fa fa-user" aria-hidden="true"></i>
                                         </a>
                                         <input autocomplete="off" class="form-control" type="text" formControlName="nombres" 
                                             placeholder="NOMBRES" required>
@@ -45,7 +57,7 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
-                                            <i class="zmdi zmdi-email" aria-hidden="true"></i>
+                                            <i class="fa fa-user" aria-hidden="true"></i>
                                         </a>
                                         <input autocomplete="off" class="form-control" type="text" formControlName="apellidos" 
                                             placeholder="APELLIDOS" required>
@@ -67,7 +79,7 @@
                                 <div class="form-group">
                                     <div class="input-group">
                                         <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
-                                            <i class="zmdi zmdi-email" aria-hidden="true"></i>
+                                            <i class="fa fa-phone" aria-hidden="true"></i>
                                         </a>
                                         <input autocomplete="off" class="form-control" placeholder="CELULAR"
                                            formControlName="celular" maxlength="9" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" >
@@ -86,7 +98,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="col-lg-12 col-md-12 col-sm-12">
                                 <div class="form-group">
                                     <div class="input-group">
                                         <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
@@ -97,16 +109,72 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-12">
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
-                                            <i class="zmdi zmdi-money" aria-hidden="true"></i>
-                                        </a>
-                                        <input autocomplete="off" class="form-control" placeholder="MONTO" (keyup)="getPack($event)"
-                                           formControlName="monto" maxlength="4" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" >
+                            <div class="col-lg-12 col-md-12 col-sm-12 row">
+                                <hr>
+                                <div class="col-lg-6 col-md-6 col-sm-12" *ngFor="let pack of packs">
+                                    <div class="card text-center text-uppercase justify-content-center" 
+                                        [style.border]=" '1px solid black !important'" [style.background]="pack.data.color">
+                                        <div style="margin: 1% 1% 1% 1%;">
+                                            <small>{{pack.name}}</small>
+                                            <br>
+                                            <small>{{pack.descriptions}} --> S/ {{pack.total_price}}</small>
+                                            <br>
+                                            <button (click)="openModalValidate()" class="btn btn-outline-primary btn-sm my-2">Seleccionar</button>
+                                        </div>
                                     </div>
                                 </div>
+                                <!-- <div class="card col-lg-4 col-md-4 col-sm-12 text-center text-uppercase justify-content-center"
+                                    style="border: 1px solid black !important;background:radial-gradient(circle, rgba(131,217,212,0.8631827731092436) 0%, rgba(55,134,73,0.6474964985994398) 100%)">
+                                    <div style="margin: 1% 1% 1% 1%;">
+                                        <small>Pack Empresarial</small>
+                                        <br>
+                                        <small>4 Pts  S/ 400</small>
+                                        <br>
+                                        <button (click)="openModalValidate()" class="btn btn-outline-primary btn-sm my-2">Seleccionar</button>
+                                    </div>
+                                </div>
+                                <div class="card col-lg-4 col-md-4 col-sm-12 text-center text-uppercase justify-content-center"
+                                    style="border: 1px solid black !important;background:radial-gradient(circle, rgba(131,217,212,0.8631827731092436) 0%, rgba(55,134,73,0.6474964985994398) 100%)">
+                                    <div style="margin: 1% 1% 1% 1%;">
+                                        <small>Pack Empresarial <br> Promoción</small>
+                                        <br>
+                                        <small>6 Pts  S/ 500</small>
+                                        <br>
+                                        <button (click)="openModalValidate()" class="btn btn-outline-primary btn-sm my-2">Seleccionar</button>
+                                    </div>
+                                </div>
+                                <div class="card col-lg-4 col-md-4 col-sm-12 text-center text-uppercase justify-content-center" 
+                                    style="border: 1px solid black !important;background: radial-gradient(circle, rgba(134,213,209,0.6082808123249299) 0%, rgba(0,212,255,1) 76%);">
+                                    <div style="margin: 1% 1% 1% 1%;">
+                                        <small>Pack Cristal</small>
+                                        <br>
+                                        <small>8 Pts  S/ 720</small>
+                                        <br>
+                                        <button (click)="openModalValidate()" class="btn btn-outline-primary btn-sm my-2">Seleccionar</button>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-12"></div>
+                                <div class="card col-lg-4 col-md-4 col-sm-12 text-center text-uppercase justify-content-center" 
+                                    style="border: 1px solid black !important;background: radial-gradient(circle, rgba(134,213,209,0.6082808123249299) 0%, rgba(0,212,255,1) 76%);">
+                                    <div style="margin: 1% 1% 1% 1%;">
+                                        <small>Pack Cristal <br> Promoción</small>
+                                        <br>
+                                        <small>12 Pts  S/ 920</small>
+                                        <br>
+                                        <button (click)="openModalValidate()" class="btn btn-outline-primary btn-sm my-2">Seleccionar</button>
+                                    </div>
+                                </div>
+                                <div class="card col-lg-4 col-md-4 col-sm-12 text-center text-uppercase justify-content-center" 
+                                    style="border: 1px solid black !important;background:linear-gradient(90deg, rgba(220,170,255,1) 2%, rgba(255,232,139,1) 47%, rgba(255,173,239,1) 100%);">
+                                    <div style="margin: 1% 1% 1% 1%;">
+                                        <small>Pack Diamante</small>
+                                        <br>
+                                        <small>30 Pts  S/ 2280</small>
+                                        <br>
+                                        <button (click)="openModalValidate()" class="btn btn-outline-primary btn-sm my-2">Seleccionar</button>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-md-2 col-sm-12"></div> -->
                             </div>
                             <div  class="col-sm-12 col-md-12 col-lg-12 text-center my-3 text-white" *ngIf="validate_pack">
                                 <ngb-alert type="success" [dismissible]="false">
@@ -128,7 +196,7 @@
                             <span class="custom-control-label">Aceptar los <a routerLink="/pages/extension/faqs">términos y condiciones</a></span>
                         </label> -->
                         <div class="container-login100-form-btn">
-                            <button type="submit" class="btn btn-block btn-outline-primary" [disabled]="!formRegister.valid">
+                            <button (click)="register()" class="btn btn-block btn-outline-primary" [disabled]="!formRegister.valid">
                                 Registro de afiliado
                             </button>
                         </div>
@@ -140,6 +208,64 @@
     </div>
     <!-- END PAGE -->
 </div>
+<!-- Modal Validar -->
+<ng-template #add let-modal>
+    <div class="modal-header">
+        <h5 class="modal-title"><b>Validar Pack</b></h5>
+        <button type="button" class="close" aria-label="Close" (click)="closeModalValidate()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <form [formGroup]="formPass" class="modal-body row">
+        <div class="col-sm-12 col-md-12 col-lg-12 mb-2">
+            <small>Banco</small>
+            <div class="form-group">
+                <ng-select formControlName="banco"
+                        [items]="banco"
+                        bindLabel="name"
+                        bindValue="id"
+                        placeholder="SELECCIONAR BANCO*">
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-12 mb-2">
+            <small>N° Operación</small>
+            <div class="form-group">
+                <div class="input-group">
+                    <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
+                        <i class="fa fa-reorder" aria-hidden="true"></i>
+                    </a>
+                    <input autocomplete="off" class="form-control" type="text" formControlName="operacion" placeholder="" required>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-12 mb-2">
+            <small>Fecha</small>
+            <div class="form-group">
+                <div class="input-group">
+                    <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                    </a>
+                    <input autocomplete="off" class="form-control" type="date" formControlName="fecha" required>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-12 mb-2">
+            <small>Imagen Comprobante Pago</small> 
+            <div class="custom-dropzone" ngx-dropzone [accept]="'image/*'" (change)="onSelect($event)">
+                <ngx-dropzone-label>
+                    Selecciona Nueva Imagen
+                </ngx-dropzone-label>
+                <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f"
+                    [removable]="true" (removed)="onRemove(f)">
+                    <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                </ngx-dropzone-image-preview>
+            </div>
+        </div>
+        <button class="col-sm-12 col-md-12 col-lg-12 my-2 btn btn-primary" [disabled]="!formPass.valid" (click)="update()">
+            <i class="fa fa-save"></i> Guardar</button>
+    </form>
+</ng-template>
 <!-- Modal finalizar -->
 <ng-template #modal_binance let-modal>
     <div class="modal-body row">

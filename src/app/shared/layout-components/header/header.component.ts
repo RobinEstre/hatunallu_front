@@ -43,16 +43,26 @@ export class HeaderComponent implements OnInit {
     public SwitcherService : SwitcherService, private router: Router, private logoutService: AuthServiceService
   ){}
 
-  profile:any
+  profile:any;userName:any;userImg:any
 
   ngOnInit(): void {
+    this.service.miVariable$.subscribe(data => {
+      if(data==true){
+        this.listInit()
+      }
+    });
     this.listInit()
   }
   
   listInit(){
     this.service.getProfile().subscribe(resp=>{
       if(resp.success){
+        let img_perfil= resp.data.data.img_perfil
         this.profile=resp.data;
+        this.service.setUserImg(img_perfil)
+        this.service.setUserName(this.profile.nombre +' '+ this.profile.apellido)
+        this.userName = localStorage.getItem('USERNAME');
+        this.userImg = localStorage.getItem('IMG_USER');
       }
     },error => {
     })

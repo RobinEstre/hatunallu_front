@@ -20,11 +20,12 @@
                                 <div class="profile-cover__action bg-img"></div>
                                 <div class="profile-cover__img">
                                     <a href="javascript:void(0)" class="profile-img-1" (click)="openModalIMG()">
-                                        <img src="{{profile.data.img_perfil}}" alt="img"/>
+                                        <img src="{{userImg}}" alt="img"/>
+                                        <!-- <img src="{{profile.data.img_perfil}}" alt="img"/> -->
                                     </a>
                                     <div class="profile-img-content text-dark text-start">
                                         <div class="text-dark">
-                                            <h3 class="h3 mb-2 text-capitalize">{{profile.nombre}} {{profile.apellido}}</h3>
+                                            <h3 class="h3 mb-2 text-capitalize">{{userName}}</h3>
                                             <h5 class="text-muted">Web Developer</h5>
                                         </div>
                                     </div>

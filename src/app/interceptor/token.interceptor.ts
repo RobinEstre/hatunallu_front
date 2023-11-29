@@ -15,10 +15,7 @@ import {Router} from '@angular/router';
 export class TokenInterceptorLOGIN implements HttpInterceptor {
     constructor(private loginService: AuthServiceService, private routes: Router) {}
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
-
         return next.handle(request).do((event: HttpEvent<any>) => {
-
         }, (err: any) => {
             if (err.status === 401) {
                 // redirect to the login route

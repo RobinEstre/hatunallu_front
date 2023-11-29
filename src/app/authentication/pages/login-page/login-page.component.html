@@ -10,14 +10,14 @@
                                   <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
                                       <li ngbNavItem="Firebase">
                                           <a ngbNavLink>
-                                              <img src="../../../../assets/images/firebase.svg" alt="">
+                                              <img src="https://cdn.discordapp.com/attachments/733805519617130506/1178127139413958666/Logo_JatunAyllu2.png?ex=65750366&is=65628e66&hm=9ef601f81b6e4359ff877ce3f1a55620af1b0c5785e58f67c266ce8c490e7ac9&" alt="">
                                           </a>
                                           <ng-template ngbNavContent>
                                               <form [formGroup]="loginForm" (ngSubmit)="login()">
                                                   <div class="text-center title-style mb-6">
-                                                      <h1 class="mb-2">AIGO</h1>
+                                                      <h1 class="mb-2">JATUN AYLLU</h1>
                                                       <hr>
-                                                      <p class="text-muted">Iniciar Sesión | AIGO</p>
+                                                      <p class="text-muted">Iniciar Sesión | JATUN AYLLU</p>
                                                   </div>
                                                   <div class="input-group mb-3">
                                                     <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
@@ -41,7 +41,7 @@
                                                       </button>
                                                   </div>
                                                   <div class="text-center col-12">
-                                                    <a routerLink="/custompages/forgot-password" class="text-primary ms-1 btn">
+                                                    <a routerLink="/auth/recover-password" class="text-primary ms-1 btn">
                                                         Recuperar contraseña</a>
                                                     <a routerLink="/auth/register" class="text-primary ms-1 btn">
                                                         Registrarse</a>

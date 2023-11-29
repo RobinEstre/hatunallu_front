@@ -9,5 +9,5 @@ export const environment = {
     appId: "********************************",
     measurementId: "********************************"
   },
-  urlAddress: 'https://api.aigo.red/api/'
+  urlAddress: 'https://api.jatunayllu.com/api/'
 };
