@@ -38,12 +38,12 @@ export class RecoverPasswordComponent implements OnInit {
           icon: "success",
           title: "Se envió un mensaje a su correo electrónico",
           showConfirmButton: false,
-          timer: 1500
+          timer: 2500
         });
         setTimeout(() => {
           this.disabled=""
           this.router.navigate(['/auth/login'])
-        }, 1500);
+        }, 2500);
       }
     }, error => {
       this.disabled=""

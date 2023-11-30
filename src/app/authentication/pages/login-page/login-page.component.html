@@ -21,9 +21,9 @@
                                                   </div>
                                                   <div class="input-group mb-3">
                                                     <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
-                                                      <i class="zmdi zmdi-email text-muted" aria-hidden="true"></i>
+                                                      <i class="fa fa-user text-muted" aria-hidden="true"></i>
                                                     </a>
-                                                    <input type="email" name="email" class="input100 border-start-0 form-control ms-0"
+                                                    <input class="input100 border-start-0 form-control ms-0"
                                                             placeholder="Ingrese usuario" formControlName="username" >
                                                   </div>
                                                   <div class="input-group mb-4">
@@ -37,10 +37,11 @@
                                                   <div class="col-12">
                                                       <button type="submit" class="btn btn-lg btn-primary btn-block {{disabled}}"
                                                               [disabled]="!loginForm.valid">
-                                                        Login
+                                                        Iniciar Sesión
                                                       </button>
                                                   </div>
                                                   <div class="text-center col-12">
+                                                    <br>
                                                     <a routerLink="/auth/recover-password" class="text-primary ms-1 btn">
                                                         Recuperar contraseña</a>
                                                     <a routerLink="/auth/register" class="text-primary ms-1 btn">
