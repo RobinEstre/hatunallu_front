@@ -6,6 +6,7 @@ import { Menu, NavService } from '../../services/nav.service';
 import { SwitcherService } from '../../services/switcher.service';
 import {AuthServiceService} from "../../../authentication/services/auth-service.service";
 import { GeneralService } from 'src/app/panel/services/general.service';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-header',
@@ -43,7 +44,7 @@ export class HeaderComponent implements OnInit {
     public SwitcherService : SwitcherService, private router: Router, private logoutService: AuthServiceService
   ){}
 
-  profile:any;userName:any;userImg:any
+  profile:any;userName:any;userImg:any;grupo:any
 
   ngOnInit(): void {
     this.service.miVariable$.subscribe(data => {

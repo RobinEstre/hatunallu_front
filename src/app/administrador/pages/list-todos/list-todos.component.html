@@ -1,0 +1,116 @@
+<div class="page-header">
+    <h1 class="page-title my-auto">Crypto</h1>
+    <div>
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"> <a href="javascript:void(0)"><i class="fe fe-home"></i></a></li> 
+            <li class="breadcrumb-item"> <a href="javascript:void(0)">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Registrados</li>
+        </ol> 
+    </div>
+</div>
+<div class="card">
+    <div class="card-header">
+        Holaaa
+    </div>
+    <form [formGroup]="formfiltros" class="card-body row">
+        <div class="col-md-12 col-sm-12 col-lg-3 mb-2">
+            <div class="form-group">
+            <small class="form-label"><b>Filtrar Estado</b></small>
+            <ng-select class="text-uppercase"
+                        formControlName="estados"
+                        [items]="estados"
+                        bindLabel="name"
+                        bindValue="id"
+                        placeholder="SELECCIONAR ESTADO"
+                        (change)="selectEstado($event)">
+            </ng-select>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <!--TABLA-->
+            <div class="table-responsive invoice-table" id="table">
+            <table class="table table-striped table-bordered" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+                <thead>
+                <tr>
+                    <th class="text-center">CLIENTE</th>
+                    <th class="text-center">DOCUMENTO</th>
+                    <th class="text-center">TELEFONO</th>
+                    <th class="text-center">EMAIL</th>
+                    <th class="text-center">BANCO</th>
+                    <th class="text-center">N° OPERACION</th>
+                    <th class="text-center">IMPORTE</th>
+                    <th class="text-center">COMPROBANTE</th>
+                    <th class="text-center">FECHA COMPROBANTE</th>
+                    <th class="text-center">VENDEDOR</th>
+                    <th class="text-center">REGISTRO</th>
+                    <th class="text-center">ACCION</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let valClientes of clientes">
+                    <td class="text-center text-dark">
+                        {{valClientes.data_referido.nombre}} {{valClientes.data_referido.apellido}}
+                    </td>
+                    <td class="text-center text-dark">
+                        {{valClientes.data_referido.dni}}
+                    </td>
+                    <td class="text-center text-dark">
+                        {{valClientes.data_referido.telefono}}
+                    </td>
+                    <td class="text-center text-dark">
+                        {{valClientes.data_referido.email}}
+                    </td>
+                    <td class="text-center text-dark">
+                        {{valClientes.banco_id}}
+                    </td>
+                    <td class="text-center text-dark">
+                        {{valClientes.numero_operacion}}
+                    </td>
+                    <td class="text-center text-dark">
+                        S/ {{valClientes.importe}}
+                    </td>
+                    <td class="text-center text-dark">
+                        <a href="javascript:void(0);" (click)="openModalIMG(valClientes)">Abrir Comprobante</a>
+                    </td>
+                    <td class="text-center text-dark">
+                        {{valClientes.fecha_pago | date:'d MMMM, y'}}
+                    </td>
+                    <td class="text-center text-dark">
+                        {{valClientes.patrocinador_id}}
+                    </td>
+                    <td class="text-center text-dark text-capitalize">
+                        {{valClientes.created_at | date:'d MMMM, y'}}
+                    </td>
+                    <td class="text-center">
+                        <a class="" href="javascript:void(0);" (click)="cambiarEstado(valClientes)" *ngIf="valClientes.estado_id==1">
+                            <i class="fa fa-file-text" aria-hidden="true"></i>
+                        </a>
+                        <p *ngIf="valClientes.estado_id!=1">
+                            ¡ Sin Acciones !
+                        </p>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- Modal IMG -->
+<ng-template #modal_img let-modal>
+    <div class="modal-body row">
+        <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+            <h5>Imagen Comprobante {{data_detalle.data_referido.nombre}} {{data_detalle.data_referido.apellido}}</h5>
+            <hr>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+           <img src="{{data_detalle.url_comprobante}}" alt="#" style="width: 100%;">
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+            <hr>
+            <button class="btn btn-danger" (click)="closeModalIMG()"> Cerrar</button>
+        </div>
+    </div>
+</ng-template>
+<!-- SPINNER -->
+<ngx-spinner type="timer"></ngx-spinner>

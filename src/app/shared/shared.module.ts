@@ -52,22 +52,22 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ToggleThemeDirective,
     ToggleThemeDirective,
   ],
-    imports: [
-        CommonModule,
-        NgbModule,
-        RouterModule,
-        PerfectScrollbarModule,
-        ColorPickerModule,
-        FormsModule,
-        MatProgressBarModule,
-        NgbModule,
-        NgSelectModule,
-    ],
-    exports: [
-        PageHeaderComponent,
-        ElementCardHeaderComponent,
-        ToggleThemeDirective
-    ],
+  imports: [
+    CommonModule,
+    NgbModule,
+    RouterModule,
+    PerfectScrollbarModule,
+    ColorPickerModule,
+    FormsModule,
+    MatProgressBarModule,
+    NgbModule,
+    NgSelectModule,
+  ],
+  exports: [
+      PageHeaderComponent,
+      ElementCardHeaderComponent,
+      ToggleThemeDirective
+  ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA
   ],

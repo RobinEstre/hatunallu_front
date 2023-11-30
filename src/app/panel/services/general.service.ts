@@ -49,15 +49,24 @@ export class GeneralService {
   public miVariable$ = new BehaviorSubject<boolean>(false);
 
   setUserName(userName: string) {
-      this.userName = userName;
-      localStorage.setItem(LocalhostKeys.USERNAME, userName);
+    this.userName = userName;
+    localStorage.setItem(LocalhostKeys.USERNAME, userName);
   }
 
   setUserImg(userImg: string) {
-      this.userImg = userImg;
-      localStorage.setItem(LocalhostKeys.IMG_USER, userImg);
+    this.userImg = userImg;
+    localStorage.setItem(LocalhostKeys.IMG_USER, userImg);
   }
 
+  listGrupos(){
+    return this.httpClient.get(this.envUrl.urlAddress + 'au/listar-grupos/', );
+  }
+  getBancos(){
+    return this.httpClient.get<any>(this.envUrl.urlAddress + 'au/listar/bancos/');
+  }
+  getDni(dni){
+    return this.httpClient.get<any>(this.envUrl.urlAddress + 'consultar-dni-ruc/?type=dni&num_doc='+dni);
+  }
   getProfile(){
     return this.httpClient.get<any>(this.envUrl.urlAddress + 'au/listar/datos-user/');
   }
@@ -74,7 +83,7 @@ export class GeneralService {
     return this.httpClient.post<any>(this.envUrl.urlAddress + 'red/codigo-qr/',data);
   }
   registerClient(data){
-    return this.httpClient.post<any>(this.envUrl.urlAddress + 'red/cliente/',data);
+    return this.httpClient.post<any>(this.envUrl.urlAddress + 'au/create/registro-referido/',data);
   }
   registerClientLink(data){
     return this.httpClient.post<any>(this.envUrl.urlAddress + 'red/link-referido/',data);

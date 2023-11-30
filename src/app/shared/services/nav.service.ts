@@ -2,6 +2,8 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { Subject, BehaviorSubject, fromEvent } from 'rxjs';
 import { takeUntil, debounceTime } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { UrlEnviromentService } from './url-enviroment.service';
 
 // Menu
 export interface Menu {
@@ -17,7 +19,8 @@ export interface Menu {
   selected?: boolean;
   bookmark?: boolean;
   children?: Menu[];
-  Menusub?: boolean;
+  //Menusub?: boolean;
+  menusub?: boolean;
   target?: boolean;
   items?: any;
 }
@@ -33,7 +36,7 @@ export class NavService implements OnDestroy {
   // Collapse Sidebar
   public collapseSidebar: boolean = window.innerWidth < 991 ? true : false;
 
-  constructor(private router: Router, private route: ActivatedRoute) {
+  constructor(private router: Router, private route: ActivatedRoute,private httpClient: HttpClient, private envUrl: UrlEnviromentService) {
     this.setScreenWidth(window.innerWidth);
     fromEvent(window, 'resize')
       .pipe(debounceTime(1000), takeUntil(this.unsubscriber))
@@ -51,6 +54,22 @@ export class NavService implements OnDestroy {
     }
   }
 
+  public _todos = new BehaviorSubject<Menu[]>([]);
+  public quantityCartObs = this._todos.asObservable();
+
+  public _ref= new BehaviorSubject<any>(null);
+  public refObs= this._ref.asObservable();
+
+  sendLista(menu: any) {
+    this._todos.next(menu);
+    //console.log(this._todos)
+  }
+
+  refreshGroupHeader(ref: any) {
+    this._ref.next(ref);
+    //console.log(this._todos)
+  }
+
   ngOnDestroy() {
     this.unsubscriber.next;
     this.unsubscriber.complete();
@@ -60,322 +79,326 @@ export class NavService implements OnDestroy {
     this.screenWidth.next(width);
   }
 
-  MENUITEMS: Menu[] = [
-    {
-      headTitle: 'INICIO',
-    },
-    {
-      title: 'Dashboard',
-      selected: false,
-      icon: 'home',
-      active: true,
-      path: '/panel',
-      type: 'link',
-      // badgeClass:
-      //   'badge bg-green br-5 side-badg, selected: falsee blink-text pb-1',
-      // badgeValue: 'New',
-    },
-    // {
-    //   headTitle: 'UI KIT',
-    // },
-    {
-      title: 'Referidos',
-      selected: false,
-      icon: 'file-plus',
-      active: true,
-      path: '/panel/referidos',
-      type: 'link',
-    },
-    {
-      path: '/panel/red',
-      icon: 'file-minus',
-      title: 'Mi Red',
-      type: 'link',
-    },
-    {
-      path: '/panel/perfil',
-      icon: 'inbox',
-      title: 'Mi Perfil',
-      type: 'link',
-      // badgeClass:
-      //   'badge bg-red br-5 side-badg, selected: falsee blink-text pb-1',
-      // badgeValue: '5',
-    },
-    /*
-    {
-      title: 'Apps',
-      selected: false,
-      icon: 'slack',
-      type: 'sub',
-      Menusub: true,
-      active: false,
-      children: [
-        {
-          path: '/apps/cards-design',
-          title: 'Cards Design',
-          type: 'link',
-          selected: false,
-        },
-        {
-          path: '/apps/default-calender',
-          title: 'Default calender',
-          type: 'link',
-          selected: false,
-        },
-        {
-          path: '/apps/full-calendar',
-          title: 'Full calendar',
-          type: 'link',
-          selected: false,
-        },
-        { path: '/apps/chat',
-          title: 'Chat', type: 'link', selected: false },
-        {
-          path: '/apps/notifications',
-          title: 'Notifications',
-          type: 'link',
-          selected: false,
-        },
-        {
-          path: '/apps/sweet-alerts',
-          title: 'Sweet alerts',
-          type: 'link',
-          selected: false,
-        },
-        {
-          path: '/apps/range-slider',
-          title: 'Range slider',
-          type: 'link',
-          selected: false,
-        },
-        {
-          path: '/apps/content-scroll-bar',
-          title: 'Content Scroll bar',
-          type: 'link',
-          selected: false,
-        },
-        {
-          path: '/apps/loaders',
-          title: 'Loaders',
-          type: 'link',
-          selected: false,
-        },
-        {
-          path: '/apps/counters',
-          title: 'Counters',
-          type: 'link',
-          selected: false,
-        },
-        {
-          path: '/apps/rating',
-          title: 'Rating',
-          type: 'link',
-          selected: false,
-        },
-        {
-          path: '/apps/timeline',
-          title: 'Timeline',
-          type: 'link',
-          selected: false,
-        },
-        {
-          path: '/apps/treeview',
-          title: 'Treeview',
-          type: 'link',
-          selected: false,
-        },
-        {
-          path: '/apps/charts',
-          title: 'Charts',
-          type: 'link',
-          selected: false,
-        },
-        {
-          path: '/apps/footers',
-          title: 'Footers',
-          type: 'link',
-          selected: false,
-        },
-        {
-          path: '/apps/user-list',
-          title: 'User List',
-          type: 'link',
-          selected: false,
-        },
-        {
-          path: '/apps/search',
-          title: 'Search',
-          type: 'link',
-          selected: false,
-        },
-        {
-          path: '/apps/crypyo-currencies',
-          title: 'Crypyo-currencies',
-          type: 'link',
-          selected: false,
-        },
-        {
-          path: '/apps/widgets',
-          title: 'Widgets',
-          type: 'link',
-          selected: false,
-        },
-      ],
-    },
-    {
-      title: 'Bootstrap',
-      selected: false,
-      icon: 'package',
-      type: 'mega-menu',
-      Menusub: true,
-      active: false,
-      children: [
-        {
-          items: [
-            {
-              path: '/bootstrap/alerts',
-              title: 'Alerts',
-              type: 'link',
-              selected: false,
-            },
-          ],
-        },
-        {
-          items: [
-            {
-              path: '/bootstrap/list-group',
-              title: 'List Group',
-              type: 'link',
-              selected: false,
-            },
-            {
-              path: '/bootstrap/tags',
-              title: 'Tags',
-              type: 'link',
-              selected: false,
-            },
-            {
-              path: '/bootstrap/pagination',
-              title: 'Pagination',
-              type: 'link',
-              selected: false,
-            },
-            {
-              path: '/bootstrap/navigation',
-              title: 'Navigation',
-              type: 'link',
-              selected: false,
-            },
-            {
-              path: '/bootstrap/typography',
-              title: 'Typography',
-              type: 'link',
-              selected: false,
-            },
-            {
-              path: '/bootstrap/breadcrumbs',
-              title: 'Breadcrumbs',
-              type: 'link',
-              selected: false,
-            },
-            {
-              path: '/bootstrap/badges-pills',
-              title: 'Badges/Pills',
-              type: 'link',
-              selected: false,
-            },
-          ],
-        },
-        {
-          items: [
-            {
-              path: '/bootstrap/panels',
-              title: 'Panels',
-              type: 'link',
-              selected: false,
-            },
-            {
-              path: '/bootstrap/thumbnails',
-              title: 'Thumbnails',
-              type: 'link',
-              selected: false,
-            },
-            {
-              path: '/bootstrap/offcanvas',
-              title: 'Offcanvas',
-              type: 'link',
-              selected: false,
-            },
-            {
-              path: '/bootstrap/toast',
-              title: 'Toast',
-              type: 'link',
-              selected: false,
-            },
-            {
-              path: '/bootstrap/scrollspy',
-              title: 'Scrollspy',
-              type: 'link',
-              selected: false,
-            },
-            {
-              path: '/bootstrap/media-object',
-              title: 'Media Object',
-              type: 'link',
-              selected: false,
-            },
-            {
-              path: '/bootstrap/accordions',
-              title: 'Accordions',
-              type: 'link',
-              selected: false,
-            },
-          ],
-        },
-        {
-          items: [
-            {
-              path: '/bootstrap/tabs',
-              title: 'Tabs',
-              type: 'link',
-              selected: false,
-            },
-            {
-              path: '/bootstrap/modal',
-              title: 'Modal',
-              type: 'link',
-              selected: false,
-            },
-            {
-              path: '/bootstrap/tooltip-and-popover',
-              title: 'Tooltip and popover',
-              type: 'link',
-              selected: false,
-            },
-            {
-              path: '/bootstrap/progress',
-              title: 'progress',
-              type: 'link',
-              selected: false,
-            },
-            {
-              path: '/bootstrap/carousels',
-              title: 'Carousels',
-              type: 'link',
-              selected: false,
-            },
-            {
-              path: '/bootstrap/ribbons',
-              title: 'Ribbons',
-              type: 'link',
-              selected: false,
-            },
-          ],
-        },
-      ],
-    },*/
-  ];
+  getMenu(data){
+    return this.httpClient.get<Menu[]>(this.envUrl.urlAddress + 'au/listar-menu/?grupo='+data, );
+  }
+
+  // MENUITEMS: Menu[] = [
+  //   {
+  //     headTitle: 'INICIO',
+  //   },
+  //   {
+  //     title: 'Dashboard',
+  //     selected: false,
+  //     icon: 'home',
+  //     active: true,
+  //     path: '/panel',
+  //     type: 'link',
+  //     // badgeClass:
+  //     //   'badge bg-green br-5 side-badg, selected: falsee blink-text pb-1',
+  //     // badgeValue: 'New',
+  //   },
+  //   // {
+  //   //   headTitle: 'UI KIT',
+  //   // },
+  //   {
+  //     title: 'Referidos',
+  //     selected: false,
+  //     icon: 'file-plus',
+  //     active: true,
+  //     path: '/panel/referidos',
+  //     type: 'link',
+  //   },
+  //   {
+  //     path: '/panel/red',
+  //     icon: 'file-minus',
+  //     title: 'Mi Red',
+  //     type: 'link',
+  //   },
+  //   {
+  //     path: '/panel/perfil',
+  //     icon: 'inbox',
+  //     title: 'Mi Perfil',
+  //     type: 'link',
+  //     // badgeClass:
+  //     //   'badge bg-red br-5 side-badg, selected: falsee blink-text pb-1',
+  //     // badgeValue: '5',
+  //   },
+  //   /*
+  //   {
+  //     title: 'Apps',
+  //     selected: false,
+  //     icon: 'slack',
+  //     type: 'sub',
+  //     Menusub: true,
+  //     active: false,
+  //     children: [
+  //       {
+  //         path: '/apps/cards-design',
+  //         title: 'Cards Design',
+  //         type: 'link',
+  //         selected: false,
+  //       },
+  //       {
+  //         path: '/apps/default-calender',
+  //         title: 'Default calender',
+  //         type: 'link',
+  //         selected: false,
+  //       },
+  //       {
+  //         path: '/apps/full-calendar',
+  //         title: 'Full calendar',
+  //         type: 'link',
+  //         selected: false,
+  //       },
+  //       { path: '/apps/chat',
+  //         title: 'Chat', type: 'link', selected: false },
+  //       {
+  //         path: '/apps/notifications',
+  //         title: 'Notifications',
+  //         type: 'link',
+  //         selected: false,
+  //       },
+  //       {
+  //         path: '/apps/sweet-alerts',
+  //         title: 'Sweet alerts',
+  //         type: 'link',
+  //         selected: false,
+  //       },
+  //       {
+  //         path: '/apps/range-slider',
+  //         title: 'Range slider',
+  //         type: 'link',
+  //         selected: false,
+  //       },
+  //       {
+  //         path: '/apps/content-scroll-bar',
+  //         title: 'Content Scroll bar',
+  //         type: 'link',
+  //         selected: false,
+  //       },
+  //       {
+  //         path: '/apps/loaders',
+  //         title: 'Loaders',
+  //         type: 'link',
+  //         selected: false,
+  //       },
+  //       {
+  //         path: '/apps/counters',
+  //         title: 'Counters',
+  //         type: 'link',
+  //         selected: false,
+  //       },
+  //       {
+  //         path: '/apps/rating',
+  //         title: 'Rating',
+  //         type: 'link',
+  //         selected: false,
+  //       },
+  //       {
+  //         path: '/apps/timeline',
+  //         title: 'Timeline',
+  //         type: 'link',
+  //         selected: false,
+  //       },
+  //       {
+  //         path: '/apps/treeview',
+  //         title: 'Treeview',
+  //         type: 'link',
+  //         selected: false,
+  //       },
+  //       {
+  //         path: '/apps/charts',
+  //         title: 'Charts',
+  //         type: 'link',
+  //         selected: false,
+  //       },
+  //       {
+  //         path: '/apps/footers',
+  //         title: 'Footers',
+  //         type: 'link',
+  //         selected: false,
+  //       },
+  //       {
+  //         path: '/apps/user-list',
+  //         title: 'User List',
+  //         type: 'link',
+  //         selected: false,
+  //       },
+  //       {
+  //         path: '/apps/search',
+  //         title: 'Search',
+  //         type: 'link',
+  //         selected: false,
+  //       },
+  //       {
+  //         path: '/apps/crypyo-currencies',
+  //         title: 'Crypyo-currencies',
+  //         type: 'link',
+  //         selected: false,
+  //       },
+  //       {
+  //         path: '/apps/widgets',
+  //         title: 'Widgets',
+  //         type: 'link',
+  //         selected: false,
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     title: 'Bootstrap',
+  //     selected: false,
+  //     icon: 'package',
+  //     type: 'mega-menu',
+  //     Menusub: true,
+  //     active: false,
+  //     children: [
+  //       {
+  //         items: [
+  //           {
+  //             path: '/bootstrap/alerts',
+  //             title: 'Alerts',
+  //             type: 'link',
+  //             selected: false,
+  //           },
+  //         ],
+  //       },
+  //       {
+  //         items: [
+  //           {
+  //             path: '/bootstrap/list-group',
+  //             title: 'List Group',
+  //             type: 'link',
+  //             selected: false,
+  //           },
+  //           {
+  //             path: '/bootstrap/tags',
+  //             title: 'Tags',
+  //             type: 'link',
+  //             selected: false,
+  //           },
+  //           {
+  //             path: '/bootstrap/pagination',
+  //             title: 'Pagination',
+  //             type: 'link',
+  //             selected: false,
+  //           },
+  //           {
+  //             path: '/bootstrap/navigation',
+  //             title: 'Navigation',
+  //             type: 'link',
+  //             selected: false,
+  //           },
+  //           {
+  //             path: '/bootstrap/typography',
+  //             title: 'Typography',
+  //             type: 'link',
+  //             selected: false,
+  //           },
+  //           {
+  //             path: '/bootstrap/breadcrumbs',
+  //             title: 'Breadcrumbs',
+  //             type: 'link',
+  //             selected: false,
+  //           },
+  //           {
+  //             path: '/bootstrap/badges-pills',
+  //             title: 'Badges/Pills',
+  //             type: 'link',
+  //             selected: false,
+  //           },
+  //         ],
+  //       },
+  //       {
+  //         items: [
+  //           {
+  //             path: '/bootstrap/panels',
+  //             title: 'Panels',
+  //             type: 'link',
+  //             selected: false,
+  //           },
+  //           {
+  //             path: '/bootstrap/thumbnails',
+  //             title: 'Thumbnails',
+  //             type: 'link',
+  //             selected: false,
+  //           },
+  //           {
+  //             path: '/bootstrap/offcanvas',
+  //             title: 'Offcanvas',
+  //             type: 'link',
+  //             selected: false,
+  //           },
+  //           {
+  //             path: '/bootstrap/toast',
+  //             title: 'Toast',
+  //             type: 'link',
+  //             selected: false,
+  //           },
+  //           {
+  //             path: '/bootstrap/scrollspy',
+  //             title: 'Scrollspy',
+  //             type: 'link',
+  //             selected: false,
+  //           },
+  //           {
+  //             path: '/bootstrap/media-object',
+  //             title: 'Media Object',
+  //             type: 'link',
+  //             selected: false,
+  //           },
+  //           {
+  //             path: '/bootstrap/accordions',
+  //             title: 'Accordions',
+  //             type: 'link',
+  //             selected: false,
+  //           },
+  //         ],
+  //       },
+  //       {
+  //         items: [
+  //           {
+  //             path: '/bootstrap/tabs',
+  //             title: 'Tabs',
+  //             type: 'link',
+  //             selected: false,
+  //           },
+  //           {
+  //             path: '/bootstrap/modal',
+  //             title: 'Modal',
+  //             type: 'link',
+  //             selected: false,
+  //           },
+  //           {
+  //             path: '/bootstrap/tooltip-and-popover',
+  //             title: 'Tooltip and popover',
+  //             type: 'link',
+  //             selected: false,
+  //           },
+  //           {
+  //             path: '/bootstrap/progress',
+  //             title: 'progress',
+  //             type: 'link',
+  //             selected: false,
+  //           },
+  //           {
+  //             path: '/bootstrap/carousels',
+  //             title: 'Carousels',
+  //             type: 'link',
+  //             selected: false,
+  //           },
+  //           {
+  //             path: '/bootstrap/ribbons',
+  //             title: 'Ribbons',
+  //             type: 'link',
+  //             selected: false,
+  //           },
+  //         ],
+  //       },
+  //     ],
+  //   },*/
+  // ];
 
   // Array
-  items = new BehaviorSubject<Menu[]>(this.MENUITEMS);
+  //items = new BehaviorSubject<Menu[]>(this.MENUITEMS);
 }

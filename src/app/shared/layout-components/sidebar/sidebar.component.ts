@@ -1,10 +1,13 @@
-import {Component,ViewEncapsulation,HostListener,ElementRef,} from '@angular/core';
+import {Component, ViewEncapsulation, HostListener, ElementRef, Input, OnInit} from '@angular/core';
 import {NavigationEnd,Router,} from '@angular/router';
 import { Menu, NavService } from '../../services/nav.service';
 import { switcherArrowFn, checkHoriMenu } from './sidebar';
 import { fromEvent, Subscription } from 'rxjs';
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
-//import { ProductdetailsService } from 'src/app/components/e-commerce/product-details/productdetails.service';
+import {AuthServiceService} from "../../../authentication/services/auth-service.service";
+import { PanelService } from '../../services/panel.service';
+import { GeneralService } from 'src/app/panel/services/general.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-sidebar',
@@ -12,34 +15,38 @@ import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
   styleUrls: ['./sidebar.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit {
+  token = localStorage.getItem('token');
+  url_logo = localStorage.getItem('empresa_logo');
   public menuItems!: Menu[];
   public url: any;
   public windowSubscribe$!: Subscription;
   public routerSubscription$!: Subscription;
+  public logo$!: Subscription;
   public menuitemsSubscribe$!: Subscription;
   public scrolled: boolean = false;
   @HostListener('window:scroll', [])
+  @Input() menu:any
   onWindowScroll() {
     this.scrolled = window.scrollY > 74;
   }
   constructor(
-    private breakpointObserver: BreakpointObserver,
-    private router: Router,
+    private breakpointObserver: BreakpointObserver,private servicePanel: PanelService, private generalService: GeneralService,
+    private router: Router,private spinner: NgxSpinnerService,
+    private service: AuthServiceService,
     private navServices: NavService,
     public elRef: ElementRef,
-    //public productdetailsService: ProductdetailsService
   ) {
 
   }
+  @Input()show:any
   public user!: { id: number };
 
-  ngOnInit() {
-    this.menuitemsSubscribe$ = this.navServices.items.subscribe(
-      (items) => (this.menuItems = items)
-    );
+  logos:any
 
-    this.checkCurrentPath(location.pathname);
+  ngOnInit() {
+    this.listMenu()
+
     this.routerSubscription$ = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         if (document.body.classList.contains('horizontal')) {
@@ -86,14 +93,6 @@ export class SidebarComponent {
         this.closeNavActive();
       }
     });
-    /*
-    this.productdetailsService.dynamicProductId.subscribe((value) => {
-      if (value !== null || value !== undefined) {
-        if (value.match('/e-commerce/shop'))
-          this.checkCurrentPath('/e-commerce/shop');
-        // any other path like invoice or other.
-      }
-    });*/
 
     this.checkCurrentPath('/e-commerce/shop');
 
@@ -105,45 +104,77 @@ export class SidebarComponent {
     });
   }
 
+  listMenu(){
+    this.spinner.show()
+    this.generalService.listGrupos().subscribe(resp => {
+      console.log(resp)
+      let name = null
+      resp['grupos'].forEach(i=>{
+        name = i
+      })
+      if(name){
+        localStorage.setItem('group_name', name)
+        this.navServices.getMenu(name).subscribe(menuItems => {
+          this.spinner.hide()
+          this.menuItems = menuItems['data'];
+          this.navServices.sendLista(this.menuItems)
+          this.servicePanel.sendShow(true)
+          this.navServices.refreshGroupHeader(true)          
+          this.menuitemsSubscribe$ = this.navServices.quantityCartObs.subscribe(
+            (items) => (this.menuItems = items)
+          )
+        }, error => {
+          this.spinner.hide()
+        })
+      }else {
+        this.spinner.hide()
+      }
+    }, error => {
+      this.spinner.hide()
+    })
+  }
+
   checkCurrentPath(event: string) {
-    this.menuItems.filter((firstLevel) => {
-      if (firstLevel.path === event) {
-        this.setNavActive(event);
-      }
-      if (!firstLevel.children) {
-        return;
-      }
-      firstLevel.children.filter((secondlevel) => {
-
-
-        if (secondlevel.path === event) {
-          this.setNavActive(secondlevel);
+    if(this.menuItems) {
+      this.menuItems.filter((firstLevel) => {
+        if (firstLevel.path === event) {
+          this.setNavActive(event);
         }
-        /*if(secondlevel.items){
-          secondlevel.items.filter((secondlevelitem) => {
-            if (secondlevelitem.path === event) {
-              this.setNavActive(secondlevelitem);
-            }
-          })
-        }*/
-        if (!secondlevel.children) {
+        if (!firstLevel.children) {
           return;
         }
-        secondlevel.children.filter((thirdlevel) => {
-          if (thirdlevel.path === event) {
-            this.setNavActive(thirdlevel);
+        firstLevel.children.filter((secondlevel) => {
+
+
+          if (secondlevel.path === event) {
+            this.setNavActive(secondlevel);
           }
-          if (!thirdlevel.children) {
+          /*if(secondlevel.items){
+            secondlevel.items.filter((secondlevelitem) => {
+              if (secondlevelitem.path === event) {
+                this.setNavActive(secondlevelitem);
+              }
+            })
+          }*/
+          if (!secondlevel.children) {
             return;
           }
-          thirdlevel.children.filter((fourthlevel) => {
-            if (fourthlevel.path === event) {
-              this.setNavActive(fourthlevel);
+          secondlevel.children.filter((thirdlevel) => {
+            if (thirdlevel.path === event) {
+              this.setNavActive(thirdlevel);
             }
+            if (!thirdlevel.children) {
+              return;
+            }
+            thirdlevel.children.filter((fourthlevel) => {
+              if (fourthlevel.path === event) {
+                this.setNavActive(fourthlevel);
+              }
+            });
           });
         });
       });
-    });
+    }
   }
 
   ngOnDestroy() {
@@ -153,36 +184,43 @@ export class SidebarComponent {
   }
 
   toggleNavActive(item: any) {
-    if (!item.active) {
-      this.menuItems.forEach((firstlevel: any) => {
-        if (this.menuItems.includes(item)) {
-          firstlevel.active = false;
-        }
-        if (!firstlevel.children) return;
-
-        firstlevel.children.forEach((secondlevel: any) => {
-          if (firstlevel.children.includes(secondlevel)) {
-            secondlevel.active = false;
+    console.log(item)
+    if(item.type=='sub'){
+      if (!item.active) {
+        this.menuItems.forEach((firstlevel: any) => {
+          if (this.menuItems.includes(item)) {
+            firstlevel.active = false;
           }
-          if (!secondlevel.children) return;
-
-          secondlevel.children.forEach((thirdlevel: any) => {
-            if (secondlevel.children.includes(thirdlevel)) {
-              thirdlevel.active = false;
-            }
-            if (!thirdlevel.children) return;
-
-            thirdlevel.children.forEach((fourthlevel: any) => {
-              if (thirdlevel.children.includes(fourthlevel)) {
-                fourthlevel.active = false;
+          if (!firstlevel.children) return;
+          if (firstlevel.children) {
+            firstlevel.children.forEach((secondlevel: any) => {
+              if (firstlevel.children.includes(secondlevel)) {
+                secondlevel.active = false;
               }
-              if (!fourthlevel.children) return;
+              if (!secondlevel.children) return;
+
+              secondlevel.children.forEach((thirdlevel: any) => {
+                if (secondlevel.children.includes(thirdlevel)) {
+                  thirdlevel.active = false;
+                }
+                if (!thirdlevel.children) return;
+
+                thirdlevel.children.forEach((fourthlevel: any) => {
+                  if (thirdlevel.children.includes(fourthlevel)) {
+                    fourthlevel.active = false;
+                  }
+                  if (!fourthlevel.children) return;
+                });
+              });
             });
-          });
+          }
         });
-      });
+      }
+      item.active = !item.active;
     }
-    item.active = !item.active;
+    else {
+      this.sidebarClose()
+    }
   }
 
   setNavActive(item: any) {
@@ -290,5 +328,11 @@ export class SidebarComponent {
       document.querySelector('.app')?.classList.remove('sidenav-toggled');
       this.navServices.collapseSidebar = false;
     }
+  }
+
+  logout(){
+    this.service.isLogoutUnathorizated()
+
+    return this.router.navigate(['/']);
   }
 }

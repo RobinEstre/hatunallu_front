@@ -120,7 +120,8 @@
                                         <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
                                             <i class="fa fa-id-card" aria-hidden="true"></i>
                                         </a>
-                                        <input autocomplete="off" class="form-control" type="text" formControlName="numDoc" 
+                                        <input autocomplete="off" class="form-control" type="text" formControlName="numDoc" (keyup)="getInfoCliente($event)"
+                                            onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"
                                             placeholder="N° Documento" required>
                                     </div>
                                 </div>

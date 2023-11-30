@@ -32,7 +32,8 @@
                                         <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
                                             <i class="fa fa-id-card" aria-hidden="true"></i>
                                         </a>
-                                        <input autocomplete="off" class="form-control" type="text" formControlName="numDoc" 
+                                        <input autocomplete="off" class="form-control" type="text" formControlName="numDoc" (keyup)="getInfoCliente($event)"
+                                            onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"
                                             placeholder="N° Documento" required>
                                     </div>
                                 </div>
@@ -114,18 +115,29 @@
                                             <br>
                                             <small>{{pack.descriptions}} --> S/ {{pack.total_price}}</small>
                                             <br>
-                                            <button (click)="openModal()" class="btn btn-outline-primary btn-sm my-2">Seleccionar</button>
+                                            <button (click)="openModal(pack)" class="btn btn-outline-primary btn-sm my-2">Seleccionar</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <label class="custom-control custom-checkbox mt-4">
+                        <div  class="col-sm-12 col-md-12 col-lg-12 text-center my-3 text-white" *ngIf="!validar_pago">
+                            <ngb-alert type="warning" [dismissible]="false">
+                                <i class="fa fa-money me-2" aria-hidden="true"></i> <b> Falta Subir el Comprobante del Pago</b><br>
+                            </ngb-alert>
+                        </div>   
+                        <div  class="col-sm-12 col-md-12 col-lg-12 text-center my-3 text-white" *ngIf="validar_pago">
+                            <ngb-alert type="success" [dismissible]="false">
+                                <i class="fa fa-money me-2" aria-hidden="true"></i> <b> Comprobante de Pago Subido</b><br>
+                            </ngb-alert>
+                        </div>   
+                        <!-- <label class="custom-control custom-checkbox mt-4">
                             <input type="checkbox" class="custom-control-input">
                             <span class="custom-control-label">Aceptar los <a routerLink="/pages/extension/faqs">términos y condiciones</a></span>
-                        </label>
+                        </label> -->
                         <div class="container-login100-form-btn">
-                            <button (click)="register()" class="btn btn-block btn-outline-primary" [disabled]="!formRegister.valid">
+                            <button (click)="register()" class="btn btn-block btn-outline-primary" *ngIf="validar_pago"
+                                [disabled]="!formRegister.valid">
                                 Registrarme
                             </button>
                         </div>
@@ -194,7 +206,7 @@
                 </ngx-dropzone-image-preview>
             </div>
         </div>
-        <button class="col-sm-12 col-md-12 col-lg-12 my-2 btn btn-primary" [disabled]="!formPass.valid" (click)="update()">
+        <button class="col-sm-12 col-md-12 col-lg-12 my-2 btn btn-primary" [disabled]="!formPass.valid" (click)="update()" *ngIf="files.length>0">
             <i class="fa fa-save"></i> Guardar</button>
     </form>
 </ng-template>

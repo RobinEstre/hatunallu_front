@@ -109,7 +109,8 @@ export class ReferidosComponent implements OnInit {
           this.generateQr()
         }else{
           this.info_qr=resp.info
-          this.textoACopiar='http://localhost:4200/auth/register-link/'+this.info_qr.code_url
+          this.textoACopiar='https://app.jatunayllu.com/auth/register-link/'+this.info_qr.code_url
+          //this.textoACopiar='http://localhost:4200/auth/register-link/'+this.info_qr.code_url
         }
       }
     })
@@ -149,6 +150,9 @@ export class ReferidosComponent implements OnInit {
   }
 
   selectPais(event){
+    this.formRegister.controls.numDoc.setValue('')
+    this.formRegister.controls.nombres.setValue('')
+    this.formRegister.controls.apellidos.setValue('')
     this.prefijo.forEach(i=>{
       if(i.id==event.id){
         this.formRegister.controls.prefijo.setValue(i.id)
@@ -226,6 +230,35 @@ export class ReferidosComponent implements OnInit {
   copiarLink() {
     this.clipboard.copy(this.txtCopiarBinance);
     this.toastr.success('Link copiado', 'Genial!');
+  }
+
+  getInfoCliente(event){
+    const inputValue = event.target.value;
+    let num_doc= this.formRegister.controls.numDoc.value
+    if(this.formRegister.controls.pais.value=='PER'){
+      if(inputValue.length === 8){
+        this.formRegister.controls.numDoc.disable()
+        this.spinner.show()
+        this.service.getDni(num_doc).subscribe(dni=>{
+          if(dni.success){
+            this.formRegister.controls.nombres.setValue(dni['data']['nombres'])
+            this.formRegister.controls.apellidos.setValue(dni['data']['apellidoPaterno']+' '+dni['data']['apellidoMaterno'])
+            this.formRegister.controls.numDoc.enable()
+            this.spinner.hide()
+            return
+          }else{
+            this.formRegister.controls.numDoc.setValue('')
+            this.formRegister.controls.numDoc.enable()
+            this.spinner.hide()
+            return
+          }
+        })
+      }
+      else{
+        this.formRegister.controls.nombres.setValue('')
+        this.formRegister.controls.apellidos.setValue('')
+      }
+    }
   }
 
   sendData(){

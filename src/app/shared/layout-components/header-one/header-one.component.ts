@@ -72,9 +72,9 @@ export class HeaderOneComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.navServices.items.subscribe((menuItems) => {
+    /*this.navServices.items.subscribe((menuItems) => {
       this.items = menuItems;
-    });
+    });*/
     // To clear and close the search field by clicking on body
     document.querySelector('.main-content')?.addEventListener('click',()=>{
       this.clearSearch();

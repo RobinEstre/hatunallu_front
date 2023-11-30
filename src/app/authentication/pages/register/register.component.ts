@@ -60,7 +60,7 @@ export class RegisterComponent implements OnInit {
       name:"SCOTIABANK"
     },
   ]
-  pais:any=[]; prefijo:any=[]; files: File[] = []; packs:any
+  pais:any=[]; prefijo:any=[]; files: File[] = []; packs:any; validar_pago:boolean=false; data_pago:any; data_pack:any
 
   ngOnInit(): void {
     this.list()
@@ -130,7 +130,10 @@ export class RegisterComponent implements OnInit {
     this.error = {name : '' , message:''};
   }
 
-  openModal(){
+  openModal(data){
+    this.data_pack=data
+    this.data_pago=null
+    this.validar_pago=false
     this.formPass.reset()
     this.modalRefAdd = this.modalService.open(this.modalContentAdd, {backdrop : 'static', centered: true, 
       windowClass: 'animate__animated animate__backInUp', size: 'sm', keyboard: false  });
@@ -141,18 +144,124 @@ export class RegisterComponent implements OnInit {
     this.modalRefAdd.close()
   }
 
-  update(){}
+  update(){
+    this.spinner.show()
+    for(let a=0; a<this.files.length; a++){
+      const formData = new FormData()
+      formData.append("bucket", 'jatun-files');
+      formData.append("nombre", this.files[a].name);
+      formData.append("folder", 'vouchers-referido/');
+      formData.append('files', this.files[a], this.files[a].name);
+
+      this.service.subirIMG(formData).subscribe(data => {
+        if(data['success']==true){
+          let url= data['data'][0]['url']
+          this.data_pago={
+            "num_operacion": this.formPass.controls.operacion.value,
+            "url_comprobante": url,
+            "importe": +this.data_pack.total_price,
+            "banco_id": this.formPass.controls.banco.value,
+            "fecha_pago": this.formPass.controls.fecha.value,
+          }
+          this.validar_pago=true
+          this.closeModal()
+          this.spinner.hide()
+        }
+      },error => {
+        if(error.status==400){
+          Swal.fire({
+            title: 'Advertencia!',
+            text: error.error.message,
+            icon: 'error',
+            showCancelButton: true,
+            showConfirmButton: false,
+            cancelButtonColor: '#c02c2c',
+            cancelButtonText: 'Cerrar'
+          })
+        }
+        if(error.status==500){
+          Swal.fire({
+            title: 'Advertencia!',
+            text: 'Comuniquese con el Área de Sistemas',
+            icon: 'error',
+            showCancelButton: true,
+            showConfirmButton: false,
+            cancelButtonColor: '#c02c2c',
+            cancelButtonText: 'Cerrar'
+          })
+        }
+        // this.closeModal()
+        this.spinner.hide()
+      })
+    }
+  }
 
   register(){
-    this.clearErrorMessage();
-    if (this.validateForm(this.email, this.password)) {
-      // this.authservice.registerWithEmail(this.email, this.password).then(() => {
-      //   this.message = "you are register with data on firbase"
-      //   this.router.navigate(['/dashboard'])
-      // }).catch((_error:any) => {
-      //   this.error = _error
-      //   this.router.navigate(['/auth/register'])
-      // })
+    if(this.data_pago){
+      this.spinner.show()
+      let body={
+        "referido": {
+          "email": this.formRegister.controls.email.value,
+          "dni": this.formRegister.controls.numDoc.value, 
+          "nombre": this.formRegister.controls.nombres.value,
+          "apellido": this.formRegister.controls.apellidos.value,
+          "telefono" : this.formRegister.controls.celular.value,
+          "direccion" : null,
+          "data": {
+            "pais": this.formRegister.controls.pais.value,
+            "prefijo": this.formRegister.controls.prefijo.value
+          }
+        },
+        "num_operacion": this.data_pago.num_operacion,
+        "url_comprobante": this.data_pago.url_comprobante,
+        "importe": this.data_pago.importe,
+        "banco_id": this.data_pago.banco_id,
+        "estado_id": 1,
+        "patrocinador_id": null,
+        "fecha_pago": this.data_pago.fecha_pago,
+        "pack_id": this.data_pack.id
+      }
+      this.service.registerClient(body).subscribe(resp=>{
+        if(resp.success){
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Registrado Correctamente Esperar la Validación",
+            showConfirmButton: false,
+            timer: 2500
+          });
+          this.validar_pago=false
+          this.formRegister.reset()
+          this.formPass.reset()
+          this.spinner.hide()
+          setTimeout(() => {
+            this.router.navigate(['/auth/login'])
+          }, 2500);
+        }
+      }, error => {
+        this.spinner.hide()
+        if (error.status === 500){
+          Swal.fire({
+            title: 'Oops!',
+            text: 'Ocurrio un incidente en el servidor, contactate con el area de sistemas',
+            icon: 'error',
+            showCancelButton: true,
+            showConfirmButton: false,
+            cancelButtonColor: '#c02c2c',
+            cancelButtonText: 'Cerrar ventana'
+          })
+        }else if (error.status === 400){
+          Swal.fire({
+            title: 'Oops!',
+            text: error.error.message,
+            icon: 'error',
+            showCancelButton: true,
+            showConfirmButton: false,
+            cancelButtonColor: '#c02c2c',
+            cancelButtonText: 'Cerrar ventana'
+          })
+        }
+      })
     }
   }
 
@@ -180,11 +289,43 @@ export class RegisterComponent implements OnInit {
   }
 
   selectPais(event){
+    this.formRegister.controls.numDoc.setValue('')
+    this.formRegister.controls.nombres.setValue('')
+    this.formRegister.controls.apellidos.setValue('')
     this.prefijo.forEach(i=>{
       if(i.id==event.id){
         this.formRegister.controls.prefijo.setValue(i.id)
       }
     })
+  }
+
+  getInfoCliente(event){
+    const inputValue = event.target.value;
+    let num_doc= this.formRegister.controls.numDoc.value
+    if(this.formRegister.controls.pais.value=='PER'){
+      if(inputValue.length === 8){
+        this.formRegister.controls.numDoc.disable()
+        this.spinner.show()
+        this.service.getDni(num_doc).subscribe(dni=>{
+          if(dni.success){
+            this.formRegister.controls.nombres.setValue(dni['data']['nombres'])
+            this.formRegister.controls.apellidos.setValue(dni['data']['apellidoPaterno']+' '+dni['data']['apellidoMaterno'])
+            this.formRegister.controls.numDoc.enable()
+            this.spinner.hide()
+            return
+          }else{
+            this.formRegister.controls.numDoc.setValue('')
+            this.formRegister.controls.numDoc.enable()
+            this.spinner.hide()
+            return
+          }
+        })
+      }
+      else{
+        this.formRegister.controls.nombres.setValue('')
+        this.formRegister.controls.apellidos.setValue('')
+      }
+    }
   }
 
   onSelect(event: { addedFiles: any; }) {

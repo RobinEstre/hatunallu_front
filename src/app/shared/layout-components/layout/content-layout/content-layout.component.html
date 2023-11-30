@@ -2,9 +2,9 @@
 <div class="page">
   <div class="page-main">
     <!-- // header -->
-    <app-header></app-header>
+    <app-header [show]="show" (miEvento) = "sidebar($event)" ></app-header>
     <!-- //sidebar -->
-    <app-sidebar appHoverEffectSidebar></app-sidebar>
+    <app-sidebar [show]="show" appHoverEffectSidebar [menu]="data_menu"></app-sidebar>
     <div class="jumps-prevent" style="padding-top: 74px;"></div>
     <div class="main-content app-content mt-0">
       <app-loader></app-loader>
