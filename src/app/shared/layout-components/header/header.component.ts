@@ -89,18 +89,8 @@ export class HeaderComponent implements OnInit {
   }
 
   signout() {
-    localStorage.removeItem('token');
-    return this.router.navigate(['/auth/login']);
-    const path = 'users/logout/?token=' + this.token;
-    this.logoutService.logout(path).subscribe(resp => {
-      if (resp['success'] === true) {
-        localStorage.removeItem('token');
-        localStorage.removeItem('rus');
-        localStorage.removeItem('loggedIn');
-        localStorage.removeItem('user');
-        return this.router.navigate(['/authentication/login']);
-      }
-    });
+    this.logoutService.isLogoutUnathorizated()
+    return this.router.navigate(['/']);    
   }
 
   changeTheme(n){
