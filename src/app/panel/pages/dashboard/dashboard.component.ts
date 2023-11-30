@@ -29,13 +29,12 @@ export class DashboardComponent implements OnInit {
       resp['grupos'].forEach(i=>{
         name = i
       })
-      console.log(name)
       if(name){
-        console.log('paso la condicional')
         localStorage.setItem('group_name', name)
         this.navServices.getMenu(name).subscribe(menuItems => {
           this.spinner.hide()
           this.menuItems = menuItems['data'];
+          console.log(this.menuItems)
           this.navServices.sendLista(this.menuItems)
           this.servicePanel.sendShow(true)
           this.navServices.refreshGroupHeader(true)

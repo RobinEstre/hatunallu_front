@@ -42,24 +42,7 @@ export class RegisterComponent implements OnInit {
     pais: [null],
     prefijo: [null],
   });
-  banco:any=[
-    {
-      id:0,
-      name:"INTERBANK"
-    },
-    {
-      id:0,
-      name:"BCP"
-    },
-    {
-      id:0,
-      name:"BBVA"
-    },
-    {
-      id:0,
-      name:"SCOTIABANK"
-    },
-  ]
+  banco:any
   pais:any=[]; prefijo:any=[]; files: File[] = []; packs:any; validar_pago:boolean=false; data_pago:any; data_pack:any
 
   ngOnInit(): void {
@@ -99,6 +82,11 @@ export class RegisterComponent implements OnInit {
         }
       })
       this.listPacks()
+    })
+    this.service.getBancos().subscribe(resp=>{
+      if(resp.success){
+        this.banco=resp.data
+      }
     })
   }
 

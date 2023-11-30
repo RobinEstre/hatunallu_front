@@ -18,7 +18,7 @@ export class PanelService {
 
   sendShow(menu: any) {
     this._show.next(menu);
-    console.log(this._show+'HOLAAA  ')
+    //console.log(this._show)
   }
 
   sendEmpresaHeader(status: any){

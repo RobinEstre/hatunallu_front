@@ -1,5 +1,5 @@
 <div class="page-header">
-    <h1 class="page-title my-auto">Crypto</h1>
+    <h1 class="page-title my-auto">Jatun Ayllu</h1>
     <div>
         <ol class="breadcrumb mb-0">
             <li class="breadcrumb-item"> <a href="/"><i class="fe fe-home"></i></a></li>
@@ -180,7 +180,7 @@
                                             <br>
                                             <small>{{pack.descriptions}} --> S/ {{pack.total_price}}</small>
                                             <br>
-                                            <button (click)="openModalValidate()" class="btn btn-outline-primary btn-sm my-2">Seleccionar</button>
+                                            <button (click)="openModalValidate(pack)" class="btn btn-outline-primary btn-sm my-2">Seleccionar</button>
                                         </div>
                                     </div>
                                 </div>                                
@@ -194,13 +194,17 @@
                                         <button (click)="openModalValidate()" class="btn btn-outline-primary btn-sm my-2">Seleccionar</button>
                                     </div>
                                 </div> -->
-                            </div>
-                            <div  class="col-sm-12 col-md-12 col-lg-12 text-center my-3 text-white" *ngIf="validate_pack">
-                                <ngb-alert type="success" [dismissible]="false">
-                                    <i class="fa fa-money me-2" aria-hidden="true"></i> <b>{{detail_pack.name}}</b><br>
-                                    <small>{{detail_pack.descriptions}}</small>
+                            </div>         
+                            <div  class="col-sm-12 col-md-12 col-lg-12 text-center my-3 text-white" *ngIf="!validar_pago">
+                                <ngb-alert type="warning" [dismissible]="false">
+                                    <i class="fa fa-money me-2" aria-hidden="true"></i> <b> Falta Subir el Comprobante del Pago</b><br>
                                 </ngb-alert>
-                            </div>                              
+                            </div>   
+                            <div  class="col-sm-12 col-md-12 col-lg-12 text-center my-3 text-white" *ngIf="validar_pago">
+                                <ngb-alert type="success" [dismissible]="false">
+                                    <i class="fa fa-money me-2" aria-hidden="true"></i> <b> Comprobante de Pago Subido</b><br>
+                                </ngb-alert>
+                            </div>                      
                             <!-- <div class="col-lg-12 col-md-12 col-sm-12">
                                 <label class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input">
@@ -210,7 +214,8 @@
                                 </label>
                             </div> -->
                             <div class="col-lg-12 col-md-12 col-sm-12">
-                                <button (click)="sendData()" class="btn btn-block btn-outline-primary" style="font-size:15px" [disabled]="!formRegister.valid">
+                                <button (click)="sendData()" class="btn btn-block btn-outline-primary" style="font-size:15px" *ngIf="validar_pago"
+                                    [disabled]="!formRegister.valid">
                                   Registrar
                                 </button>
                             </div>

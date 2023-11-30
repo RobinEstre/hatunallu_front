@@ -1,22 +1,21 @@
 import { Component, OnInit, LOCALE_ID, ViewChild, TemplateRef } from '@angular/core';
 import {DataTableDirective} from "angular-datatables";
 import { NgxSpinnerService } from 'ngx-spinner';
-import { AdminService } from '../../services/admin.service';
 import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 import {DatePipe, registerLocaleData} from "@angular/common";
 import { Subject } from 'rxjs';
 import localeEs from '@angular/common/locales/es';
 import Swal from "sweetalert2";
 import { FormBuilder, Validators } from '@angular/forms';
+import { AlmacenService } from '../../services/almacen.service';
 registerLocaleData(localeEs, 'es');
 
 @Component({
-  selector: 'app-list-todos',
-  templateUrl: './list-todos.component.html',
-  styleUrls: ['./list-todos.component.scss'],
-  providers: [ { provide: LOCALE_ID, useValue: 'es' }, DatePipe]
+  selector: 'app-productos',
+  templateUrl: './productos.component.html',
+  styleUrls: ['./productos.component.scss']
 })
-export class ListTodosComponent implements OnInit {
+export class ProductosComponent implements OnInit {
   public static spanish_datatables = {
     processing: "Procesando...",
     search: "Buscar:",
@@ -66,12 +65,12 @@ export class ListTodosComponent implements OnInit {
       sortDescending: ": Activar para ordenar la tabla en orden descendente"
     }
   }
-  @ViewChild('modal_img') private modalContentIMG: TemplateRef<ListTodosComponent>;
+  @ViewChild('modal_img') private modalContentIMG: TemplateRef<ProductosComponent>;
   private modalRefIMG: NgbModalRef;
   @ViewChild(DataTableDirective, {static: false})
   dtElement: DataTableDirective;
 
-  constructor(private service: AdminService,private spinner: NgxSpinnerService,private fb: FormBuilder,private modalService: NgbModal) { }
+  constructor(private service: AlmacenService,private spinner: NgxSpinnerService, private fb: FormBuilder,private modalService: NgbModal) { }
   dtOptions: any;
   dtTrigger: Subject<any> = new Subject<any>();
 
@@ -146,7 +145,7 @@ export class ListTodosComponent implements OnInit {
         { extend: 'excelHtml5', className: 'btn btn-success text-white', title:'Reporte Clientes'},
         { extend: 'colvis', className: 'btn btn-warning'},
       ],
-      language: ListTodosComponent.spanish_datatables
+      language: ProductosComponent.spanish_datatables
     }
     this.service.listClientes(estado).subscribe(resp => {
       if(resp['success']==true){

@@ -10,4 +10,8 @@ export const content: Routes = [
     path:'admin',
     loadChildren: () => import('../../administrador/administrador.module').then(m => m.AdministradorModule)
   },
+  {
+    path:'almacen',
+    loadChildren: () => import('../../almacen/almacen.module').then(m => m.AlmacenModule)
+  },
 ];

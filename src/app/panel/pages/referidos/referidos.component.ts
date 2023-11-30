@@ -35,32 +35,14 @@ export class ReferidosComponent implements OnInit {
     apellidos : ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
     celular : ['', Validators.required],
-    monto : ['', Validators.required],
     numDoc : ['', Validators.required],
     pais : [null],
     prefijo : [null],
   });
 
-  banco:any=[
-    {
-      id:0,
-      name:"INTERBANK"
-    },
-    {
-      id:0,
-      name:"BCP"
-    },
-    {
-      id:0,
-      name:"BBVA"
-    },
-    {
-      id:0,
-      name:"SCOTIABANK"
-    },
-  ];
+  banco:any
   pais:any=[]; prefijo:any=[]; packs:any; validate_pack:any=false; detail_pack:any; info_qr:any; text_modal:any; textoACopiar:any
-  data_binance:any; txtCopiarBinance:any; files: File[] = [];
+  data_binance:any; txtCopiarBinance:any; files: File[] = []; validar_pago:boolean=false; data_pago:any; data_pack:any; data_user:any
 
   ngOnInit(): void {
     this.listCountries()
@@ -100,9 +82,19 @@ export class ReferidosComponent implements OnInit {
       })
       this.listInit()
     })
+    this.service.getBancos().subscribe(resp=>{
+      if(resp.success){
+        this.banco=resp.data
+      }
+    })
   }
 
   listInit(){
+    this.service.getProfile().subscribe(resp=>{
+      if(resp.success){
+        this.data_user=resp.data_usuario;
+      }
+    })
     this.service.getQr().subscribe(resp=>{
       if(resp.success){
         if(resp.info==null){
@@ -160,25 +152,6 @@ export class ReferidosComponent implements OnInit {
     })
   }
 
-  getPack(event){
-    const value = +event.target.value;
-    //const value:any = this.formRegister.controls.monto.value;
-    if(+value<1 || +value==0){this.formRegister.controls.monto.setValue('');this.validate_pack=false}
-    else{this.validatePack(value)}
-    console.log(value)
-  }
-
-  validatePack(value){
-    this.packs.forEach(i=>{
-      let data= JSON.parse(i.data)
-      if(+data.rango[0]<=+value&&+value<=+data.rango[1]){
-        console.log(data.rango[0]+','+value+','+data.rango[1])
-        this.validate_pack=true
-        this.detail_pack=i
-      }
-    })
-  }
-
   openModal(text) {
     this.text_modal=text
     this.modalRef = this.modalService.open(this.modalContent, { centered: true, size: 'md', keyboard: false, backdrop: 'static' });
@@ -189,7 +162,10 @@ export class ReferidosComponent implements OnInit {
     this.modalRef.close();
   }
 
-  openModalValidate(){
+  openModalValidate(data){
+    this.data_pack=data
+    this.data_pago=null
+    this.validar_pago=false
     this.formPass.reset()
     this.modalRefAdd = this.modalService.open(this.modalContentAdd, {backdrop : 'static', centered: true, 
       windowClass: 'animate__animated animate__backInUp', size: 'sm', keyboard: false  });
@@ -261,75 +237,123 @@ export class ReferidosComponent implements OnInit {
     }
   }
 
-  sendData(){
+  update(){
     this.spinner.show()
-    let body={
-      "cliente": {
-        "nombre": this.formRegister.controls.nombres.value,
-        "apellido": this.formRegister.controls.apellidos.value,
-        "email": this.formRegister.controls.email.value,
-        "telefono": this.formRegister.controls.celular.value,
-        "dni": null,
-        "fecha_nacimiento": null,
-        "direccion": null,
-        "data": {
-          "pais": this.formRegister.controls.pais.value,
-          "prefijo": this.formRegister.controls.prefijo.value
+    for(let a=0; a<this.files.length; a++){
+      const formData = new FormData()
+      formData.append("bucket", 'jatun-files');
+      formData.append("nombre", this.files[a].name);
+      formData.append("folder", 'vouchers-referido/');
+      formData.append('files', this.files[a], this.files[a].name);
+
+      this.service.subirIMG(formData).subscribe(data => {
+        if(data['success']==true){
+          let url= data['data'][0]['url']
+          this.data_pago={
+            "num_operacion": this.formPass.controls.operacion.value,
+            "url_comprobante": url,
+            "importe": +this.data_pack.total_price,
+            "banco_id": this.formPass.controls.banco.value,
+            "fecha_pago": this.formPass.controls.fecha.value,
+          }
+          this.validar_pago=true
+          this.closeModalValidate()
+          this.spinner.hide()
         }
-      },
-      "orderAmount": this.formRegister.controls.monto.value, //monto
-      "currency": "USDT", //defecto
-      "description_pay": "pago inscripcion", //defecto
-      "pack": {
-        "pack_id": this.detail_pack.id,
-        "forma_ganar_id": 1, //defecto
-        "tipo_venta_id": 1, //defecto
-        "pack_data": null //opcional
-      },
-      "red_data": null //opcional
-    }
-    this.service.registerClient(body).subscribe(resp=>{
-      if(resp.success){
-        Swal.fire({
-          position: "center",
-          icon: "success",
-          title: "Registrado Correctamente",
-          showConfirmButton: false,
-          timer: 1500
-        });
-        this.validate_pack=false
-        this.formRegister.reset()
+      },error => {
+        if(error.status==400){
+          Swal.fire({
+            title: 'Advertencia!',
+            text: error.error.message,
+            icon: 'error',
+            showCancelButton: true,
+            showConfirmButton: false,
+            cancelButtonColor: '#c02c2c',
+            cancelButtonText: 'Cerrar'
+          })
+        }
+        if(error.status==500){
+          Swal.fire({
+            title: 'Advertencia!',
+            text: 'Comuniquese con el Área de Sistemas',
+            icon: 'error',
+            showCancelButton: true,
+            showConfirmButton: false,
+            cancelButtonColor: '#c02c2c',
+            cancelButtonText: 'Cerrar'
+          })
+        }
+        // this.closeModal()
         this.spinner.hide()
-        this.data_binance=resp.data
-        this.openModalBinance()
-      }
-    }, error => {
-      this.spinner.hide()
-      if (error.status === 500){
-        Swal.fire({
-          title: 'Oops!',
-          text: 'Ocurrio un incidente en el servidor, contactate con el area de sistemas',
-          icon: 'error',
-          showCancelButton: true,
-          showConfirmButton: false,
-          cancelButtonColor: '#c02c2c',
-          cancelButtonText: 'Cerrar ventana'
-        })
-      }else if (error.status === 400){
-        Swal.fire({
-          title: 'Oops!',
-          text: error.error.message,
-          icon: 'error',
-          showCancelButton: true,
-          showConfirmButton: false,
-          cancelButtonColor: '#c02c2c',
-          cancelButtonText: 'Cerrar ventana'
-        })
-      }
-    })
+      })
+    }
   }
 
-  update(){}
+  sendData(){
+    if(this.data_pago){
+      this.spinner.show()
+      let body={
+        "referido": {
+          "email": this.formRegister.controls.email.value,
+          "dni": this.formRegister.controls.numDoc.value, 
+          "nombre": this.formRegister.controls.nombres.value,
+          "apellido": this.formRegister.controls.apellidos.value,
+          "telefono" : this.formRegister.controls.celular.value,
+          "direccion" : null,
+          "data": {
+            "pais": this.formRegister.controls.pais.value,
+            "prefijo": this.formRegister.controls.prefijo.value
+          }
+        },
+        "num_operacion": this.data_pago.num_operacion,
+        "url_comprobante": this.data_pago.url_comprobante,
+        "importe": this.data_pago.importe,
+        "banco_id": this.data_pago.banco_id,
+        "estado_id": 1,
+        "patrocinador_id": this.data_user.id,
+        "fecha_pago": this.data_pago.fecha_pago,
+        "pack_id": this.data_pack.id
+      }
+      this.service.registerClient(body).subscribe(resp=>{
+        if(resp.success){
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Registrado Correctamente Esperar la Validación",
+            showConfirmButton: false,
+            timer: 2500
+          });
+          this.validar_pago=false
+          this.formRegister.reset()
+          this.formPass.reset()
+          this.spinner.hide()
+        }
+      }, error => {
+        this.spinner.hide()
+        if (error.status === 500){
+          Swal.fire({
+            title: 'Oops!',
+            text: 'Ocurrio un incidente en el servidor, contactate con el area de sistemas',
+            icon: 'error',
+            showCancelButton: true,
+            showConfirmButton: false,
+            cancelButtonColor: '#c02c2c',
+            cancelButtonText: 'Cerrar ventana'
+          })
+        }else if (error.status === 400){
+          Swal.fire({
+            title: 'Oops!',
+            text: error.error.message,
+            icon: 'error',
+            showCancelButton: true,
+            showConfirmButton: false,
+            cancelButtonColor: '#c02c2c',
+            cancelButtonText: 'Cerrar ventana'
+          })
+        }
+      })
+    }
+  }
 
   onSelect(event: { addedFiles: any; }) {
     this.files=[]
