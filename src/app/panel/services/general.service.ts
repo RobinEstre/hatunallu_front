@@ -94,4 +94,7 @@ export class GeneralService {
   updateIMG(data){
     return this.httpClient.put<any>(this.envUrl.urlAddress + 'au/actualizar/img-perfil/',data);
   }
+  updatePassword(data){
+    return this.httpClient.put<any>(this.envUrl.urlAddress + 'au/change/password-user/',data);
+  }
 }

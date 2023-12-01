@@ -98,7 +98,7 @@ export class ProductosComponent implements OnInit {
     this.service.listEstados().subscribe(resp => {
       if(resp['success']==true){
         this.estados=resp['data']
-        let id:any=1
+        let id:any=2
         this.formfiltros.controls.estados.setValue(id)
         this.list(id)
       }
@@ -142,8 +142,7 @@ export class ProductosComponent implements OnInit {
         { extend: 'pdfHtml5', className: 'btn btn-primary text-white', title:'Reporte Clientes'},
         { extend: 'copy', className: 'btn btn-primary text-white', title:'Reporte Clientes'},
         { extend: 'print', className: 'btn btn-danger text-white', title:'Reporte Clientes'},
-        { extend: 'excelHtml5', className: 'btn btn-success text-white', title:'Reporte Clientes'},
-        { extend: 'colvis', className: 'btn btn-warning'},
+        { extend: 'excelHtml5', className: 'btn btn-success text-white', title:'Reporte Clientes'}
       ],
       language: ProductosComponent.spanish_datatables
     }
@@ -188,7 +187,7 @@ export class ProductosComponent implements OnInit {
       let id= event.id
       this.actTable(id)
     }catch(e){
-      let id:any=1
+      let id:any=2
       this.formfiltros.controls.estados.setValue(id)
       this.actTable(id)
     }
@@ -205,25 +204,18 @@ export class ProductosComponent implements OnInit {
 
   cambiarEstado(data){
     this.data_detalle=data
-    var options = {};
-    let det=this
-    $.map(this.estados,
-      function(o) {
-        if(o.name!='PENDIENTE'){
-          options[o.id] = o.name;
-        }
-    });
-
     Swal.fire({
-      title: 'Cliente: '+data.data_referido.nombre+' '+data.data_referido.apellido,
-      text: 'Aprobar o Anular',
-      input: 'select',
-      inputOptions: options,
+      title: "Estas seguro de validar la entrega?",
+      text: "Si validas no se podrá revertir",
+      icon: "warning",
       showCancelButton: true,
-      inputPlaceholder: 'Seleccionar Opción'
-    }).then(function (inputValue) {
-      if (inputValue.isConfirmed) {
-        if(+inputValue.value>0){det.changeEstado(+inputValue.value)}        
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, validar!",
+      cancelButtonText: "No, cancelar"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.changeEstado(4)
       }
     });
   }

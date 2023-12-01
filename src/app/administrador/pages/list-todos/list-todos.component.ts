@@ -143,8 +143,7 @@ export class ListTodosComponent implements OnInit {
         { extend: 'pdfHtml5', className: 'btn btn-primary text-white', title:'Reporte Clientes'},
         { extend: 'copy', className: 'btn btn-primary text-white', title:'Reporte Clientes'},
         { extend: 'print', className: 'btn btn-danger text-white', title:'Reporte Clientes'},
-        { extend: 'excelHtml5', className: 'btn btn-success text-white', title:'Reporte Clientes'},
-        { extend: 'colvis', className: 'btn btn-warning'},
+        { extend: 'excelHtml5', className: 'btn btn-success text-white', title:'Reporte Clientes'}
       ],
       language: ListTodosComponent.spanish_datatables
     }

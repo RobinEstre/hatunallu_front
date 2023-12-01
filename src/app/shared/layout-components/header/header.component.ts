@@ -44,7 +44,7 @@ export class HeaderComponent implements OnInit {
     public SwitcherService : SwitcherService, private router: Router, private logoutService: AuthServiceService
   ){}
 
-  profile:any;userName:any;userImg:any;grupo:any
+  profile:any;userName:any;userImg:any;grupo:any;group_name:any=localStorage.getItem('group_name')
 
   ngOnInit(): void {
     this.service.miVariable$.subscribe(data => {

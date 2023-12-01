@@ -10,7 +10,7 @@
 </div>
 <div class="card">
     <div class="card-header">
-        Holaaa
+        LISTAR PRODUCTOS
     </div>
     <form [formGroup]="formfiltros" class="card-body row">
         <div class="col-md-12 col-sm-12 col-lg-3 mb-2">
@@ -29,74 +29,75 @@
         <div class="col-sm-12 col-md-12 col-lg-12">
             <!--TABLA-->
             <div class="table-responsive invoice-table" id="table">
-            <table class="table table-striped table-bordered" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
-                <thead>
-                <tr>
-                    <th class="text-center">CLIENTE</th>
-                    <th class="text-center">DOCUMENTO</th>
-                    <th class="text-center">TELEFONO</th>
-                    <th class="text-center">EMAIL</th>
-                    <th class="text-center">BANCO</th>
-                    <th class="text-center">N° OPERACION</th>
-                    <th class="text-center">IMPORTE</th>
-                    <th class="text-center">COMPROBANTE</th>
-                    <th class="text-center">FECHA COMPROBANTE</th>
-                    <th class="text-center">PATROCINADOR</th>
-                    <th class="text-center">REGISTRO</th>
-                    <th class="text-center">ACCION</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr *ngFor="let valClientes of clientes">
-                    <td class="text-center text-dark">
-                        {{valClientes.data_referido.nombre}} {{valClientes.data_referido.apellido}}
-                    </td>
-                    <td class="text-center text-dark">
-                        {{valClientes.data_referido.dni}}
-                    </td>
-                    <td class="text-center text-dark">
-                        {{valClientes.data_referido.telefono}}
-                    </td>
-                    <td class="text-center text-dark">
-                        {{valClientes.data_referido.email}}
-                    </td>
-                    <td class="text-center text-dark">
-                        {{valClientes.banco_id}}
-                    </td>
-                    <td class="text-center text-dark">
-                        {{valClientes.numero_operacion}}
-                    </td>
-                    <td class="text-center text-dark">
-                        S/ {{valClientes.importe}}
-                    </td>
-                    <td class="text-center text-dark">
-                        <a href="javascript:void(0);" (click)="openModalIMG(valClientes)">Abrir Comprobante</a>
-                    </td>
-                    <td class="text-center text-dark">
-                        {{valClientes.fecha_pago | date:'d MMMM, y'}}
-                    </td>
-                    <td class="text-center text-dark">
-                        <div *ngIf="valClientes.patrocinador_id!=null">
-                            {{valClientes.patrocinador_id}}
-                        </div>
-                        <div *ngIf="valClientes.patrocinador_id==null">
-                            Sin Patrocinador
-                        </div>
-                    </td>
-                    <td class="text-center text-dark text-capitalize">
-                        {{valClientes.created_at | date:'d MMMM, y'}}
-                    </td>
-                    <td class="text-center">
-                        <a class="" href="javascript:void(0);" (click)="cambiarEstado(valClientes)" *ngIf="valClientes.estado_id==1">
-                            <i class="fa fa-file-text" aria-hidden="true"></i>
-                        </a>
-                        <p *ngIf="valClientes.estado_id!=1">
-                            ¡ Sin Acciones !
-                        </p>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+                <table class="table table-striped table-bordered" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+                    <thead>
+                    <tr>
+                        <th class="text-center">CLIENTE</th>
+                        <th class="text-center">DOCUMENTO</th>
+                        <th class="text-center">CELULAR</th>
+                        <th class="text-center">CORREO</th>
+                        <th class="text-center">PACK</th>
+                        <th class="text-center">BANCO</th>
+                        <th class="text-center">N° OPERACIÓN</th>
+                        <th class="text-center">IMPORTE</th>
+                        <th class="text-center">F. Voucher</th>
+                        <th class="text-center">PATROCINADOR</th>
+                        <th class="text-center">REGISTRO</th>
+                        <th class="text-center">ACC</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let valClientes of clientes">
+                        <td class="text-center text-dark">
+                            {{valClientes.data_referido.nombre}} {{valClientes.data_referido.apellido}}
+                        </td>
+                        <td class="text-center text-dark">
+                            {{valClientes.data_referido.dni}}
+                        </td>
+                        <td class="text-center text-dark">
+                            {{valClientes.data_referido.telefono}}
+                        </td>
+                        <td class="text-center text-dark">
+                            {{valClientes.data_referido.email}}
+                        </td>
+                        <td class="text-center text-dark">
+                            {{valClientes.pack.name}}
+                        </td>
+                        <td class="text-center text-dark">
+                            {{valClientes.banco.name}}
+                        </td>
+                        <td class="text-center text-dark">
+                            {{valClientes.numero_operacion}}
+                        </td>
+                        <td class="text-center text-dark">
+                            S/ {{valClientes.importe}}
+                        </td>
+                        <td class="text-center text-dark">
+                            {{valClientes.fecha_pago | date:'d/M/yyyy'}}
+                        </td>
+                        <td class="text-center text-dark">
+                            <div *ngIf="valClientes.patrocinador!=null">
+                                {{valClientes.patrocinador.name}}
+                            </div>
+                            <div *ngIf="valClientes.patrocinador==null">
+                                Sin Patrocinador
+                            </div>
+                        </td>
+                        <td class="text-center text-dark text-capitalize">
+                            {{valClientes.created_at | date:'d/M/yyyy'}}
+                        </td>
+                        <td class="text-center">
+                            <a href="javascript:void(0);" (click)="openModalIMG(valClientes)"><i class="fa fa-eye"></i></a>
+                            <a class="mx-2" href="javascript:void(0);" (click)="cambiarEstado(valClientes)" *ngIf="valClientes.estado.id==2">
+                                <i class="fa fa-file-text" aria-hidden="true"></i>
+                            </a>
+                            <p *ngIf="valClientes.estado.id!=2">
+                                ¡ Sin Acciones !
+                            </p>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </form>

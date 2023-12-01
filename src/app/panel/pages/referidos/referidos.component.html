@@ -92,24 +92,13 @@
                     <div class="card-body">
                         <h2>Añade un amigo</h2>
                         <form [formGroup]="formRegister" class="row">
-                            <div class="col-lg-5 col-md-5 col-sm-12">
+                            <div class="col-lg-7 col-md-7 col-sm-12">
                                 <div class="form-group">
                                     <ng-select formControlName="pais"
                                             [items]="pais"
                                             bindLabel="name"
                                             bindValue="id"
                                             placeholder="SELECCIONAR PAIS*"
-                                            (change)="selectPais($event)">
-                                    </ng-select>
-                                </div>
-                            </div>
-                            <div class="col-lg-2 col-md-2 col-sm-12">
-                                <div class="form-group">
-                                    <ng-select formControlName="prefijo"
-                                            [items]="prefijo"
-                                            bindLabel="name"
-                                            bindValue="id"
-                                            placeholder="PREFIJO*"
                                             (change)="selectPais($event)">
                                     </ng-select>
                                 </div>
@@ -148,7 +137,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="col-lg-5 col-md-5 col-sm-12">
                                 <div class="form-group">
                                     <div class="input-group">
                                         <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
@@ -159,7 +148,18 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-6 col-md-6 col-sm-12">
+                            <div class="col-lg-2 col-md-2 col-sm-12">
+                                <div class="form-group">
+                                    <ng-select formControlName="prefijo"
+                                            [items]="prefijo"
+                                            bindLabel="name"
+                                            bindValue="id"
+                                            placeholder="PREFIJO*"
+                                            (change)="selectPais($event)">
+                                    </ng-select>
+                                </div>
+                            </div>
+                            <div class="col-lg-5 col-md-5 col-sm-12">
                                 <div class="form-group">
                                     <div class="input-group">
                                         <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
@@ -176,7 +176,7 @@
                                     <div class="card text-center text-uppercase justify-content-center" 
                                         [style.border]=" '1px solid black !important'" [style.background]="pack.data.color">
                                         <div style="margin: 1% 1% 1% 1%;">
-                                            <small>{{pack.name}}</small>
+                                            <small><b>{{pack.name}}</b></small>
                                             <br>
                                             <small>{{pack.descriptions}} --> S/ {{pack.total_price}}</small>
                                             <br>
@@ -296,10 +296,13 @@
             <hr>
         </div>
         <div class="col-lg-12 col-md-12 col-sm-12 text-center">
-            <a href="{{info_qr.img_qr_url}}" target="_blank" *ngIf="text_modal!='Link de Referidos'">
-                <img src="{{info_qr.img_qr_url}}" alt=""></a>
-            <a href="javascript:void(0)" (click)="copiar()" *ngIf="text_modal=='Link de Referidos'">
-                <img src="https://img.freepik.com/vector-premium/icono-programa-afiliados-referencias-blanco_116137-7006.jpg" alt="">
+            <a href="javascript:void(0);" *ngIf="text_modal=='Escanear código QR'">
+                <img placement="top" ngbTooltip="Escanea el QR" src="{{info_qr.img_qr_url}}" alt=""></a>
+                <a href="{{info_qr.img_qr_url}}" target="_blank" *ngIf="text_modal=='Descargar código QR'">
+                    <img placement="top" ngbTooltip="Click para descargar" src="{{info_qr.img_qr_url}}" alt=""></a>
+            <a href="javascript:void(0)" class="text-dark" (click)="copiar()" *ngIf="text_modal=='Link de Referidos'" >
+                <i placement="top" ngbTooltip="Click para copiar" class="fa fa-link" style="font-size: 20vh; color:black"></i>
+                <!-- <img src="https://img.freepik.com/vector-premium/icono-programa-afiliados-referencias-blanco_116137-7006.jpg" alt=""> -->
             </a>
         </div>
         <div class="col-lg-12 col-md-12 col-sm-12 text-center">

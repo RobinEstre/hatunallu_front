@@ -82,7 +82,7 @@
                   <i [className]="'text-muted fa fa-'+iconpassword2" aria-hidden="true"></i>
                 </a>
                 <input #passwordEyeRegister2 [type]="passwordTypeInput2" name="new_pass" class="form-control"
-                    placeholder="******" formControlName="old_pass" >
+                    placeholder="******" formControlName="new_pass" >
             </div>
         </div>
         <div class="col-sm-12 col-md-12 col-lg-12 mb-2">
@@ -93,7 +93,7 @@
                   <i [className]="'text-muted fa fa-'+iconpassword3" aria-hidden="true"></i>
                 </a>
                 <input #passwordEyeRegister3 [type]="passwordTypeInput3" name="confirm_pass" class="form-control"
-                    placeholder="******" formControlName="old_pass" >
+                    placeholder="******" formControlName="confirm_pass" >
             </div>
         </div>
         <button class="col-sm-12 col-md-12 col-lg-12 my-2 btn btn-primary" [disabled]="!formPass.valid" (click)="update()">

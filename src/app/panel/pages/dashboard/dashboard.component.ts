@@ -15,7 +15,7 @@ export class DashboardComponent implements OnInit {
   constructor(private spinner: NgxSpinnerService, private generalService: GeneralService, public navServices: NavService,private router: Router,
     private servicePanel: PanelService) { }
   
-  menuItems: any[] = []
+  menuItems: any[] = []; group_name:any
 
   ngOnInit(): void {
     this.listGroup()
@@ -32,6 +32,7 @@ export class DashboardComponent implements OnInit {
       if(name){
         localStorage.setItem('group_name', name)
         this.navServices.getMenu(name).subscribe(menuItems => {
+          this.group_name=localStorage.getItem('group_name')
           this.spinner.hide()
           this.menuItems = menuItems['data'];
           console.log(this.menuItems)
@@ -48,7 +49,5 @@ export class DashboardComponent implements OnInit {
     }, error => {
       this.spinner.hide()
     })
-
   }
-
 }

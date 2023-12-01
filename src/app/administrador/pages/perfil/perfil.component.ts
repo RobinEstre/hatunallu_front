@@ -104,7 +104,66 @@ export class PerfilComponent implements OnInit {
     this.modalRefIMG.close()
   }
 
-  update(){}
+  update(){
+    this.closeModal()
+    if(this.formPass.controls.new_pass.value==this.formPass.controls.confirm_pass.value){
+      this.spinner.show()
+      let body={
+        "old_pasword": this.formPass.controls.old_pass.value,
+        "new_password": this.formPass.controls.new_pass.value
+      }
+      this.service.updatePassword(body).subscribe(resp=>{
+        if(resp.success){
+          this.service.miVariable$.next(true);
+          this.spinner.hide()
+          this.toastr.success('Contraseña actualizada', 'Genial!');
+          // Swal.fire({
+          //   position: "center",
+          //   icon: "success",
+          //   title: "Contraseña actualizada correctamente",
+          //   showConfirmButton: false,
+          //   timer: 1500
+          // });
+          this.listInit()
+        }
+      },error => {
+        if(error.status==400){
+          Swal.fire({
+            title: 'Advertencia!',
+            text: error.error.message,
+            icon: 'error',
+            showCancelButton: true,
+            showConfirmButton: false,
+            cancelButtonColor: '#c02c2c',
+            cancelButtonText: 'Cerrar'
+          })
+        }
+        if(error.status==500){
+          Swal.fire({
+            title: 'Advertencia!',
+            text: 'Comuniquese con el Área de Sistemas',
+            icon: 'error',
+            showCancelButton: true,
+            showConfirmButton: false,
+            cancelButtonColor: '#c02c2c',
+            cancelButtonText: 'Cerrar'
+          })
+        }
+        // this.closeModal()
+        this.spinner.hide()
+      })
+    }else{
+      Swal.fire({
+        position: "center",
+        icon: "warning",
+        title: "La nueva contraseña no coincide",
+        showConfirmButton: false,
+        timer: 1500
+      });
+      this.formPass.controls.new_pass.setValue(null)
+      this.formPass.controls.confirm_pass.setValue(null)
+    }
+  }
 
   togglePasswordMode() {
     this.passwordTypeInput = this.passwordTypeInput === 'text' ? 'password' : 'text';
@@ -217,3 +276,4 @@ export class PerfilComponent implements OnInit {
     })
   }
 }
+
