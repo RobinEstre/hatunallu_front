@@ -209,7 +209,7 @@ export class ListTodosComponent implements OnInit {
     let det=this
     $.map(this.estados,
       function(o) {
-        if(o.name!='PENDIENTE'){
+        if(o.name!='PENDIENTE'&&o.name!='ENTREGADO'){
           options[o.id] = o.name;
         }
     });
