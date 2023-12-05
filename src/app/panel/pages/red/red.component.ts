@@ -95,7 +95,8 @@ export class RedComponent implements OnInit {
 
   list(id){
     d3.json(
-      "http://127.0.0.1:8000/api/au/recursive/data-arbol/"+id
+      //"http://127.0.0.1:8000/api/au/recursive/data-arbol/"+id
+      "https://api.jatunayllu.com/api/au/recursive/data-arbol/"+id
       //"https://gist.githubusercontent.com/bumbeishvili/dc0d47bc95ef359fdc75b63cd65edaf2/raw/c33a3a1ef4ba927e3e92b81600c8c6ada345c64b/orgChart.json"
     ).then(data => {
       let new_data:any=[]
