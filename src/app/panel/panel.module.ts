@@ -13,6 +13,8 @@ import { D3OrgChartComponent } from './pages/red/d3-org-chart/d3-org-chart.compo
 import { PerfilComponent } from './pages/perfil/perfil.component';
 import { NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import { NgxDropzoneModule } from 'ngx-dropzone';
+import { ReconsumoComponent } from './pages/reconsumo/reconsumo.component';
+import { ComisionesComponent } from './pages/comisiones/comisiones.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { NgxDropzoneModule } from 'ngx-dropzone';
     ReferidosComponent,
     RedComponent,
     D3OrgChartComponent,
-    PerfilComponent
+    PerfilComponent,
+    ReconsumoComponent,
+    ComisionesComponent
   ],
   imports: [
     CommonModule,

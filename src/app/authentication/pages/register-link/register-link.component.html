@@ -2,206 +2,264 @@
 <div class="login-img">
     <!-- PAGE -->
     <div class="page">
-        <div class="">
-            <!-- Theme-Layout -->
-            <!-- CONTAINER OPEN -->
-            <div class="col col-login mx-auto mt-7">
-                <div class="text-center">
-                    <a routerLink="/dashboard"><img src="../../../../../../theme-sash-front/src/assets/images/brand/logo-white.png" class="header-brand-img m-0" alt=""></a>
-                </div>
-            </div>
-            <div class="container-login100">
-                <div class="wrap-login100 p-6" style="width: 25%;">
-                    <form [formGroup]="formRegister" class="validate-form">
-                        <span class="login100-form-title">Registrarse</span>
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 text-center" *ngIf="code_url">
-                                <small>Patrocinador: {{code_url.nombre}} {{code_url.apellido}}</small>
-                            </div>
-                            <div class="col-lg-5 col-md-5 col-sm-12">
-                                <br>
-                                <div class="form-group">
-                                    <ng-select formControlName="pais"
-                                            [items]="pais"
-                                            bindLabel="name"
-                                            bindValue="id"
-                                            placeholder="PAIS*"
-                                            (change)="selectPais($event)">
-                                    </ng-select>
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-12"></div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="container-login100">
+                    <div class="wrap-login100 p-6">
+                        <form [formGroup]="formRegister" class="validate-form">
+                            <span class="login100-form-title">Registrarse</span>
+                            <div class="row">
+                                <div class="col-lg-12 col-md-12 col-sm-12 text-center" *ngIf="code_url">
+                                    <small>Patrocinador: {{code_url.nombre}} {{code_url.apellido}} <br><br></small>
                                 </div>
-                            </div>
-                            <div class="col-lg-7 col-md-7 col-sm-12">
-                                <br>
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
-                                            <i class="fa fa-id-card" aria-hidden="true"></i>
-                                        </a>
-                                        <input autocomplete="off" class="form-control" type="text" formControlName="numDoc" (keyup)="getInfoCliente($event)"
-                                            onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"
-                                            placeholder="N° Documento" required>
+                                <div class="col-lg-5 col-md-5 col-sm-12">
+                                    <div class="form-group">
+                                        <ng-select formControlName="pais"
+                                                [items]="pais"
+                                                bindLabel="name"
+                                                bindValue="id"
+                                                placeholder="PAIS*"
+                                                (change)="selectPais($event)">
+                                        </ng-select>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-12 col-md-12 col-sm-12">
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
-                                            <i class="fa fa-user" aria-hidden="true"></i>
-                                        </a>
-                                        <input autocomplete="off" class="form-control" type="text" formControlName="nombres" 
-                                            placeholder="NOMBRES" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-12 col-md-12 col-sm-12">
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
-                                            <i class="fa fa-user" aria-hidden="true"></i>
-                                        </a>
-                                        <input autocomplete="off" class="form-control" type="text" formControlName="apellidos" 
-                                            placeholder="APELLIDOS" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-12">
-                                <div class="form-group">
-                                    <ng-select formControlName="prefijo"
-                                            [items]="prefijo"
-                                            bindLabel="name"
-                                            bindValue="id"
-                                            placeholder="PREFIJO*"
-                                            (change)="selectPais($event)">
-                                    </ng-select>
-                                </div>
-                            </div>
-                            <div class="col-lg-8 col-md-8 col-sm-12">
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
-                                            <i class="fa fa-phone" aria-hidden="true"></i>
-                                        </a>
-                                        <input autocomplete="off" class="form-control" placeholder="CELULAR"
-                                           formControlName="celular" maxlength="9" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" >
-                                    </div>
-                                    <div *ngIf="formRegister.controls['celular'].invalid&&(formRegister.controls['celular'].dirty||
-                                        formRegister.controls['celular'].touched)" >
-                                        <div *ngIf="formRegister.controls['celular'].errors?.required">
-                                            <small class="text-danger">Por favor ingrese su celular</small>
-                                        </div>
-                                        <div *ngIf="formRegister.controls['celular'].errors?.maxlength">
-                                            <small class="text-danger">El celular debe tener como maximo 15 caracteres</small>
-                                        </div>
-                                        <div *ngIf="formRegister.controls['celular'].errors?.minlength">
-                                            <small class="text-danger">Debe contener como maximo 9 caracteres</small>
+                                <div class="col-lg-7 col-md-7 col-sm-12">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
+                                                <i class="fa fa-id-card" aria-hidden="true"></i>
+                                            </a>
+                                            <input autocomplete="off" class="form-control" type="text" formControlName="numDoc" (keyup)="getInfoCliente($event)"
+                                                onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"
+                                                placeholder="N° Documento" required>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-12 col-md-12 col-sm-12">
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
-                                            <i class="zmdi zmdi-email" aria-hidden="true"></i>
-                                        </a>
-                                        <input autocomplete="off" class="form-control" type="email" formControlName="email" 
-                                            placeholder="EMAIL" required>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
+                                                <i class="fa fa-user" aria-hidden="true"></i>
+                                            </a>
+                                            <input autocomplete="off" class="form-control" type="text" formControlName="nombres" 
+                                                placeholder="NOMBRES" required>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-12 col-md-12 col-sm-12 row">
-                                <hr>
-                                <div class="col-lg-6 col-md-6 col-sm-12" *ngFor="let pack of packs">
-                                    <div class="card text-center text-uppercase justify-content-center" 
-                                        [style.border]=" '1px solid black !important'" [style.background]="pack.data.color">
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
+                                                <i class="fa fa-user" aria-hidden="true"></i>
+                                            </a>
+                                            <input autocomplete="off" class="form-control" type="text" formControlName="apellidos" 
+                                                placeholder="APELLIDOS" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                    <div class="form-group">
+                                        <ng-select formControlName="genero"
+                                                [items]="genero"
+                                                bindLabel="name"
+                                                bindValue="name"
+                                                placeholder="GENERO*">
+                                        </ng-select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-3 col-sm-12">
+                                    <div class="form-group">
+                                        <ng-select formControlName="prefijo"
+                                                [items]="prefijo"
+                                                bindLabel="name"
+                                                bindValue="id"
+                                                placeholder="PREFIJO*"
+                                                (change)="selectPais($event)">
+                                        </ng-select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-5 col-md-5 col-sm-12">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
+                                                <i class="fa fa-phone" aria-hidden="true"></i>
+                                            </a>
+                                            <input autocomplete="off" class="form-control" placeholder="CELULAR"
+                                               formControlName="celular" maxlength="9" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')" >
+                                        </div>
+                                        <div *ngIf="formRegister.controls['celular'].invalid&&(formRegister.controls['celular'].dirty||
+                                            formRegister.controls['celular'].touched)" >
+                                            <div *ngIf="formRegister.controls['celular'].errors?.required">
+                                                <small class="text-danger">Por favor ingrese su celular</small>
+                                            </div>
+                                            <div *ngIf="formRegister.controls['celular'].errors?.maxlength">
+                                                <small class="text-danger">El celular debe tener como maximo 15 caracteres</small>
+                                            </div>
+                                            <div *ngIf="formRegister.controls['celular'].errors?.minlength">
+                                                <small class="text-danger">Debe contener como maximo 9 caracteres</small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-7 col-md-7 col-sm-12">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
+                                                <i class="zmdi zmdi-email" aria-hidden="true"></i>
+                                            </a>
+                                            <input autocomplete="off" class="form-control" type="email" formControlName="email" 
+                                                placeholder="EMAIL" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-5 col-md-5 col-sm-12">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
+                                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                                            </a>
+                                            <input autocomplete="off" class="form-control" type="date" formControlName="fecha_nac"
+                                                required  placement="top" ngbTooltip="Fecha Nacimiento">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                    <div class="form-group">
+                                        <ng-select formControlName="departamento"
+                                                [items]="departamento"
+                                                bindLabel="name"
+                                                bindValue="id_dep"
+                                                placeholder="DEPARTAMENTO*"
+                                                (change)="selectDepartamento($event)">
+                                        </ng-select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                    <div class="form-group">
+                                        <ng-select formControlName="provincia"
+                                                [items]="provincia"
+                                                bindLabel="name"
+                                                bindValue="id_pro"
+                                                placeholder="PROVINCIA*"
+                                                (change)="selectProvincia($event)">
+                                        </ng-select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-12">
+                                    <div class="form-group">
+                                        <ng-select formControlName="distrito"
+                                                [items]="distrito"
+                                                bindLabel="name"
+                                                bindValue="id_dist"
+                                                placeholder="DISTRITO*">
+                                        </ng-select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
+                                                <i class="fa fa-map-marker " aria-hidden="true"></i>
+                                            </a>
+                                            <input autocomplete="off" class="form-control" placeholder="DIRECCION"
+                                               formControlName="direccion">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12 row">
+                                    <hr>
+                                    <div class="col-lg-6 col-md-6 col-sm-12" *ngFor="let pack of packs">
+                                        <div class="card text-center text-uppercase justify-content-center" 
+                                            [style.border]=" '1px solid black !important'" [style.background]="pack.data.color">
+                                            <div style="margin: 1% 1% 1% 1%;">
+                                                <small>{{pack.name}}</small>
+                                                <br>
+                                                <small>{{pack.descriptions}} --> S/ {{pack.total_price}}</small>
+                                                <br>
+                                                <button (click)="openModalValidate(pack)" class="btn btn-outline-primary btn-sm my-2">Seleccionar</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="card col-lg-4 col-md-4 col-sm-12 text-center text-uppercase justify-content-center"
+                                        style="border: 1px solid black !important;background:radial-gradient(circle, rgba(131,217,212,0.8631827731092436) 0%, rgba(55,134,73,0.6474964985994398) 100%)">
                                         <div style="margin: 1% 1% 1% 1%;">
-                                            <small>{{pack.name}}</small>
+                                            <small>Pack Empresarial</small>
                                             <br>
-                                            <small>{{pack.descriptions}} --> S/ {{pack.total_price}}</small>
+                                            <small>4 Pts  S/ 400</small>
                                             <br>
-                                            <button (click)="openModalValidate(pack)" class="btn btn-outline-primary btn-sm my-2">Seleccionar</button>
+                                            <button (click)="openModalValidate()" class="btn btn-outline-primary btn-sm my-2">Seleccionar</button>
                                         </div>
                                     </div>
-                                </div>
-                                <!-- <div class="card col-lg-4 col-md-4 col-sm-12 text-center text-uppercase justify-content-center"
-                                    style="border: 1px solid black !important;background:radial-gradient(circle, rgba(131,217,212,0.8631827731092436) 0%, rgba(55,134,73,0.6474964985994398) 100%)">
-                                    <div style="margin: 1% 1% 1% 1%;">
-                                        <small>Pack Empresarial</small>
-                                        <br>
-                                        <small>4 Pts  S/ 400</small>
-                                        <br>
-                                        <button (click)="openModalValidate()" class="btn btn-outline-primary btn-sm my-2">Seleccionar</button>
+                                    <div class="card col-lg-4 col-md-4 col-sm-12 text-center text-uppercase justify-content-center"
+                                        style="border: 1px solid black !important;background:radial-gradient(circle, rgba(131,217,212,0.8631827731092436) 0%, rgba(55,134,73,0.6474964985994398) 100%)">
+                                        <div style="margin: 1% 1% 1% 1%;">
+                                            <small>Pack Empresarial <br> Promoción</small>
+                                            <br>
+                                            <small>6 Pts  S/ 500</small>
+                                            <br>
+                                            <button (click)="openModalValidate()" class="btn btn-outline-primary btn-sm my-2">Seleccionar</button>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="card col-lg-4 col-md-4 col-sm-12 text-center text-uppercase justify-content-center"
-                                    style="border: 1px solid black !important;background:radial-gradient(circle, rgba(131,217,212,0.8631827731092436) 0%, rgba(55,134,73,0.6474964985994398) 100%)">
-                                    <div style="margin: 1% 1% 1% 1%;">
-                                        <small>Pack Empresarial <br> Promoción</small>
-                                        <br>
-                                        <small>6 Pts  S/ 500</small>
-                                        <br>
-                                        <button (click)="openModalValidate()" class="btn btn-outline-primary btn-sm my-2">Seleccionar</button>
+                                    <div class="card col-lg-4 col-md-4 col-sm-12 text-center text-uppercase justify-content-center" 
+                                        style="border: 1px solid black !important;background: radial-gradient(circle, rgba(134,213,209,0.6082808123249299) 0%, rgba(0,212,255,1) 76%);">
+                                        <div style="margin: 1% 1% 1% 1%;">
+                                            <small>Pack Cristal</small>
+                                            <br>
+                                            <small>8 Pts  S/ 720</small>
+                                            <br>
+                                            <button (click)="openModalValidate()" class="btn btn-outline-primary btn-sm my-2">Seleccionar</button>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="card col-lg-4 col-md-4 col-sm-12 text-center text-uppercase justify-content-center" 
-                                    style="border: 1px solid black !important;background: radial-gradient(circle, rgba(134,213,209,0.6082808123249299) 0%, rgba(0,212,255,1) 76%);">
-                                    <div style="margin: 1% 1% 1% 1%;">
-                                        <small>Pack Cristal</small>
-                                        <br>
-                                        <small>8 Pts  S/ 720</small>
-                                        <br>
-                                        <button (click)="openModalValidate()" class="btn btn-outline-primary btn-sm my-2">Seleccionar</button>
+                                    <div class="col-lg-2 col-md-2 col-sm-12"></div>
+                                    <div class="card col-lg-4 col-md-4 col-sm-12 text-center text-uppercase justify-content-center" 
+                                        style="border: 1px solid black !important;background: radial-gradient(circle, rgba(134,213,209,0.6082808123249299) 0%, rgba(0,212,255,1) 76%);">
+                                        <div style="margin: 1% 1% 1% 1%;">
+                                            <small>Pack Cristal <br> Promoción</small>
+                                            <br>
+                                            <small>12 Pts  S/ 920</small>
+                                            <br>
+                                            <button (click)="openModalValidate()" class="btn btn-outline-primary btn-sm my-2">Seleccionar</button>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-2 col-md-2 col-sm-12"></div>
-                                <div class="card col-lg-4 col-md-4 col-sm-12 text-center text-uppercase justify-content-center" 
-                                    style="border: 1px solid black !important;background: radial-gradient(circle, rgba(134,213,209,0.6082808123249299) 0%, rgba(0,212,255,1) 76%);">
-                                    <div style="margin: 1% 1% 1% 1%;">
-                                        <small>Pack Cristal <br> Promoción</small>
-                                        <br>
-                                        <small>12 Pts  S/ 920</small>
-                                        <br>
-                                        <button (click)="openModalValidate()" class="btn btn-outline-primary btn-sm my-2">Seleccionar</button>
+                                    <div class="card col-lg-4 col-md-4 col-sm-12 text-center text-uppercase justify-content-center" 
+                                        style="border: 1px solid black !important;background:linear-gradient(90deg, rgba(220,170,255,1) 2%, rgba(255,232,139,1) 47%, rgba(255,173,239,1) 100%);">
+                                        <div style="margin: 1% 1% 1% 1%;">
+                                            <small>Pack Diamante</small>
+                                            <br>
+                                            <small>30 Pts  S/ 2280</small>
+                                            <br>
+                                            <button (click)="openModalValidate()" class="btn btn-outline-primary btn-sm my-2">Seleccionar</button>
+                                        </div>
                                     </div>
+                                    <div class="col-lg-2 col-md-2 col-sm-12"></div> -->
                                 </div>
-                                <div class="card col-lg-4 col-md-4 col-sm-12 text-center text-uppercase justify-content-center" 
-                                    style="border: 1px solid black !important;background:linear-gradient(90deg, rgba(220,170,255,1) 2%, rgba(255,232,139,1) 47%, rgba(255,173,239,1) 100%);">
-                                    <div style="margin: 1% 1% 1% 1%;">
-                                        <small>Pack Diamante</small>
-                                        <br>
-                                        <small>30 Pts  S/ 2280</small>
-                                        <br>
-                                        <button (click)="openModalValidate()" class="btn btn-outline-primary btn-sm my-2">Seleccionar</button>
-                                    </div>
-                                </div>
-                                <div class="col-lg-2 col-md-2 col-sm-12"></div> -->
+                                <div  class="col-sm-12 col-md-12 col-lg-12 text-center my-3 text-white" *ngIf="!validar_pago">
+                                    <ngb-alert type="warning" [dismissible]="false">
+                                        <i class="fa fa-money me-2" aria-hidden="true"></i> <b> Falta Subir el Comprobante del Pago</b><br>
+                                    </ngb-alert>
+                                </div>   
+                                <div  class="col-sm-12 col-md-12 col-lg-12 text-center my-3 text-white" *ngIf="validar_pago">
+                                    <ngb-alert type="success" [dismissible]="false">
+                                        <i class="fa fa-money me-2" aria-hidden="true"></i> <b> Comprobante de Pago Subido</b><br>
+                                    </ngb-alert>
+                                </div>   
                             </div>
-                            <div  class="col-sm-12 col-md-12 col-lg-12 text-center my-3 text-white" *ngIf="!validar_pago">
-                                <ngb-alert type="warning" [dismissible]="false">
-                                    <i class="fa fa-money me-2" aria-hidden="true"></i> <b> Falta Subir el Comprobante del Pago</b><br>
-                                </ngb-alert>
-                            </div>   
-                            <div  class="col-sm-12 col-md-12 col-lg-12 text-center my-3 text-white" *ngIf="validar_pago">
-                                <ngb-alert type="success" [dismissible]="false">
-                                    <i class="fa fa-money me-2" aria-hidden="true"></i> <b> Comprobante de Pago Subido</b><br>
-                                </ngb-alert>
-                            </div>   
-                        </div>
-                        <!-- <label class="custom-control custom-checkbox mt-4">
-                            <input type="checkbox" class="custom-control-input">
-                            <span class="custom-control-label">Aceptar los <a routerLink="/pages/extension/faqs">términos y condiciones</a></span>
-                        </label> -->
-                        <div class="container-login100-form-btn">
-                            <button (click)="register()" *ngIf="validar_pago" class="btn btn-block btn-outline-primary" 
-                                [disabled]="!formRegister.valid">
-                                Registro de afiliado
-                            </button>
-                        </div>
-                    </form>
+                            <!-- <label class="custom-control custom-checkbox mt-4">
+                                <input type="checkbox" class="custom-control-input">
+                                <span class="custom-control-label">Aceptar los <a routerLink="/pages/extension/faqs">términos y condiciones</a></span>
+                            </label> -->
+                            <div class="container-login100-form-btn">
+                                <button (click)="register()" *ngIf="validar_pago" class="btn btn-block btn-outline-primary" 
+                                    [disabled]="!formRegister.valid">
+                                    Registro de afiliado
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
-            <!-- CONTAINER CLOSED -->
+            <div class="col-lg-4 col-md-4 col-sm-12"></div>
         </div>
     </div>
     <!-- END PAGE -->

@@ -4,6 +4,8 @@ import {DashboardComponent} from "./pages/dashboard/dashboard.component";
 import { ReferidosComponent } from './pages/referidos/referidos.component';
 import { RedComponent } from './pages/red/red.component';
 import { PerfilComponent } from './pages/perfil/perfil.component';
+import { ReconsumoComponent } from './pages/reconsumo/reconsumo.component';
+import { ComisionesComponent } from './pages/comisiones/comisiones.component';
 
 const routes: Routes = [
   {
@@ -21,6 +23,14 @@ const routes: Routes = [
   {
     path: 'perfil',
     component: PerfilComponent
+  },
+  {
+    path: 'reconsumo',
+    component: ReconsumoComponent
+  },
+  {
+    path: 'comisiones',
+    component: ComisionesComponent
   }
 ];
 

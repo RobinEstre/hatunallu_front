@@ -36,15 +36,23 @@ export class ReferidosComponent implements OnInit {
     email: ['', [Validators.required, Validators.email]],
     celular : ['', Validators.required],
     numDoc : ['', Validators.required],
-    pais : [null],
-    prefijo : [null],
+    direccion : ['', Validators.required],
+    fecha_nac : ['', Validators.required],
+    pais : [null, Validators.required],
+    prefijo : [null, Validators.required],
+    genero : [null, Validators.required],
+    departamento : [null, Validators.required],
+    provincia : [null, Validators.required],
+    distrito : [null, Validators.required],
   });
 
-  banco:any
+  banco:any;genero:any=[{name:'Masculino'},{name:'Femenino'}]; departamento:any; provincia:any; distrito:any
   pais:any=[]; prefijo:any=[]; packs:any; validate_pack:any=false; detail_pack:any; info_qr:any; text_modal:any; textoACopiar:any
   data_binance:any; txtCopiarBinance:any; files: File[] = []; validar_pago:boolean=false; data_pago:any; data_pack:any; data_user:any
 
   ngOnInit(): void {
+    this.formRegister.controls.distrito.disable()
+    this.formRegister.controls.provincia.disable()
     this.listCountries()
   }
 
@@ -85,6 +93,11 @@ export class ReferidosComponent implements OnInit {
     this.service.getBancos().subscribe(resp=>{
       if(resp.success){
         this.banco=resp.data
+      }
+    })
+    this.service.listDepartamento().subscribe(resp=>{
+      if(resp.success){
+        this.departamento=resp.data
       }
     })
   }
@@ -128,7 +141,7 @@ export class ReferidosComponent implements OnInit {
     })
   }
 
-  copiar() {
+  copiar(){
     this.clipboard.copy(this.textoACopiar);
     this.toastr.success('Link copiado', 'Genial!');
   }
@@ -150,6 +163,37 @@ export class ReferidosComponent implements OnInit {
         this.formRegister.controls.prefijo.setValue(i.id)
       }
     })
+  }
+
+  selectDepartamento(event){
+    try{
+      this.formRegister.controls.provincia.enable()
+      this.formRegister.controls.distrito.enable()
+      this.service.listProvincia(event.id_dep).subscribe(resp=>{
+        if(resp.success){
+          this.provincia=resp.data
+        }
+      })
+    }catch(e){
+      this.formRegister.controls.distrito.setValue(null)
+      this.formRegister.controls.provincia.setValue(null)
+      this.formRegister.controls.distrito.disable()
+      this.formRegister.controls.provincia.disable()
+    }
+  }
+
+  selectProvincia(event){
+    try{
+      this.formRegister.controls.distrito.enable()   
+      this.service.listDistrito(event.id_pro).subscribe(resp=>{
+        if(resp.success){
+          this.distrito=resp.data
+        }
+      })   
+    }catch(e){
+      this.formRegister.controls.distrito.setValue(null)
+      this.formRegister.controls.distrito.disable()
+    }
   }
 
   openModal(text) {
@@ -174,38 +218,6 @@ export class ReferidosComponent implements OnInit {
 
   closeModalValidate(){
     this.modalRefAdd.close()
-  }
-
-  openModalBinance() {
-    // let data={
-    //   "status": "SUCCESS",
-    //   "code": "000000",
-    //   "data": {
-    //       "currency": "USDT",
-    //       "totalFee": "1",
-    //       "prepayId": "262139744935919616",
-    //       "terminalType": "APP",
-    //       "expireTime": 1699908731489,
-    //       "qrcodeLink": "https://public.bnbstatic.com/static/payment/20231113/cd42b80f-6c2d-4bd4-a67d-41daa07b5e29.jpg",
-    //       "qrContent": "https://app.binance.com/qr/dplkb7eb5d832ef34bc4b5501326e52930c9",
-    //       "checkoutUrl": "https://pay.binance.com/en/checkout/af42b0ceb35e41a8b2ad79ec75f8e8ec",
-    //       "deeplink": "bnc://app.binance.com/payment/secpay?tempToken=vChl2bGxDlPdCtqDqsg4hNwF05d5CxgC",
-    //       "universalUrl": "https://app.binance.com/payment/secpay?linkToken=af42b0ceb35e41a8b2ad79ec75f8e8ec&_dp=Ym5jOi8vYXBwLmJpbmFuY2UuY29tL3BheW1lbnQvc2VjcGF5P3RlbXBUb2tlbj12Q2hsMmJHeERsUGRDdHFEcXNnNGhOd0YwNWQ1Q3hnQw"
-    //   }
-    // }
-    // this.data_binance=data
-    this.txtCopiarBinance = this.data_binance.data.checkoutUrl
-    this.modalRefBinance = this.modalService.open(this.modalContentBinance, { centered: true, size: 'md', keyboard: false, backdrop: 'static' });
-    this.modalRefBinance.result.then();
-  }
-
-  closeModalBinance() {
-    this.modalRefBinance.close();
-  }
-
-  copiarLink() {
-    this.clipboard.copy(this.txtCopiarBinance);
-    this.toastr.success('Link copiado', 'Genial!');
   }
 
   getInfoCliente(event){
@@ -292,6 +304,9 @@ export class ReferidosComponent implements OnInit {
   sendData(){
     if(this.data_pago){
       this.spinner.show()
+      let masculino=false, femenino=false
+      if(this.formRegister.controls.genero.value=='Masculino'){masculino=true}
+      if(this.formRegister.controls.genero.value=='Femenino'){femenino=true}
       let body={
         "referido": {
           "email": this.formRegister.controls.email.value,
@@ -299,10 +314,17 @@ export class ReferidosComponent implements OnInit {
           "nombre": this.formRegister.controls.nombres.value,
           "apellido": this.formRegister.controls.apellidos.value,
           "telefono" : this.formRegister.controls.celular.value,
-          "direccion" : null,
+          "direccion" : this.formRegister.controls.direccion.value,
+          "fecha_nacimiento": this.formRegister.controls.fecha_nac.value,
+          "is_masculino": masculino,
+          "is_femenino": femenino,
           "data": {
             "pais": this.formRegister.controls.pais.value,
-            "prefijo": this.formRegister.controls.prefijo.value
+            "prefijo": this.formRegister.controls.prefijo.value,
+            "url_img":"",
+            "departamento_id": this.formRegister.controls.departamento.value,
+            "provincia_id": this.formRegister.controls.provincia.value,
+            "distrito_id": this.formRegister.controls.distrito.value
           }
         },
         "num_operacion": this.data_pago.num_operacion,
@@ -323,6 +345,15 @@ export class ReferidosComponent implements OnInit {
             showConfirmButton: false,
             timer: 2500
           });
+          let id_Peru:any='PER'
+          this.formRegister.controls.pais.setValue(id_Peru)
+          this.prefijo.forEach(i=>{
+            if(i.id=='PER'){
+              this.formRegister.controls.prefijo.setValue(i.id)
+            }
+          })
+          this.formRegister.controls.distrito.disable()
+          this.formRegister.controls.provincia.disable()
           this.validar_pago=false
           this.formRegister.reset()
           this.formPass.reset()

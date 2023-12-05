@@ -8,7 +8,9 @@
       </ol>
   </div>
 </div>
-<div class="card">
+<div class="card" *ngIf="data!=null">
   <div class="card-title text-center" style="margin-top: 30px;"><h2>Mi Red</h2></div>
   <app-d3-org-chart [data]="data"></app-d3-org-chart>
 </div>
+<!-- SPINNER -->
+<ngx-spinner type="timer"></ngx-spinner>

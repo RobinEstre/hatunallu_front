@@ -45,15 +45,23 @@ export class RegisterLinkComponent implements OnInit {
     email: ['', [Validators.required, Validators.email]],
     celular: ['', [Validators.required, Validators.minLength(9), Validators.maxLength(15)]],
     numDoc : ['', Validators.required],
-    pais: [null],
-    prefijo: [null],
+    direccion : ['', Validators.required],
+    fecha_nac : ['', Validators.required],
+    pais: [null, Validators.required],
+    prefijo: [null, Validators.required],
+    genero : [null, Validators.required],
+    departamento : [null, Validators.required],
+    provincia : [null, Validators.required],
+    distrito : [null, Validators.required],
   });
 
-  banco:any
+  banco:any;genero:any=[{name:'Masculino'},{name:'Femenino'}]; departamento:any; provincia:any; distrito:any
   pais:any=[];prefijo:any=[]; packs:any; validate_pack:any=false;detail_pack:any; code_url:any;  data_binance:any; txtCopiarBinance:any
   files: File[] = []; validar_pago:boolean=false; data_pago:any; data_pack:any
 
   ngOnInit(): void {
+    this.formRegister.controls.distrito.disable()
+    this.formRegister.controls.provincia.disable()
     this.list()
   }
 
@@ -113,6 +121,11 @@ export class RegisterLinkComponent implements OnInit {
         })
       }
     })
+    this.service.listDepartamento().subscribe(resp=>{
+      if(resp.success){
+        this.departamento=resp.data
+      }
+    })
   }
   
   listCountries(){
@@ -159,6 +172,37 @@ export class RegisterLinkComponent implements OnInit {
         this.formRegister.controls.prefijo.setValue(i.id)
       }
     })
+  }
+
+  selectDepartamento(event){
+    try{
+      this.formRegister.controls.provincia.enable()
+      this.formRegister.controls.distrito.enable()
+      this.service.listProvincia(event.id_dep).subscribe(resp=>{
+        if(resp.success){
+          this.provincia=resp.data
+        }
+      })
+    }catch(e){
+      this.formRegister.controls.distrito.setValue(null)
+      this.formRegister.controls.provincia.setValue(null)
+      this.formRegister.controls.distrito.disable()
+      this.formRegister.controls.provincia.disable()
+    }
+  }
+
+  selectProvincia(event){
+    try{
+      this.formRegister.controls.distrito.enable()   
+      this.service.listDistrito(event.id_pro).subscribe(resp=>{
+        if(resp.success){
+          this.distrito=resp.data
+        }
+      })   
+    }catch(e){
+      this.formRegister.controls.distrito.setValue(null)
+      this.formRegister.controls.distrito.disable()
+    }
   }
 
   openModalBinance() {
@@ -274,6 +318,9 @@ export class RegisterLinkComponent implements OnInit {
   register(){
     if(this.data_pago){
       this.spinner.show()
+      let masculino=false, femenino=false
+      if(this.formRegister.controls.genero.value=='Masculino'){masculino=true}
+      if(this.formRegister.controls.genero.value=='Femenino'){femenino=true}
       let body={
         "referido": {
           "email": this.formRegister.controls.email.value,
@@ -281,10 +328,17 @@ export class RegisterLinkComponent implements OnInit {
           "nombre": this.formRegister.controls.nombres.value,
           "apellido": this.formRegister.controls.apellidos.value,
           "telefono" : this.formRegister.controls.celular.value,
-          "direccion" : null,
+          "direccion" : this.formRegister.controls.direccion.value,
+          "fecha_nacimiento": this.formRegister.controls.fecha_nac.value,
+          "is_masculino": masculino,
+          "is_femenino": femenino,
           "data": {
             "pais": this.formRegister.controls.pais.value,
-            "prefijo": this.formRegister.controls.prefijo.value
+            "prefijo": this.formRegister.controls.prefijo.value,
+            "url_img":"",
+            "departamento_id": this.formRegister.controls.departamento.value,
+            "provincia_id": this.formRegister.controls.provincia.value,
+            "distrito_id": this.formRegister.controls.distrito.value
           }
         },
         "num_operacion": this.data_pago.num_operacion,

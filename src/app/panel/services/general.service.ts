@@ -61,6 +61,9 @@ export class GeneralService {
   listGrupos(){
     return this.httpClient.get(this.envUrl.urlAddress + 'au/listar-grupos/', );
   }
+  getProductos(){
+    return this.httpClient.get<any>(this.envUrl.urlAddress + 'red/productos/');
+  }
   getBancos(){
     return this.httpClient.get<any>(this.envUrl.urlAddress + 'au/listar/bancos/');
   }
@@ -96,5 +99,17 @@ export class GeneralService {
   }
   updatePassword(data){
     return this.httpClient.put<any>(this.envUrl.urlAddress + 'au/change/password-user/',data);
+  }
+  listDepartamento() {
+    return this.httpClient.get<any>(this.envUrl.urlAddress + 'departamentos/listar-departamentos', );
+  }
+  listProvincia(id) {
+    return this.httpClient.get<any>(this.envUrl.urlAddress + 'provincias/listar-provincias/'+id, );
+  }
+  listDistrito(id) {
+    return this.httpClient.get<any>(this.envUrl.urlAddress + 'distritos/listar-distritos/'+id,);
+  }
+  listRed(id) {
+    return this.httpClient.get<any>(this.envUrl.urlAddress + 'au/recursive/data-arbol/'+id,);
   }
 }
