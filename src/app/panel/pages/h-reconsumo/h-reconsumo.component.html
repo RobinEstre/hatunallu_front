@@ -1,0 +1,45 @@
+<div class="page-header">
+    <h1 class="page-title my-auto">Jatun Ayllu</h1>
+    <div>
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"> <a href="javascript:void(0)"><i class="fe fe-home"></i></a></li> 
+            <li class="breadcrumb-item"> <a href="javascript:void(0)">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">H. Reconsumo</li>
+        </ol> 
+    </div>
+</div>
+<div class="card">
+    <div class="card-header">
+        LISTA AFILIADOS
+    </div>
+    <div class="card-body row">
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <ng-template #idTpl let-rowIndex="rowIndex" let-row="row">
+                {{rowIndex+1}}
+            </ng-template>
+            <ng-template #dtActions let-data="adtData" let-emitter="captureEvents">
+                <app-table-buttons [actions]="dataTableActions" [data]="data" (emitter)="emitter($event)"></app-table-buttons>
+            </ng-template>
+            <table id="material--template-dt" datatable *ngIf="columns.length"  [dtOptions]="dtOptions"
+                    [dtTrigger]="dtTrigger" class="table table-striped w-100"></table>
+        </div>
+    </div>
+</div>
+<!-- Modal IMG -->
+<ng-template #modal_img let-modal>
+    <div class="modal-body row">
+        <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+            <h5>Imagen Comprobante {{data_detalle.cliente.id}} {{data_detalle.cliente.id}}</h5>
+            <hr>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+           <img src="{{data_detalle.url_voucher}}" alt="#" style="width: 100%;">
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+            <hr>
+            <button class="btn btn-danger" (click)="closeModalIMG()"> Cerrar</button>
+        </div>
+    </div>
+</ng-template>
+<!-- SPINNER -->
+<ngx-spinner type="timer"></ngx-spinner>

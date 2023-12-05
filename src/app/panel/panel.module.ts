@@ -15,6 +15,9 @@ import { NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import { NgxDropzoneModule } from 'ngx-dropzone';
 import { ReconsumoComponent } from './pages/reconsumo/reconsumo.component';
 import { ComisionesComponent } from './pages/comisiones/comisiones.component';
+import { HReconsumoComponent } from './pages/h-reconsumo/h-reconsumo.component';
+import { DataTablesModule } from 'angular-datatables';
+import { TableButtonsComponent } from './pages/h-reconsumo/table-buttons/table-buttons.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +27,9 @@ import { ComisionesComponent } from './pages/comisiones/comisiones.component';
     D3OrgChartComponent,
     PerfilComponent,
     ReconsumoComponent,
-    ComisionesComponent
+    ComisionesComponent,
+    HReconsumoComponent,
+    TableButtonsComponent
   ],
   imports: [
     CommonModule,
@@ -34,6 +39,7 @@ import { ComisionesComponent } from './pages/comisiones/comisiones.component';
     FormsModule,
     ReactiveFormsModule,
     NgSelectModule,
+    DataTablesModule,
     NgxSpinnerModule,
     PanelRoutingModule
   ]

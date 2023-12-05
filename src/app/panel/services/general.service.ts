@@ -61,6 +61,12 @@ export class GeneralService {
   listGrupos(){
     return this.httpClient.get(this.envUrl.urlAddress + 'au/listar-grupos/', );
   }
+  listEstados(){
+    return this.httpClient.get<any>(this.envUrl.urlAddress + 'au/listar/estados-pago/', );
+  }
+  getHistoryReconsumo(params){
+    return this.httpClient.get<any>(this.envUrl.urlAddress + 'red/reconsumo-productos/'+params);
+  }
   getProductos(){
     return this.httpClient.get<any>(this.envUrl.urlAddress + 'red/productos/');
   }
@@ -84,6 +90,9 @@ export class GeneralService {
   }
   registerQr(data=''){
     return this.httpClient.post<any>(this.envUrl.urlAddress + 'red/codigo-qr/',data);
+  }
+  registerReconsumo(data){
+    return this.httpClient.post<any>(this.envUrl.urlAddress + 'red/reconsumo-productos/',data);
   }
   registerClient(data){
     return this.httpClient.post<any>(this.envUrl.urlAddress + 'au/create/registro-referido/',data);

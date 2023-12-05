@@ -6,6 +6,7 @@ import { RedComponent } from './pages/red/red.component';
 import { PerfilComponent } from './pages/perfil/perfil.component';
 import { ReconsumoComponent } from './pages/reconsumo/reconsumo.component';
 import { ComisionesComponent } from './pages/comisiones/comisiones.component';
+import { HReconsumoComponent } from './pages/h-reconsumo/h-reconsumo.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,10 @@ const routes: Routes = [
   {
     path: 'reconsumo',
     component: ReconsumoComponent
+  },
+  {
+    path: 'historial-reconsumo',
+    component: HReconsumoComponent
   },
   {
     path: 'comisiones',

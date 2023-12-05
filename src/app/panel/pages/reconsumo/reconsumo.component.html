@@ -28,7 +28,7 @@
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-12 text-center">
                             <p>CANTIDAD</p>
-                            <input type="number" class="form-control" value="0">
+                            <input type="number" [id]="data.id" class="form-control" value="0" (change)="getCantidad($event, data)">
                             <!-- <p>{{data.cantidad}}</p> -->
                         </div>
                     </div>
@@ -38,15 +38,15 @@
     </div>
 </div>
 <div class="row my-3">
-    <div class="col-lg-2 col-md-2 col-sm-12"></div>
-    <div class="col-lg-8 col-md-8 col-sm-12">
+    <div class="col-lg-1 col-md-1 col-sm-12"></div>
+    <div class="col-lg-10 col-md-10 col-sm-12">
         <div class="card">
             <div class="row g-0">
                 <div class="col-md-12" style="border-radius: 10px;">
-                    <div class="card-body row">
+                    <form [formGroup]="formPass" class="card-body row">
                         <div class="col-lg-2 col-md-2 col-sm-12 text-center">
                             <p>Total Pagar:</p>
-                            <p>S/ 0.00</p>
+                            <p>S/ {{total_precio.toFixed(2)}}</p>
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-12 text-center">
                             <p>Banco:</p>
@@ -72,21 +72,22 @@
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-12 text-center">
                             <p>Fecha Pago:</p>
-                            <input type="date" class="form-control">
+                            <input autocomplete="off" class="form-control" type="date" formControlName="fecha" required>
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-12 text-center">
                             <p>Voucher:</p>
-                            <input type="file" class="form-control">
+                            <input type="file" class="form-control" accept="image/*" (change)="onSelect($event)">
                         </div>
                         <div class="col-lg-1 col-md-1 col-sm-12 text-center">
-                            <button class="btn btn-outline-primary">Pagar</button>
+                            <br>
+                            <button class="btn btn-outline-primary">Pedir</button>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-lg-2 col-md-2 col-sm-12"></div>
+    <div class="col-lg-1 col-md-1 col-sm-12"></div>
 </div>
 <!-- SPINNER -->
 <ngx-spinner type="timer"></ngx-spinner>
