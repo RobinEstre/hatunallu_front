@@ -319,7 +319,7 @@ export class HReconsumoComponent implements OnInit {
     });
 
     Swal.fire({
-      title: 'Cliente: '+data.data_referido.nombre+' '+data.data_referido.apellido,
+      title: 'Cliente: '+data.cliente.id+' '+data.cliente.id,
       text: 'Aprobar o Anular',
       input: 'select',
       inputOptions: options,
