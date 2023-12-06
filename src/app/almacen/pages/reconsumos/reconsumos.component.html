@@ -4,13 +4,13 @@
         <ol class="breadcrumb mb-0">
             <li class="breadcrumb-item"> <a href="javascript:void(0)"><i class="fe fe-home"></i></a></li> 
             <li class="breadcrumb-item"> <a href="javascript:void(0)">Dashboard</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Registrados</li>
+            <li class="breadcrumb-item active" aria-current="page">H. Reconsumo</li>
         </ol> 
     </div>
 </div>
 <div class="card">
     <div class="card-header">
-        LISTA AFILIADOS
+        RECONSUMO GENERAL
     </div>
     <form [formGroup]="formfiltros" class="card-body row">
         <div class="col-md-12 col-sm-12 col-lg-3 mb-2">
@@ -33,30 +33,33 @@
                 </ng-template>
                 <ng-template #is_estado let-data="adtData" let-emitter="captureEvents">
                     <p *ngIf="data.estado">
-                    <span class="badge bg-warning p-1" *ngIf="data.estado.name=='PENDIENTE'">{{data.estado.name}}</span>
+                        <span class="badge bg-warning p-1" *ngIf="data.estado.name=='PENDIENTE'">{{data.estado.name}}</span>
+                        <span class="badge bg-danger p-1" *ngIf="data.estado.name=='ANULADO'">{{data.estado.name}}</span>
+                        <span class="badge bg-success p-1" *ngIf="data.estado.name=='APROBADO'">{{data.estado.name}}</span>
+                        <span class="badge bg-success p-1" *ngIf="data.estado.name=='ENTREGADO'">{{data.estado.name}}</span>
                     </p>
                     <p *ngIf="!data.estado">
-                    <span class="badge bg-light text-dark p-1">Sin Estado</span>
+                      <span class="badge bg-light text-dark p-1">Sin Estado</span>
                     </p>
                 </ng-template>
                 <ng-template #dtActions let-data="adtData" let-emitter="captureEvents">
-                    <app-buttons-table-referidos [actions]="dataTableActions" [data]="data" (emitter)="emitter($event)"></app-buttons-table-referidos>
+                    <app-buttons-table-reconsumo-almacen [actions]="dataTableActions" [data]="data" (emitter)="emitter($event)"></app-buttons-table-reconsumo-almacen>
                 </ng-template>
-                <table id="material--template-dt" datatable *ngIf="columns.length" style="width: 100%;" [dtOptions]="dtOptions"
-                    [dtTrigger]="dtTrigger"></table>
+                <table id="material--template-dt" datatable *ngIf="columns.length" [dtOptions]="dtOptions" id="table"
+                    style="width: 100%;" [dtTrigger]="dtTrigger"></table>
             </div>
         </div>
     </form>
 </div>
 <!-- Modal IMG -->
-<ng-template #modal_img let-modal>
+<ng-template #modal_img let-modal>  
     <div class="modal-body row">
         <div class="col-lg-12 col-md-12 col-sm-12 text-center">
-            <h5>Imagen Comprobante {{data_detalle.data_referido.nombre}} {{data_detalle.data_referido.apellido}}</h5>
+            <h5>Imagen Comprobante {{data_detalle.cliente.id}} {{data_detalle.cliente.id}}</h5>
             <hr>
         </div>
         <div class="col-lg-12 col-md-12 col-sm-12 text-center">
-           <img src="{{data_detalle.url_comprobante}}" alt="#" style="width: 100%;">
+           <img src="{{data_detalle.url_voucher}}" alt="#" style="width: 100%;">
         </div>
         <div class="col-lg-12 col-md-12 col-sm-12 text-center">
             <hr>

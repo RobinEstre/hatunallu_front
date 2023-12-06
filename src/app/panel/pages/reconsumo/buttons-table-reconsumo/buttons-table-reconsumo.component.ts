@@ -2,11 +2,11 @@ import {Component, Input, OnInit, Output} from '@angular/core';
 import {Subject} from "rxjs";
 
 @Component({
-  selector: 'app-table-buttons',
-  templateUrl: './table-buttons.component.html',
-  styleUrls: ['./table-buttons.component.scss']
+  selector: 'app-buttons-table-reconsumo',
+  templateUrl: './buttons-table-reconsumo.component.html',
+  styleUrls: ['./buttons-table-reconsumo.component.scss']
 })
-export class TableButtonsComponent implements OnInit {
+export class ButtonsTableReconsumoComponent implements OnInit {
   @Output() emitter = new Subject<any>();
 
   @Input() actions!: Array<any>;

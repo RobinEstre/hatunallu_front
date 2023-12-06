@@ -73,6 +73,9 @@ export class GeneralService {
   getBancos(){
     return this.httpClient.get<any>(this.envUrl.urlAddress + 'au/listar/bancos/');
   }
+  getComisiones(id){
+    return this.httpClient.get<any>(this.envUrl.urlAddress + 'au/listar/referidos-comision/'+id);
+  }
   getDni(dni){
     return this.httpClient.get<any>(this.envUrl.urlAddress + 'consultar-dni-ruc/?type=dni&num_doc='+dni);
   }

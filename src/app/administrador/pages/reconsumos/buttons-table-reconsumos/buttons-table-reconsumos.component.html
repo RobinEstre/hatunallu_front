@@ -1,9 +1,8 @@
 <ng-container *ngIf="actions.length > 0">
-    <div class="d-inline-block">
-        <!-- estado.nombre -->
-        <ng-container *ngFor="let action of actions">
+    <div class="d-flex">
+        <ng-container *ngFor="let action of new_data">
             <button [class]="action.classList + ' mx-1'" data-bs-toggle="tooltip" data-bs-placement="right" title="{{action.label}}"
-                (click)="onActionClick(action.cmd)">
+                (click)="onActionClick(action.cmd)" *ngIf="action.mostrar==true">
                 <i class="{{action.icon}}"></i>
             </button>
         </ng-container>

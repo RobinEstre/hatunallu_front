@@ -1,4 +1,4 @@
-import { Component, OnInit, LOCALE_ID, ViewChild, TemplateRef } from '@angular/core';
+import { Component, OnInit, LOCALE_ID, ViewChild, TemplateRef, ChangeDetectorRef } from '@angular/core';
 import {DataTableDirective} from "angular-datatables";
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AdminService } from '../../services/admin.service';
@@ -68,22 +68,50 @@ export class ListTodosComponent implements OnInit {
   }
   @ViewChild('modal_img') private modalContentIMG: TemplateRef<ListTodosComponent>;
   private modalRefIMG: NgbModalRef;
+
   @ViewChild(DataTableDirective, {static: false})
   dtElement: DataTableDirective;
 
-  constructor(private service: AdminService,private spinner: NgxSpinnerService,private fb: FormBuilder,private modalService: NgbModal) { }
-  dtOptions: any;
-  dtTrigger: Subject<any> = new Subject<any>();
+  @ViewChild('dtActions') dtActions!: TemplateRef<ListTodosComponent>;
+  @ViewChild('idTpl', {static: true}) idTpl: TemplateRef<ListTodosComponent>;
+  @ViewChild('is_estado') is_estado!: TemplateRef<ListTodosComponent>;
+
+  constructor(private service: AdminService,private spinner: NgxSpinnerService,private fb: FormBuilder,private modalService: NgbModal, 
+    private cd: ChangeDetectorRef, private datePipe: DatePipe,) { 
+  }
 
   formfiltros = this.fb.group({
     estados: [null, Validators.required],
   });
 
-  clientes:any; estados:any; data_detalle:any
+  columns: Array<any> = [];
+
+  dtOptions: DataTables.Settings  = {};
+  dtTrigger: Subject<any> = new Subject<any>();
+  dataTableActions: Array<any> = [
+    {
+      cmd: "detail",
+      label: "Ver detalle",
+      classList: "btn btn-sm btn-success",
+      estado: "TODOS",
+      icon: 'fa fa-eye'
+    },
+    {
+      cmd: "update",
+      label: "Agregar Articulos",
+      classList: "btn btn-sm btn-info",
+      estado: "PENDIENTE",
+      icon: 'fa fa-edit'
+    }
+  ];
+
+  public paginate:any; public start_paginate:number=0; register_count:number; fillter_params:any; data_detalle:any; estados:any
 
   ngOnInit(): void {
-    this.spinner.show()
     this.listEstados()
+    setTimeout(() => {
+      this.listarData()
+    })
   }
 
   ngAfterViewInit(): void {
@@ -96,61 +124,13 @@ export class ListTodosComponent implements OnInit {
   }
 
   listEstados(){
+    this.spinner.show()
     this.service.listEstados().subscribe(resp => {
       if(resp['success']==true){
         this.estados=resp['data']
         let id:any=1
         this.formfiltros.controls.estados.setValue(id)
-        this.list(id)
-      }
-    },error => {
-      if (error.status === 400) {
-        Swal.fire({
-          title: 'Error!',
-          text: error.error['message'],
-          icon: 'error',
-          showCancelButton: true,
-          showConfirmButton: false,
-          cancelButtonColor: '#d37c0c',
-          cancelButtonText: 'Cerrar'
-        })
-      }
-      if (error.status === 500) {
-        Swal.fire({
-          title: 'Error!',
-          text: 'Comuniquese con el Area de Sistemas',
-          icon: 'error',
-          showCancelButton: true,
-          showConfirmButton: false,
-          cancelButtonColor: '#d37c0c',
-          cancelButtonText: 'Cerrar'
-        })
-      }
-      this.clientes=[]
-      this.dtTrigger.next();
-      this.spinner.hide()
-    })
-  }
-
-  list(estado){
-    this.dtOptions = {
-      pagingType: 'full_numbers',
-      pageLength: 20,
-      lengthMenu: [5, 10, 25],
-      processing: true,
-      dom: 'Bfrtip',
-      buttons: [
-        { extend: 'pdfHtml5', className: 'btn btn-primary text-white', title:'Reporte Clientes'},
-        { extend: 'copy', className: 'btn btn-primary text-white', title:'Reporte Clientes'},
-        { extend: 'print', className: 'btn btn-danger text-white', title:'Reporte Clientes'},
-        { extend: 'excelHtml5', className: 'btn btn-success text-white', title:'Reporte Clientes'}
-      ],
-      language: ListTodosComponent.spanish_datatables
-    }
-    this.service.listClientes(estado).subscribe(resp => {
-      if(resp['success']==true){
-        this.clientes=resp['data']
-        this.dtTrigger.next();
+        this.fillter_params = `?pagina=1&cantidad=10&estado_id=1`
         this.spinner.hide()
       }
     },error => {
@@ -176,31 +156,189 @@ export class ListTodosComponent implements OnInit {
           cancelButtonText: 'Cerrar'
         })
       }
-      this.clientes=[]
-      this.dtTrigger.next();
       this.spinner.hide()
     })
   }
 
-  selectEstado(event){
-    this.spinner.show()
-    try{
-      let id= event.id
-      this.actTable(id)
-    }catch(e){
-      let id:any=1
-      this.formfiltros.controls.estados.setValue(id)
-      this.actTable(id)
+  listarData(): void {
+    this.columns.push(
+        {title: 'N°', data:'id' },
+        {title: 'CLIENTE', data: 'cliente_name'},
+        {title: 'DOCUMENTO', data: 'data_referido.dni'},
+        {title: 'CELULAR', data: 'data_referido.telefono'},
+        {title: 'CORREO', data: 'data_referido.email'},
+        {title: 'PACK', data: 'pack.name'},
+        {title: 'BANCO', data: 'banco.name'},
+        {title: 'N° OPERACION', data: 'numero_operacion'},
+        {title: 'IMPORTE', data: 'importe'},
+        {title: 'F. PAGO', data: 'fecha_pago'},
+        {title: 'PATROCINADOR', data: 'patrocinador_name'},
+        // { title: 'ESTADO',
+        //   data: 'estado',
+        //   defaultContent: '',
+        //   orderable: false,
+        //   searchable: false,
+        //   ngTemplateRef: {
+        //     ref: this.is_estado,
+        //     context: {
+        //       // needed for capturing events inside <ng-template>
+        //       captureEvents: this.captureEventsEmitido.bind(self)
+        //     }
+        //   }
+        // },
+        {title: 'F. REGISTRO', data: 'created_at'},
+    );
+    if (this.dataTableActions.length > 0) {
+      this.columns.push({
+        title: "ACCIONES",
+        data: null,
+        orderable: false,
+        searchable: false,
+        defaultContent: "",
+        ngTemplateRef: {
+          ref: this.dtActions,
+          context: {
+            captureEvents: this.onCaptureEvent.bind(this)
+          }
+        }
+      });
     }
+    this.dtOptions = {
+      ajax: (dataTablesParameters: any, callback) => {
+        // validar si existe variables en el objeto
+        console.log(dataTablesParameters)
+        let result = Object.entries(dataTablesParameters).length;
+        if (result > 0){
+          let id=1
+          let body_params = dataTablesParameters
+          this.start_paginate = body_params['start']        
+          if (this.register_count){
+            if (body_params['length'] > this.register_count){
+              this.paginate = 1
+            }else{
+              let n_paginated = (this.register_count  / body_params['length'])
+              console.log(n_paginated)
+              if (Number.isInteger(this.register_count  / body_params['length'])) {
+                n_paginated = Math.round(n_paginated)
+              }else {
+                n_paginated = Math.round(n_paginated) + 1
+              }
+              let list_indices:any = [];
+              for (let i = 0; i < n_paginated; i++) {
+                let i_custom = i + 1
+                let value = i * body_params['length'];
+                list_indices.push({
+                  id: i_custom,
+                  value: value,
+                });
+              }
+              list_indices.forEach((item) => {
+                if (item.value === body_params['start']) {
+                  this.paginate = item.id;
+                }
+              });
+            }
+          }else {
+            this.paginate = 1
+          }
+          if(this.formfiltros.controls.estados.value!=null){id=this.formfiltros.controls.estados.value}
+          this.fillter_params = `?pagina=${this.paginate}&cantidad=${body_params['length']}&estado_id=${id}&nombre_referido=${body_params['search']['value']}`
+        }
+        this.service.getListReferidos(this.fillter_params).subscribe(resp => {
+          let data:any=[]
+          resp['data'].forEach(i=>{
+            let created_at= this.datePipe.transform(i.created_at,"dd-MM-yyyy")
+            let updated_at= this.datePipe.transform(i.updated_at,"dd-MM-yyyy")
+            let fecha_pago= this.datePipe.transform(i.fecha_pago,"dd-MM-yyyy")
+            let cliente_name=i.data_referido.nombre+' '+i.data_referido.apellido
+            let patrocinador_name=i.patrocinador.nombre+' '+i.patrocinador.apellido
+            data.push({
+              "id": i.id,
+              "estado": i.estado,
+              "banco": i.banco,
+              "pack": i.pack,
+              "patrocinador": i.patrocinador,
+              "data_referido": i.data_referido,
+              "numero_operacion": i.numero_operacion,
+              "url_comprobante": i.url_comprobante,
+              "importe": i.importe,
+              "created_at": created_at,
+              "updated_at": updated_at,
+              "fecha_pago": fecha_pago,
+              cliente_name: cliente_name,
+              patrocinador_name: patrocinador_name
+            })
+          })
+          this.register_count = resp['cantidad']
+          callback({
+            recordsTotal: resp['cantidad'],
+            recordsFiltered: resp['cantidad'],
+            data: data
+          });
+        })
+
+      },
+      rowCallback: (row: Node, data: any[] | object, dataIndex: number) => {
+        row.childNodes[0].textContent = String((dataIndex + this.start_paginate) + 1);
+      },
+      dom: '<l>Bfrtip',
+      /*buttons: [
+        {
+          extend: 'colvis',
+          columns: ':not(.noVis)'
+        },
+        'excel',
+      ],*/
+      columnDefs: [
+        {
+          targets: "_all",
+          className: "valign-middle",
+        },
+        {
+          targets: [0],
+          className: "text-right noVis",
+        },
+      ],
+      stateSave: true,
+      serverSide: true,
+      processing: true,
+      searchDelay: 600,
+      language: ListTodosComponent.spanish_datatables,
+      columns: this.columns
+    };
+    this.cd.detectChanges();
+    this.dtTrigger.next();
   }
 
-  actTable(id){
+  captureEventsEmitido(event: any): void {
+  }
+
+  rerender(): void {
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
       // Destroy the table first
       dtInstance.destroy();
       // Call the dtTrigger to rerender again
-      this.list(id)
+      this.dtTrigger.next()
     });
+  }
+
+  onCaptureEvent(event: any): void {
+    if (event['cmd'] === 'detail'){
+      this.openModalIMG(event.data)
+    }else {
+      this.cambiarEstado(event.data)
+    }
+  }
+
+  selectEstado(event){
+    try{
+      let id= event.id
+      this.rerender()
+    }catch(e){
+      let id:any=1
+      this.formfiltros.controls.estados.setValue(id)
+      this.rerender()
+    }
   }
 
   cambiarEstado(data){
@@ -247,8 +385,7 @@ export class ListTodosComponent implements OnInit {
           showConfirmButton: false,
           timer: 1500
         });
-        let id_estado= this.formfiltros.controls.estados.value
-        this.actTable(id_estado)
+        this.rerender()
       }
     },error => {
       if (error.status === 400) {
@@ -273,6 +410,7 @@ export class ListTodosComponent implements OnInit {
           cancelButtonText: 'Cerrar'
         })
       }
+      this.rerender()
       this.spinner.hide()
     })
   }

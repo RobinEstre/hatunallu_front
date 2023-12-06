@@ -10,20 +10,46 @@
 </div>
 <div class="card">
     <div class="card-header">
-        LISTA AFILIADOS
+        HISTORIAL DE RECONSUMO
     </div>
-    <div class="card-body row">
-        <div class="col-sm-12 col-md-12 col-lg-12">
-            <ng-template #idTpl let-rowIndex="rowIndex" let-row="row">
-                {{rowIndex+1}}
-            </ng-template>
-            <ng-template #dtActions let-data="adtData" let-emitter="captureEvents">
-                <app-table-buttons [actions]="dataTableActions" [data]="data" (emitter)="emitter($event)"></app-table-buttons>
-            </ng-template>
-            <table id="material--template-dt" datatable *ngIf="columns.length"  [dtOptions]="dtOptions"
-                    [dtTrigger]="dtTrigger" class="table table-striped w-100"></table>
+    <form [formGroup]="formfiltros" class="card-body row">
+        <div class="col-md-12 col-sm-12 col-lg-3 mb-2">
+            <div class="form-group">
+            <small class="form-label"><b>Filtrar Estado</b></small>
+            <ng-select class="text-uppercase"
+                        formControlName="estados"
+                        [items]="estados"
+                        bindLabel="name"
+                        bindValue="id"
+                        placeholder="SELECCIONAR ESTADO"
+                        (change)="selectEstado($event)">
+            </ng-select>
+            </div>
         </div>
-    </div>
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <div class="table-responsive invoice-table" id="table">
+                <ng-template #idTpl let-rowIndex="rowIndex" let-row="row">
+                    {{rowIndex+1}}
+                </ng-template>
+                <ng-template #is_estado let-data="adtData" let-emitter="captureEvents">
+                    <p *ngIf="data.estado">
+                        <span class="badge bg-warning p-1" *ngIf="data.estado.name=='PENDIENTE'">{{data.estado.name}}</span>
+                        <span class="badge bg-danger p-1" *ngIf="data.estado.name=='ANULADO'">{{data.estado.name}}</span>
+                        <span class="badge bg-success p-1" *ngIf="data.estado.name=='APROBADO'">{{data.estado.name}}</span>
+                        <span class="badge bg-success p-1" *ngIf="data.estado.name=='ENTREGADO'">{{data.estado.name}}</span>
+                    </p>
+                    <p *ngIf="!data.estado">
+                      <span class="badge bg-light text-dark p-1">Sin Estado</span>
+                    </p>
+                </ng-template>
+                <ng-template #dtActions let-data="adtData" let-emitter="captureEvents">
+                    <app-table-buttons [actions]="dataTableActions" [data]="data" (emitter)="emitter($event)"></app-table-buttons>
+                </ng-template>
+                <table id="material--template-dt" datatable *ngIf="columns.length" [dtOptions]="dtOptions" id="table"
+                style="width: 100%;" [dtTrigger]="dtTrigger"></table>
+            </div>
+        </div>
+    </form>
 </div>
 <!-- Modal IMG -->
 <ng-template #modal_img let-modal>

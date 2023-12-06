@@ -8,6 +8,7 @@ import localeEs from '@angular/common/locales/es';
 import {DatePipe, registerLocaleData} from "@angular/common";
 registerLocaleData(localeEs, 'es');
 import Swal from "sweetalert2";
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-h-reconsumo',
@@ -72,13 +73,17 @@ export class HReconsumoComponent implements OnInit {
   dtElement: DataTableDirective;
 
   @ViewChild('dtActions') dtActions!: TemplateRef<HReconsumoComponent>;
-
   @ViewChild('idTpl', {static: true}) idTpl: TemplateRef<HReconsumoComponent>;
+  @ViewChild('is_estado') is_estado!: TemplateRef<HReconsumoComponent>;
 
   constructor( private spinner: NgxSpinnerService, private cd: ChangeDetectorRef, private datePipe: DatePipe,
-    private service: GeneralService, private modalService: NgbModal) {
+    private service: GeneralService, private modalService: NgbModal,private fb: FormBuilder) {
     this.columns = [];
   }
+
+  formfiltros = this.fb.group({
+    estados: [null, Validators.required],
+  });
 
   columns: Array<any> = [];
 
@@ -92,28 +97,33 @@ export class HReconsumoComponent implements OnInit {
       estado: "PENDIENTE",
       icon: 'fa fa-eye'
     },
-    {
-      cmd: "update",
-      label: "Agregar Articulos",
-      classList: "btn btn-sm btn-info",
-      estado: "PENDIENTE",
-      icon: 'fa fa-edit'
-    }
+    // {
+    //   cmd: "update",
+    //   label: "Agregar Articulos",
+    //   classList: "btn btn-sm btn-info",
+    //   estado: "PENDIENTE",
+    //   icon: 'fa fa-edit'
+    // }
   ];
 
-  public paginate:any; public start_paginate:number=0; register_count:number; fillter_params:any; data_detalle:any; estados:any
+  public paginate:any; public start_paginate:number=0; register_count:number; fillter_params:any; data_detalle:any; estados:any;data_user:any
 
   ngOnInit(): void {
     this.listEstados()
     setTimeout(() => {
-      this.listar_inventario()
+      this.listarData()
     })
   }
 
   listEstados(){
+    this.spinner.show()
     this.service.listEstados().subscribe(resp => {
       if(resp['success']==true){
         this.estados=resp['data']
+        let id:any=1
+        this.formfiltros.controls.estados.setValue(id)
+        this.fillter_params = `?pagina=1&cantidad=10&estado_id=1`
+        this.spinner.hide()
       }
     },error => {
       if (error.status === 400) {
@@ -138,137 +148,156 @@ export class HReconsumoComponent implements OnInit {
           cancelButtonText: 'Cerrar'
         })
       }
-      this.dtTrigger.next();
       this.spinner.hide()
     })
   }
 
-  listar_inventario(): void {
-    this.fillter_params = `?pagina=1&cantidad=10`
-    this.columns.push(
-        {title: 'N°', data:'id' },
-        {title: 'CLIENTE', data: 'cliente.id'},
-        {title: 'IMPORTE', data: 'importe'},
-        {title: 'N° OPERACION', data: 'num_operacion'},
-        {title: 'F. PAGO', data: 'created_at'},
-        {title: 'ESTADO', data: 'estado.name'},
-        {title: 'F. REGISTRO', data: 'created_at'},
-    );
-    if (this.dataTableActions.length > 0) {
-      this.columns.push({
-        title: "ACCIONES",
-        data: null,
-        orderable: false,
-        searchable: false,
-        defaultContent: "",
-        ngTemplateRef: {
-          ref: this.dtActions,
-          context: {
-            captureEvents: this.onCaptureEvent.bind(this)
-          }
-        }
-      });
-    }
-    this.dtOptions = {
-      ajax: (dataTablesParameters: any, callback) => {
-        // validar si existe variables en el objeto
-        console.log(dataTablesParameters)
-        let result = Object.entries(dataTablesParameters).length;
-        if (result > 0){
-          // si hay registros, configurar los nuevos parametros de busqueda
-          //let id= this.formfiltros.controls['estado'].value
-
-          let body_params = dataTablesParameters
-
-          this.start_paginate = body_params['start']
-
-          if (this.register_count){
-            if(body_params['length'] > this.register_count){
-              this.paginate = 1
-            }else{
-              let n_paginated = (this.register_count  / body_params['length'])
-
-              n_paginated = Math.round(n_paginated)
-
-              let list_indices:any = [];
-              for (let i = 0; i < n_paginated; i++) {
-                let i_custom = i + 1
-                let value = i * body_params['length'];
-                list_indices.push({
-                  id: i_custom,
-                  value: value,
-                });
-              }
-              list_indices.forEach((item) => {
-                if (item.value === body_params['start']) {
-                  this.paginate = item.id;
+  listarData(): void {
+    this.service.getProfile().subscribe(resp=>{
+      if(resp.success){
+        this.data_user=resp.data_usuario;
+        this.columns.push(
+            {title: 'N°', data:'id' },
+            {title: 'CLIENTE', data: 'cliente.id'},
+            {title: 'IMPORTE', data: 'importe'},
+            {title: 'N° OPERACION', data: 'num_operacion'},
+            {title: 'F. PAGO', data: 'created_at'},
+            { title: 'ESTADO',
+              data: 'estado',
+              defaultContent: '',
+              orderable: false,
+              searchable: false,
+              ngTemplateRef: {
+                ref: this.is_estado,
+                context: {
+                  // needed for capturing events inside <ng-template>
+                  captureEvents: this.captureEventsEmitido.bind(self)
                 }
-              });
+              }
+            },
+            {title: 'F. REGISTRO', data: 'created_at'},
+        );
+        if (this.dataTableActions.length > 0) {
+          this.columns.push({
+            title: "ACCIONES",
+            data: null,
+            orderable: false,
+            searchable: false,
+            defaultContent: "",
+            ngTemplateRef: {
+              ref: this.dtActions,
+              context: {
+                captureEvents: this.onCaptureEvent.bind(this)
+              }
             }
-          }else{
-            this.paginate = 1
-          }
-        }
-        this.service.getHistoryReconsumo(this.fillter_params).subscribe(resp => {
-          let data:any=[]
-          resp['data'].forEach(i=>{
-            let created_at= this.datePipe.transform(i.created_at,"d MMMM, y")
-            let updated_at= this.datePipe.transform(i.updated_at,"d MMMM, y")
-            data.push({
-              "id": 16,
-              "cliente": i.cliente,
-              "tipo_venta": i.tipo_venta,
-              "estado": i.estado,
-              "patrocinador_id": i.patrocinador_id,
-              "data": i.data,
-              "url_voucher": i.url_voucher,
-              "importe": i.importe,
-              "num_operacion": i.num_operacion,
-              "created_at": created_at,
-              "updated_at": updated_at,
-              "forma_ganar": i.forma_ganar,
-              "pack": i.pack
-            })
-          })
-          this.register_count = resp['cantidad']
-          callback({
-            recordsTotal: resp['cantidad'],
-            recordsFiltered: resp['cantidad'],
-            data: data
           });
-        })
+        }
+        this.dtOptions = {
+          ajax: (dataTablesParameters: any, callback) => {
+            // validar si existe variables en el objeto
+            console.log(dataTablesParameters)
+            let result = Object.entries(dataTablesParameters).length;
+            if (result > 0){
+              let id=1
+              let body_params = dataTablesParameters
+              this.start_paginate = body_params['start']
+              if (this.register_count){
+                if (body_params['length'] > this.register_count){
+                  this.paginate = 1
+                }else{
+                  let n_paginated = (this.register_count  / body_params['length'])
+                  console.log(n_paginated)
+                  if (Number.isInteger(this.register_count  / body_params['length'])) {
+                    n_paginated = Math.round(n_paginated)
+                  }else {
+                    n_paginated = Math.round(n_paginated) + 1
+                  }
+                  let list_indices:any = [];
+                  for (let i = 0; i < n_paginated; i++) {
+                    let i_custom = i + 1
+                    let value = i * body_params['length'];
+                    list_indices.push({
+                      id: i_custom,
+                      value: value,
+                    });
+                  }
+                  list_indices.forEach((item) => {
+                    if (item.value === body_params['start']) {
+                      this.paginate = item.id;
+                    }
+                  });
+                }
+              }else {
+                this.paginate = 1
+              }
+              if(this.formfiltros.controls.estados.value!=null){id=this.formfiltros.controls.estados.value}
+              this.fillter_params = `?pagina=${this.paginate}&cantidad=${body_params['length']}&estado_id=${id}&usuario_id=${this.data_user.id}&cliente_name=${body_params['search']['value']}`
+            }
+            this.service.getHistoryReconsumo(this.fillter_params).subscribe(resp => {
+              let data:any=[]
+              resp['data'].forEach(i=>{
+                let created_at= this.datePipe.transform(i.created_at,"dd/MM/yyyy")
+                let updated_at= this.datePipe.transform(i.updated_at,"dd/MM/yyyy")
+                data.push({
+                  "id": 16,
+                  "cliente": i.cliente,
+                  "tipo_venta": i.tipo_venta,
+                  "estado": i.estado,
+                  "patrocinador_id": i.patrocinador_id,
+                  "data": i.data,
+                  "url_voucher": i.url_voucher,
+                  "importe": i.importe,
+                  "num_operacion": i.num_operacion,
+                  "created_at": created_at,
+                  "updated_at": updated_at,
+                  "forma_ganar": i.forma_ganar,
+                  "pack": i.pack
+                })
+              })
+              this.register_count = resp['cantidad']
+              callback({
+                recordsTotal: resp['cantidad'],
+                recordsFiltered: resp['cantidad'],
+                data: data
+              });
+            })
+    
+          },
+          rowCallback: (row: Node, data: any[] | object, dataIndex: number) => {
+            row.childNodes[0].textContent = String((dataIndex + this.start_paginate) + 1);
+          },
+          dom: '<l>Bfrtip',
+          /*buttons: [
+            {
+              extend: 'colvis',
+              columns: ':not(.noVis)'
+            },
+            'excel',
+          ],*/
+          columnDefs: [
+            {
+              targets: "_all",
+              className: "valign-middle",
+            },
+            {
+              targets: [0],
+              className: "text-right noVis",
+            },
+          ],
+          stateSave: true,
+          serverSide: true,
+          processing: true,
+          searchDelay: 600,
+          language: HReconsumoComponent.spanish_datatables,
+          columns: this.columns
+        };
+        this.cd.detectChanges();
+        this.dtTrigger.next();
+      }
+    })
+  }
 
-      },
-      rowCallback: (row: Node, data: any[] | object, dataIndex: number) => {
-        row.childNodes[0].textContent = String((dataIndex + this.start_paginate) + 1);
-      },
-      dom: '<l>Bfrtip',
-      /*buttons: [
-        {
-          extend: 'colvis',
-          columns: ':not(.noVis)'
-        },
-        'excel',
-      ],*/
-      columnDefs: [
-        {
-          targets: "_all",
-          className: "valign-middle",
-        },
-        {
-          targets: [0],
-          className: "text-right noVis",
-        },
-      ],
-      stateSave: true,
-      serverSide: true,
-      processing: true,
-      searchDelay: 600,
-      language: HReconsumoComponent.spanish_datatables,
-      columns: this.columns
-    };
-    this.cd.detectChanges();
-    this.dtTrigger.next();
+  captureEventsEmitido(event: any): void {
   }
 
   ngAfterViewInit(): void {
@@ -332,6 +361,17 @@ export class HReconsumoComponent implements OnInit {
         }        
       }
     });
+  }
+
+  selectEstado(event){
+    try{
+      let id= event.id
+      this.rerender()
+    }catch(e){
+      let id:any=1
+      this.formfiltros.controls.estados.setValue(id)
+      this.rerender()
+    }
   }
 
   // changeEstado(id){

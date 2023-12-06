@@ -18,6 +18,7 @@ import { ComisionesComponent } from './pages/comisiones/comisiones.component';
 import { HReconsumoComponent } from './pages/h-reconsumo/h-reconsumo.component';
 import { DataTablesModule } from 'angular-datatables';
 import { TableButtonsComponent } from './pages/h-reconsumo/table-buttons/table-buttons.component';
+import { ButtonsTableReconsumoComponent } from './pages/reconsumo/buttons-table-reconsumo/buttons-table-reconsumo.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { TableButtonsComponent } from './pages/h-reconsumo/table-buttons/table-b
     ReconsumoComponent,
     ComisionesComponent,
     HReconsumoComponent,
-    TableButtonsComponent
+    TableButtonsComponent,
+    ButtonsTableReconsumoComponent
   ],
   imports: [
     CommonModule,

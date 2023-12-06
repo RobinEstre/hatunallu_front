@@ -9,6 +9,15 @@ export class AlmacenService {
 
   constructor(private httpClient: HttpClient, private envUrl: UrlEnviromentService) { }
 
+  getListReferidos(params){
+    return this.httpClient.get<any>(this.envUrl.urlAddress + 'au/listar/referidos-todos/'+params, );
+  }
+  getHistoryReconsumo(params){
+    return this.httpClient.get<any>(this.envUrl.urlAddress + 'red/reconsumo-productos/'+params);
+  }
+  getProductos(){
+    return this.httpClient.get<any>(this.envUrl.urlAddress + 'red/productos/');
+  }
   listClientes(estado){
     return this.httpClient.get<any>(this.envUrl.urlAddress + 'au/listar/referidos-todos/?estado='+estado, );
   }
@@ -17,5 +26,8 @@ export class AlmacenService {
   }
   aceptarReferidos(data){
     return this.httpClient.put<any>(this.envUrl.urlAddress + 'au/referidos/aprobar-rechazar/',data );
+  }
+  validateEntrega(id, data){
+    return this.httpClient.put<any>(this.envUrl.urlAddress + 'red/reconsumo-productos/'+id+'/',data );
   }
 }

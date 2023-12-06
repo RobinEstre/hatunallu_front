@@ -58,7 +58,9 @@ button.close {
 .ng-select.ng-select-opened .ng-select-container {
   z-index: 5 !important;
 }
-
+.swal2-container {
+  z-index: 10000 !important;
+}
 .ng-dropdown-panel {
   z-index: 10 !important;
 }
