@@ -332,6 +332,7 @@ export class ReconsumosComponent implements OnInit {
   }
 
   cambiarEstado(data){
+    this.data_detalle=data
     Swal.fire({
       title: "Estas seguro de validar la entrega?",
       text: "Si validas no se podrá revertir",
