@@ -11,12 +11,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { DataTablesModule } from 'angular-datatables';
+import { ButtonsTableReferidosComponent } from './pages/list-todos/buttons-table-referidos/buttons-table-referidos.component';
+import { ReconsumosComponent } from './pages/reconsumos/reconsumos.component';
+import { ButtonsTableReconsumosComponent } from './pages/reconsumos/buttons-table-reconsumos/buttons-table-reconsumos.component';
 
 
 @NgModule({
   declarations: [
     ListTodosComponent,
-    PerfilComponent
+    PerfilComponent,
+    ButtonsTableReferidosComponent,
+    ReconsumosComponent,
+    ButtonsTableReconsumosComponent
   ],
   imports: [
     CommonModule,
