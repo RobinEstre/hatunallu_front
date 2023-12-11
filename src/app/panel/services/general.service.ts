@@ -73,6 +73,9 @@ export class GeneralService {
   getProfile(){
     return this.httpClient.get<any>(this.envUrl.urlAddress + 'au/listar/datos-user/');
   }
+  getRango(id){
+    return this.httpClient.get<any>(this.envUrl.urlAddress + 'au/listar/puntos-rango/'+id);
+  }
   validateCodeURL(data){
     return this.httpClient.get<any>(this.envUrl.urlAddress + 'red/validate/link-referido/?code_url='+ data);
   }

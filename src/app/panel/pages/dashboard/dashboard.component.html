@@ -10,15 +10,15 @@
 
 <!-- ROW OPEN  *ngIf="group_name=='AFILIADO'" -->
 <div class="row">
-    <div class="col-sm-12 col-md-2 col-lg-2">
+    <div class="col-sm-12 col-md-2 col-lg-2" *ngIf="rango">
         <div class="card bg-dark img-card box-dark-shadow">
             <div class="card-body">
                 <div class="d-flex">
                     <div class="text-white">
-                        <h2 class="mb-0 number-font">MASTER</h2>
+                        <h2 class="mb-0 number-font">{{rango.name}}</h2>
                         <p class="text-white mb-0">Rango</p>
                     </div>
-                    <div class="ms-auto"> <img src="https://cdn.discordapp.com/attachments/1011378535186845790/1179917444937175111/50.png?ex=657b86c0&is=656911c0&hm=8a0523457c9a2f34a9834a43d619212004f14713b1739b9d4c6657406d3b9095&" alt=""> </div>
+                    <div class="ms-auto text-end"> <img src="{{rango.url_img}}" alt="" style="width: 50%;"></div>
                 </div>
             </div>
         </div>

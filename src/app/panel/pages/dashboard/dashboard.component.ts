@@ -15,7 +15,7 @@ export class DashboardComponent implements OnInit {
   constructor(private spinner: NgxSpinnerService, private generalService: GeneralService, public navServices: NavService,private router: Router,
     private servicePanel: PanelService) { }
   
-  menuItems: any[] = []; group_name:any
+  menuItems: any[] = []; group_name:any; rango:any
 
   ngOnInit(): void {
     this.listGroup()
@@ -23,8 +23,12 @@ export class DashboardComponent implements OnInit {
 
   listGroup(){
     this.spinner.show()
+    this.generalService.getProfile().subscribe(resp=>{
+      if(resp.success){
+        this.list(resp.data_usuario.id)
+      }
+    })
     this.generalService.listGrupos().subscribe(resp => {
-      console.log(resp)
       let name = null
       resp['grupos'].forEach(i=>{
         name = i
@@ -35,7 +39,6 @@ export class DashboardComponent implements OnInit {
           this.group_name=localStorage.getItem('group_name')
           this.spinner.hide()
           this.menuItems = menuItems['data'];
-          console.log(this.menuItems)
           this.navServices.sendLista(this.menuItems)
           this.servicePanel.sendShow(true)
           this.navServices.refreshGroupHeader(true)
@@ -48,6 +51,14 @@ export class DashboardComponent implements OnInit {
       }
     }, error => {
       this.spinner.hide()
+    })
+  }
+
+  list(id){
+    this.generalService.getRango(id).subscribe(resp=>{
+      if(resp.success){
+        this.rango=resp.data_range
+      }
     })
   }
 }
