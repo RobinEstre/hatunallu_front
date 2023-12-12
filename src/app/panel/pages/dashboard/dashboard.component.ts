@@ -25,7 +25,7 @@ export class DashboardComponent implements OnInit {
     this.spinner.show()
     this.generalService.getProfile().subscribe(resp=>{
       if(resp.success){
-        this.list(resp.data_usuario.id)
+        this.list(resp.data_usuario.persona)
       }
     })
     this.generalService.listGrupos().subscribe(resp => {
@@ -57,7 +57,7 @@ export class DashboardComponent implements OnInit {
   list(id){
     this.generalService.getRango(id).subscribe(resp=>{
       if(resp.success){
-        this.rango=resp.data_range
+        this.rango=resp
       }
     })
   }

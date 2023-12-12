@@ -155,7 +155,7 @@ export class ReconsumosComponent implements OnInit {
   listarData(): void {
     this.columns.push(
         {title: 'N°', data:'id' },
-        {title: 'CLIENTE', data: 'cliente.id'},
+        {title: 'CLIENTE', data: 'cliente_name'},
         {title: 'IMPORTE', data: 'importe'},
         {title: 'N° OPERACION', data: 'num_operacion'},
         {title: 'F. PAGO', data: 'created_at'},
@@ -233,10 +233,11 @@ export class ReconsumosComponent implements OnInit {
         this.service.getHistoryReconsumo(this.fillter_params).subscribe(resp => {
           let data:any=[]
           resp['data'].forEach(i=>{
+            let cliente_name=i.cliente.nombre+' '+i.cliente.apellido
             let created_at= this.datePipe.transform(i.created_at,"d MMMM, y")
             let updated_at= this.datePipe.transform(i.updated_at,"d MMMM, y")
             data.push({
-              "id": 16,
+              "id": i.id,
               "cliente": i.cliente,
               "tipo_venta": i.tipo_venta,
               "estado": i.estado,
@@ -248,7 +249,8 @@ export class ReconsumosComponent implements OnInit {
               "created_at": created_at,
               "updated_at": updated_at,
               "forma_ganar": i.forma_ganar,
-              "pack": i.pack
+              "pack": i.pack,
+              cliente_name: cliente_name,
             })
           })
           this.register_count = resp['cantidad']
@@ -343,7 +345,7 @@ export class ReconsumosComponent implements OnInit {
     });
 
     Swal.fire({
-      title: 'Cliente: '+data.cliente.id+' '+data.cliente.id,
+      title: 'Cliente: '+data.cliente_name,
       text: 'Aprobar o Anular',
       input: 'select',
       inputOptions: options,

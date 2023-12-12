@@ -83,7 +83,7 @@ export class ComisionesComponent implements OnInit {
     this.spinner.show()
     this.service.getProfile().subscribe(resp => {
       if(resp['success']==true){
-        this.listTable(resp.data_usuario.id)
+        this.listTable(resp.data_usuario.persona)
       }
     },error => {
       if(error.status==400){
@@ -131,7 +131,22 @@ export class ComisionesComponent implements OnInit {
     }
     this.service.getComisiones(id).subscribe(resp => {
       if(resp['success']==true){
-        this.comisiones=resp['data']
+        let data:any=[]
+        resp.data.forEach(i=>{
+          if(i.nivel!=0){
+            data.push({
+              "nombre": i.nombre,
+              "hijo_id": i.hijo_id,
+              "apellido": i.apellido,
+              "nivel": i.nivel,
+              "padre_id": i.padre_id,
+              "importe": i.importe,
+              "cantidad_products": i.cantidad_products,
+              "ganancias": i.ganancias,
+            })
+          }
+        })
+        this.comisiones=data
         this.total_ganancia=resp['ganancia_total']
         this.dtTrigger.next();
         this.spinner.hide()

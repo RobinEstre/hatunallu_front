@@ -378,6 +378,7 @@ export class ListTodosComponent implements OnInit {
         this.estados.forEach(i=>{
           if(i.id==id){name=i.name}
         })
+        this.spinner.hide()
         Swal.fire({
           position: "center",
           icon: "success",

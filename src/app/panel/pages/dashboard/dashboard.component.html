@@ -9,16 +9,16 @@
 </div>
 
 <!-- ROW OPEN  *ngIf="group_name=='AFILIADO'" -->
-<div class="row">
-    <div class="col-sm-12 col-md-2 col-lg-2" *ngIf="rango">
+<div class="row" *ngIf="rango">
+    <div class="col-sm-12 col-md-4 col-lg-4">
         <div class="card bg-dark img-card box-dark-shadow">
             <div class="card-body">
                 <div class="d-flex">
                     <div class="text-white">
-                        <h2 class="mb-0 number-font">{{rango.name}}</h2>
+                        <h2 class="mb-0">{{rango.data_range.name}} --> {{rango.cantidad_puntos.cantidad_puntos}} PTS.</h2>
                         <p class="text-white mb-0">Rango</p>
                     </div>
-                    <div class="ms-auto text-end"> <img src="{{rango.url_img}}" alt="" style="width: 50%;"></div>
+                    <div class="ms-auto text-end"><img src="{{rango.data_range.url_img}}" alt="" style="width: 50%;"></div>
                 </div>
             </div>
         </div>
@@ -29,7 +29,7 @@
             <div class="card-body">
                 <div class="d-flex">
                     <div class="text-white">
-                        <h2 class="mb-0 number-font">10</h2>
+                        <h2 class="mb-0 number-font">{{rango.cantidad_puntos.num_afiliados}}</h2>
                         <p class="text-white mb-0">N° Afiliados</p>
                     </div>
                     <div class="ms-auto"> <i class="fa fa-user-o text-white fs-30 me-2 mt-2"></i> </div>
@@ -43,7 +43,7 @@
             <div class="card-body">
                 <div class="d-flex">
                     <div class="text-white">
-                        <h2 class="mb-0 number-font">98</h2>
+                        <h2 class="mb-0 number-font">{{rango.cantidad_puntos.directos}}</h2>
                         <p class="text-white mb-0">Directos</p>
                     </div>
                     <div class="ms-auto"> <i class="fa fa-user-o text-white fs-30 me-2 mt-2"></i> </div>
@@ -57,7 +57,7 @@
             <div class="card-body">
                 <div class="d-flex">
                     <div class="text-white">
-                        <h2 class="mb-0 number-font">893</h2>
+                        <h2 class="mb-0 number-font">{{rango.cantidad_puntos.n_reconsumos}}</h2>
                         <p class="text-white mb-0">N° Reconsumos</p>
                     </div>
                     <div class="ms-auto"> <i class="fa fa-user-o text-white fs-30 me-2 mt-2"></i> </div>
@@ -66,27 +66,27 @@
         </div>
     </div>
     <!-- COL END -->
-    <div class="col-sm-12 col-md-2 col-lg-2">
+    <!-- <div class="col-sm-12 col-md-2 col-lg-2">
         <div class="card bg-warning img-card box-info-shadow">
             <div class="card-body">
                 <div class="d-flex">
                     <div class="text-white">
-                        <h2 class="mb-0 number-font">S/ 0.00</h2>
+                        <h2 class="mb-0 number-font">S/ {{rango.cantidad_puntos.n_reconsumos}}</h2>
                         <p class="text-white mb-0">Comision Mes</p>
                     </div>
                     <div class="ms-auto"> <i class="fa fa-user-o text-white fs-30 me-2 mt-2"></i> </div>
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!-- COL END -->
     <div class="col-sm-12 col-md-2 col-lg-2">
         <div class="card bg-danger img-card box-info-shadow">
             <div class="card-body">
                 <div class="d-flex">
                     <div class="text-white">
-                        <h2 class="mb-0 number-font">S/ 0.00</h2>
-                        <p class="text-white mb-0">C. Acumulado</p>
+                        <h2 class="mb-0 number-font">S/ {{rango.cantidad_puntos.n_reconsumos}}</h2>
+                        <p class="text-white mb-0">C. Mes</p>
                     </div>
                     <div class="ms-auto"> <i class="fa fa-user-o text-white fs-30 me-2 mt-2"></i> </div>
                 </div>

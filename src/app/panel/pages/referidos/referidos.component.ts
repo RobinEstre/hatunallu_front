@@ -332,7 +332,7 @@ export class ReferidosComponent implements OnInit {
         "importe": this.data_pago.importe,
         "banco_id": this.data_pago.banco_id,
         "estado_id": 1,
-        "patrocinador_id": this.data_user.id,
+        "patrocinador_id": this.data_user.persona,
         "fecha_pago": this.data_pago.fecha_pago,
         "pack_id": this.data_pack.id
       }

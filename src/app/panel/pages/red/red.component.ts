@@ -88,7 +88,7 @@ export class RedComponent implements OnInit {
     this.spinner.show()
     this.service.getProfile().subscribe(resp=>{
       if(resp.success){
-        this.list(resp.data_usuario.id)
+        this.list(resp.data_usuario.persona)
       }
     })
   }

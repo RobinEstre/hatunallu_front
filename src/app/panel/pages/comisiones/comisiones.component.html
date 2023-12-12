@@ -21,7 +21,7 @@
                 <tr>
                     <th class="text-center">NOMBRES Y APELLIDOS</th>
                     <th class="text-center">IMPORTE</th>
-                    <th class="text-center">N° PRODUCTOS</th>
+                    <th class="text-center">NIVEL</th>
                     <th class="text-center">GANANCIAS</th>
                 </tr>
                 </thead>
@@ -35,21 +35,24 @@
                     </td>
                     <td class="text-center text-dark">
                         <div *ngIf="valComisiones.importe">
-                            <p>{{+valComisiones.importe}}</p>
+                            <p>S/ {{(+valComisiones.importe).toFixed(2)}}</p>
                         </div>
                         <div *ngIf="!valComisiones.importe">
                             <p>Sin Importe</p>
                         </div>
                     </td>
-                    <td class="text-center text-dark">
+                    <!-- <td class="text-center text-dark">
                         <div *ngIf="valComisiones.cantidad_products">
                             <p>{{+valComisiones.cantidad_products}}</p>
                         </div>
                         <div *ngIf="!valComisiones.cantidad_products">
                             <p>Sin Productos</p>
                         </div>
+                    </td> -->
+                    <td class="text-center text-dark">
+                        {{valComisiones.nivel}}
                     </td>
-                    <td class="text-center text-dark text-lowercase">
+                    <td class="text-center text-dark">
                         S/ {{(+valComisiones.ganancias).toFixed(2)}}
                     </td>
                 </tr>
