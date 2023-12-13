@@ -1,21 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { GeneralService } from '../../services/general.service';
 import { NavService } from 'src/app/shared/services/nav.service';
 import { Router } from '@angular/router';
 import { PanelService } from 'src/app/shared/services/panel.service';
+import localeEs from '@angular/common/locales/es';
+import {DatePipe, registerLocaleData} from "@angular/common";
+registerLocaleData(localeEs, 'es');
 
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
+  providers: [ { provide: LOCALE_ID, useValue: 'es' }, DatePipe]
 })
 export class DashboardComponent implements OnInit {
 
   constructor(private spinner: NgxSpinnerService, private generalService: GeneralService, public navServices: NavService,private router: Router,
-    private servicePanel: PanelService) { }
+    private servicePanel: PanelService, private datePipe: DatePipe) { }
   
-  menuItems: any[] = []; group_name:any; rango:any
+  menuItems: any[] = []; group_name:any; rango:any; days:any; comisiones:any
 
   ngOnInit(): void {
     this.listGroup()
@@ -55,9 +59,20 @@ export class DashboardComponent implements OnInit {
   }
 
   list(id){
-    this.generalService.getRango(id).subscribe(resp=>{
-      if(resp.success){
-        this.rango=resp
+    var date = new Date();
+    var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    let f_fin:any = this.datePipe.transform(lastDay, 'dd');
+    let f_inicio:any = this.datePipe.transform(date, 'dd');
+    this.days = f_fin - f_inicio;
+    
+    this.generalService.getComisiones(id).subscribe(resp => {
+      if(resp['success']==true){
+        this.comisiones=+resp.ganancia_total
+        this.generalService.getRango(id).subscribe(resp=>{
+          if(resp.success){
+            this.rango=resp
+          }
+        })
       }
     })
   }

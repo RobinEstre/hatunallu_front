@@ -228,7 +228,7 @@ export class ReconsumosComponent implements OnInit {
             this.paginate = 1
           }
           if(this.formfiltros.controls.estados.value!=null){id=this.formfiltros.controls.estados.value}
-          this.fillter_params = `?pagina=${this.paginate}&cantidad=${body_params['length']}&estado_id=${id}&cliente_name=${body_params['search']['value']}`
+          this.fillter_params = `?pagina=${this.paginate}&cantidad=${body_params['length']}&tipo_venta_id=2&estado_id=${id}&cliente_name=${body_params['search']['value']}`
         }
         this.service.getHistoryReconsumo(this.fillter_params).subscribe(resp => {
           let data:any=[]

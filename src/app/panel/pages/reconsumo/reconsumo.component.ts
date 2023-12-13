@@ -262,7 +262,7 @@ export class ReconsumoComponent implements OnInit {
                 this.paginate = 1
               }
               if(this.formfiltros.controls.estados.value!=null){id=this.formfiltros.controls.estados.value}
-              this.fillter_params = `?pagina=${this.paginate}&cantidad=${body_params['length']}&estado_id=${id}&usuario_id=${this.data_user.persona}&fecha_inicio=${this.f_inicio}&fecha_fin=${this.f_fin}&cliente_name=${body_params['search']['value']}`
+              this.fillter_params = `?pagina=${this.paginate}&cantidad=${body_params['length']}&estado_id=${id}&tipo_venta_id=2&usuario_id=${this.data_user.persona}&fecha_inicio=${this.f_inicio}&fecha_fin=${this.f_fin}&cliente_name=${body_params['search']['value']}`
             }
             this.service.getHistoryReconsumo(this.fillter_params).subscribe(resp => {
               let data:any=[]
@@ -502,14 +502,14 @@ export class ReconsumoComponent implements OnInit {
         "producto_id":i.id,
         "cantidad": i.cantidad
       })
-      total += i.cantidad
+      total += +i.cantidad
     })
     let body={
       "num_operacion": this.formPass.controls.operacion.value,
       "url_voucher": url,
       "banco_id": this.formPass.controls.banco.value,
       "fecha_pago": this.formPass.controls.fecha.value,
-      "total_pruductos": total,
+      "total_productos": total,
       "productos": productos
     }
     this.service.registerReconsumo(body).subscribe(resp=>{

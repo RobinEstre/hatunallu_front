@@ -124,8 +124,7 @@ export class ComisionesComponent implements OnInit {
         { extend: 'pdfHtml5', className: 'btn btn-primary text-white', title:'Comisiones Historial'},
         { extend: 'copy', className: 'btn btn-primary text-white', title:'Comisiones Historial'},
         { extend: 'print', className: 'btn btn-danger text-white', title:'Comisiones Historial'},
-        { extend: 'excelHtml5', className: 'btn btn-success text-white', title:'Comisiones Historial'},
-        { extend: 'colvis', className: 'btn btn-warning'},
+        { extend: 'excelHtml5', className: 'btn btn-success text-white', title:'Comisiones Historial'}
       ],
       language: ComisionesComponent.spanish_datatables
     }
@@ -142,12 +141,13 @@ export class ComisionesComponent implements OnInit {
               "padre_id": i.padre_id,
               "importe": i.importe,
               "cantidad_products": i.cantidad_products,
-              "ganancias": i.ganancias,
+              "ganancias": i.ganancia,
+              "pack_name": i.pack_name,
             })
           }
         })
         this.comisiones=data
-        this.total_ganancia=resp['ganancia_total']
+        this.total_ganancia=+resp['ganancia_total']
         this.dtTrigger.next();
         this.spinner.hide()
       }
