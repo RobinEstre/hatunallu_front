@@ -495,11 +495,21 @@ export class ProductosComponent implements OnInit {
 
   changeEstado(id){
     this.spinner.show()
+    let productos:any=[], total:any=0
+    this.data_productos.forEach(i=>{
+      productos.push({
+        "producto_id":i.id,
+        "cantidad": i.cantidad
+      })
+      total += +i.cantidad
+    })
     let body={
-      "registro_id":this.data_detalle.id,
-      "estado_id":id
+      "total_productos": total,
+      "productos": productos
+      // "registro_id":this.data_detalle.id,
+      // "estado_id":id
     }
-    this.service.aceptarReferidos(body).subscribe(resp => {
+    this.service.entregaProductos(this.data_detalle.id, body).subscribe(resp => {
       if(resp['success']==true){
         let name
         this.estados.forEach(i=>{

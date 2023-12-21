@@ -27,6 +27,9 @@ export class AlmacenService {
   aceptarReferidos(data){
     return this.httpClient.put<any>(this.envUrl.urlAddress + 'au/referidos/aprobar-rechazar/',data );
   }
+  entregaProductos(id, data){
+    return this.httpClient.put<any>(this.envUrl.urlAddress + 'au/actualizar/patrocinio-productos/'+id,data );
+  }
   validateEntrega(id, data){
     return this.httpClient.put<any>(this.envUrl.urlAddress + 'red/reconsumo-productos/'+id+'/',data );
   }
