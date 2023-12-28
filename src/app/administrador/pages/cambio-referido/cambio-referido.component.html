@@ -1,0 +1,72 @@
+<div class="page-header">
+    <h1 class="page-title my-auto">Jatun Ayllu</h1>
+    <div>
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"> <a href="javascript:void(0)"><i class="fe fe-home"></i></a></li> 
+            <li class="breadcrumb-item"> <a href="javascript:void(0)">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Referidos</li>
+        </ol> 
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header text-uppercase">
+        Cambiar Padre de Referido
+    </div>
+    <form [formGroup]="formReferidos" class="card-body row">
+        <div class="col-md-12 col-sm-12 col-lg-3 mb-2">
+            <div class="form-group">
+                <small class="form-label"><b>Ingresar referido</b></small>
+                <div class="input-group">
+                    <a href="javascript:void(0)" class="input-group-text bg-white text-muted">
+                        <i class="fa fa-id-card" aria-hidden="true"></i>
+                    </a>
+                    <input autocomplete="off" class="form-control" type="text" formControlName="numDoc" (keyup)="getInfoReferido($event)"
+                        onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"
+                        placeholder="N° Documento" required>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-sm-12 col-lg-6 mb-2" *ngIf="detalle_referido">
+            <div class="card" style="border: 1px solid #e9edf4 !important">
+                <div class="card-body row text-center">
+                    <div class="col-md-6 col-sm-12 col-lg-6">
+                        <h3 class="card-title">Datos referido</h3>
+                        <hr>
+                        <h4 class="h4 mb-0 mt-3">{{detalle_referido.nombre_hijo}}</h4>
+                        <h4 class="h4 mb-0 mt-3">{{detalle_referido.dni_hijo}}</h4>
+                    </div>
+                    <div class="col-md-6 col-sm-12 col-lg-6" style="border-left: 1px solid #e9edf4 !important;">
+                        <h3 class="card-title">Datos Padre</h3>
+                        <hr>
+                        <h4 class="h4 mb-0 mt-3">{{detalle_referido.nombre_padre}}</h4>
+                        <h4 class="h4 mb-0 mt-3">{{detalle_referido.dni_padre}}</h4>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <p class="text-dark">Ingresar Nuevo Padre</p>
+                    <input autocomplete="off" class="form-control" type="text" formControlName="numDocPadre" (keyup)="getInfoPadre($event)"
+                        onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"
+                        placeholder="N° Documento" required>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 col-sm-12 col-lg-3 mb-2" *ngIf="detalle_padre">
+            <div class="card" style="border: 1px solid #e9edf4 !important">
+                <div class="card-body row text-center">
+                    <div class="col-md-12 col-sm-12 col-lg-12">
+                        <h3 class="card-title">Datos Nuevo Padre</h3>
+                        <hr>
+                        <h4 class="h4 mb-0 mt-3">{{detalle_padre.nombre_padre}}</h4>
+                        <h4 class="h4 mb-0 mt-3">{{detalle_padre.dni_padre}}</h4>
+                    </div>
+                </div>
+                <div class="card-footer text-center">
+                    <button class="btn btn-outline-primary" (click)="changePadre()">Cambiar Referido</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- SPINNER -->
+<ngx-spinner type="timer"></ngx-spinner>

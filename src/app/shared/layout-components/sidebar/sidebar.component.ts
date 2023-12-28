@@ -107,7 +107,6 @@ export class SidebarComponent implements OnInit {
   listMenu(){
     this.spinner.show()
     this.generalService.listGrupos().subscribe(resp => {
-      console.log(resp)
       let name = null
       resp['grupos'].forEach(i=>{
         name = i
@@ -184,7 +183,6 @@ export class SidebarComponent implements OnInit {
   }
 
   toggleNavActive(item: any) {
-    console.log(item)
     if(item.type=='sub'){
       if (!item.active) {
         this.menuItems.forEach((firstlevel: any) => {

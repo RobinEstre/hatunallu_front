@@ -4,6 +4,7 @@ import { ListTodosComponent } from './pages/list-todos/list-todos.component';
 import { PerfilComponent } from './pages/perfil/perfil.component';
 import { DashboardComponent } from '../panel/pages/dashboard/dashboard.component';
 import { ReconsumosComponent } from './pages/reconsumos/reconsumos.component';
+import { CambioReferidoComponent } from './pages/cambio-referido/cambio-referido.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,10 @@ const routes: Routes = [
   {
     path: 'reconsumos',
     component: ReconsumosComponent
+  },
+  {
+    path: 'cambio-referido',
+    component: CambioReferidoComponent
   }
 ];
 

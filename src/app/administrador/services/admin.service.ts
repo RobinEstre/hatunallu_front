@@ -10,21 +10,27 @@ export class AdminService {
   constructor(private httpClient: HttpClient, private envUrl: UrlEnviromentService) { }
 
   getListReferidos(params){
-    return this.httpClient.get<any>(this.envUrl.urlAddress + 'au/listar/referidos-todos/'+params, );
+    return this.httpClient.get<any>(this.envUrl.urlAddress + 'au/listar/referidos-todos/'+params);
   }
   getHistoryReconsumo(params){
     return this.httpClient.get<any>(this.envUrl.urlAddress + 'red/reconsumo-productos/'+params);
   }
   listClientes(estado){
-    return this.httpClient.get<any>(this.envUrl.urlAddress + 'au/listar/referidos-todos/?estado='+estado, );
+    return this.httpClient.get<any>(this.envUrl.urlAddress + 'au/listar/referidos-todos/?estado='+estado);
   }
   listEstados(){
-    return this.httpClient.get<any>(this.envUrl.urlAddress + 'au/listar/estados-pago/', );
+    return this.httpClient.get<any>(this.envUrl.urlAddress + 'au/listar/estados-pago/');
   }
   aceptarReferidos(data){
-    return this.httpClient.put<any>(this.envUrl.urlAddress + 'au/referidos/aprobar-rechazar/',data );
+    return this.httpClient.put<any>(this.envUrl.urlAddress + 'au/referidos/aprobar-rechazar/',data);
   }
   validateEntrega(id, data){
-    return this.httpClient.put<any>(this.envUrl.urlAddress + 'red/reconsumo-productos/'+id+'/',data );
+    return this.httpClient.put<any>(this.envUrl.urlAddress + 'red/reconsumo-productos/'+id+'/',data);
+  }
+  listReferidos(){
+    return this.httpClient.get<any>(this.envUrl.urlAddress + 'red/listar/patrocinador-referidos/');
+  }
+  changePadre(data){
+    return this.httpClient.put<any>(this.envUrl.urlAddress + 'red/traslado/referido/',data);
   }
 }

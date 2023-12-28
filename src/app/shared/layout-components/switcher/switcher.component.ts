@@ -39,12 +39,10 @@ export class SwitcherComponent implements OnInit {
     switcher.updateChanges();
     // document.querySelector('#myonoffswitch1').checked = true
     if(document.body.classList.contains("transparent-mode") || document.body.classList.contains("dark-mode")){
-      console.log("true")
       let light = document.getElementById('myonoffswitch1') as HTMLInputElement;
       light.checked = false;
     }
     else{
-      console.log("false")
       let light = document.getElementById('myonoffswitch1') as HTMLInputElement;
       light.checked = true;
 
@@ -201,7 +199,6 @@ export class SwitcherComponent implements OnInit {
   }
   public dynamicDarkBg(data: any): void {
     document.querySelector('.app-header')?.classList.add("hor-header", "fixed-header", "visible-title", "stickyClass")
-    console.log("darkBgColorID working")
     this.color13 = data.color;
     localStorage.setItem('Sashtransparent-primary-color', this.color13);
     localStorage.setItem('Sashtransparent-primary-hover', this.color13);
