@@ -178,6 +178,18 @@ export class ReconsumoComponent implements OnInit {
     })
   }
 
+  first_and_last_date_month(){
+    var date = new Date();
+    var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+    var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    let f_inicio = this.datePipe.transform(firstDay, 'yyyy-MM-dd');
+    let f_fin = this.datePipe.transform(lastDay, 'yyyy-MM-dd');
+    this.f_inicio = firstDay.getTime() / 1000;
+    this.f_fin = lastDay.getTime() / 1000;
+    this.formfiltros.controls['fecha_inicio'].setValue(f_inicio)
+    this.formfiltros.controls['fecha_fin'].setValue(f_fin)
+  }
+
   listar_Data(): void {
     var date = new Date();
     var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
@@ -189,8 +201,8 @@ export class ReconsumoComponent implements OnInit {
         this.data_user=resp.data_usuario;
         this.columns.push(
             {title: 'N°', data:'id' },
-            {title: 'CLIENTE', data: 'cliente.id'},
-            {title: 'IMPORTE', data: 'importe'},
+            {title: 'CLIENTE', data: 'cliente_name'},
+            {title: 'IMPORTE', data: 'monto_neto'},
             {title: 'N° OPERACION', data: 'num_operacion'},
             {title: 'F. PAGO', data: 'created_at'},
             { title: 'ESTADO',
@@ -269,15 +281,18 @@ export class ReconsumoComponent implements OnInit {
               resp['data'].forEach(i=>{
                 let created_at= this.datePipe.transform(i.created_at,"dd/MM/yyyy")
                 let updated_at= this.datePipe.transform(i.updated_at,"dd/MM/yyyy")
+                let nombre= i.cliente.nombre + ' ' + i.cliente.apellido
                 data.push({
                   "id": 16,
                   "cliente": i.cliente,
+                  "cliente_name": nombre,
                   "tipo_venta": i.tipo_venta,
                   "estado": i.estado,
                   "patrocinador_id": i.patrocinador_id,
                   "data": i.data,
                   "url_voucher": i.url_voucher,
                   "importe": i.importe,
+                  "monto_neto": i.monto_neto,
                   "num_operacion": i.num_operacion,
                   "created_at": created_at,
                   "updated_at": updated_at,

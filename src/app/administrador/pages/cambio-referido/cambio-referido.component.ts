@@ -61,6 +61,8 @@ export class CambioReferidoComponent implements OnInit {
   getInfoReferido(event){
     const inputValue = event.target.value;
     let num_doc= this.formReferidos.controls.numDoc.value
+    this.detalle_referido=null
+    this.detalle_padre=null
     if(inputValue.length === 8){
       this.data_referidos.forEach(i=>{
         if(i.dni_hijo==num_doc){
@@ -68,14 +70,20 @@ export class CambioReferidoComponent implements OnInit {
         }
       })
     }
-    else{
+    else if(inputValue.length > 8){
+      this.formReferidos.controls.numDoc.setValue('')
       this.detalle_referido=null
+      this.detalle_padre=null
+    }else{
+      this.detalle_referido=null
+      this.detalle_padre=null
     }
   }
 
   getInfoPadre(event){
     const inputValue = event.target.value;
     let num_doc= this.formReferidos.controls.numDocPadre.value
+    this.detalle_padre=null
     if(inputValue.length === 8){
       if(num_doc==this.formReferidos.controls.numDoc.value){
         Swal.fire({
@@ -87,14 +95,46 @@ export class CambioReferidoComponent implements OnInit {
         });
         this.formReferidos.controls.numDocPadre.setValue('')
       }else{
-        this.data_referidos.forEach(i=>{
-          if(i.dni_padre==num_doc){
-            this.detalle_padre=i
+        this.spinner.show()
+        this.service.listPersona(this.detalle_referido.hijo_id).subscribe(resp=>{
+          if(resp.success){
+            resp.data.forEach(i=>{
+              if(i.dni==num_doc){
+                this.detalle_padre=i
+              }
+            })
+            this.spinner.hide()
+          }
+        }, error => {
+          this.spinner.hide()
+          if (error.status === 500){
+            Swal.fire({
+              title: 'Oops!',
+              text: 'Ocurrio un incidente en el servidor, contactate con el area de sistemas',
+              icon: 'error',
+              showCancelButton: true,
+              showConfirmButton: false,
+              cancelButtonColor: '#c02c2c',
+              cancelButtonText: 'Cerrar ventana'
+            })
+          }else if (error.status === 400){
+            Swal.fire({
+              title: 'Oops!',
+              text: error.error.message,
+              icon: 'error',
+              showCancelButton: true,
+              showConfirmButton: false,
+              cancelButtonColor: '#c02c2c',
+              cancelButtonText: 'Cerrar ventana'
+            })
           }
         })
       }
     }
-    else{
+    else if(inputValue.length > 8){
+      this.formReferidos.controls.numDocPadre.setValue('')
+      this.detalle_padre=null
+    }else{
       this.detalle_padre=null
     }
   }
@@ -104,7 +144,7 @@ export class CambioReferidoComponent implements OnInit {
     let body={
       "persona_id": this.detalle_referido.hijo_id,
       "padre_id": this.detalle_referido.padre_id,
-      "new_padre_id": this.detalle_padre.padre_id
+      "new_padre_id": this.detalle_padre.id
     }
     this.service.changePadre(body).subscribe(resp=>{
       if(resp.success){
@@ -115,7 +155,7 @@ export class CambioReferidoComponent implements OnInit {
         Swal.fire({
           position: "center",
           icon: "success",
-          title: "Se cambio correctamente de Padre",
+          title: "Se cambio correctamente de Patrocinador",
           showConfirmButton: false,
           timer: 2000
         });

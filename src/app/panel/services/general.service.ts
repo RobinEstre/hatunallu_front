@@ -76,6 +76,9 @@ export class GeneralService {
   getComisiones(id){
     return this.httpClient.get<any>(this.envUrl.urlAddress + 'au/listar/referidos-comision/'+id);
   }
+  getComisiones2(id, params){
+    return this.httpClient.get<any>(this.envUrl.urlAddress + 'au/listar/referidos-comision/'+id+'?'+params);
+  }
   getDni(dni){
     return this.httpClient.get<any>(this.envUrl.urlAddress + 'consultar-dni-ruc/?type=dni&num_doc='+dni);
   }

@@ -11,7 +11,7 @@
 
 <div class="card">
     <div class="card-header text-uppercase">
-        Cambiar Padre de Referido
+        Traslado Referido
     </div>
     <form [formGroup]="formReferidos" class="card-body row">
         <div class="col-md-12 col-sm-12 col-lg-3 mb-2">
@@ -31,20 +31,20 @@
             <div class="card" style="border: 1px solid #e9edf4 !important">
                 <div class="card-body row text-center">
                     <div class="col-md-6 col-sm-12 col-lg-6">
-                        <h3 class="card-title">Datos referido</h3>
+                        <h3 class="card-title">Datos Referido</h3>
                         <hr>
                         <h4 class="h4 mb-0 mt-3">{{detalle_referido.nombre_hijo}}</h4>
                         <h4 class="h4 mb-0 mt-3">{{detalle_referido.dni_hijo}}</h4>
                     </div>
                     <div class="col-md-6 col-sm-12 col-lg-6" style="border-left: 1px solid #e9edf4 !important;">
-                        <h3 class="card-title">Datos Padre</h3>
+                        <h3 class="card-title">Datos Patrocinador</h3>
                         <hr>
                         <h4 class="h4 mb-0 mt-3">{{detalle_referido.nombre_padre}}</h4>
                         <h4 class="h4 mb-0 mt-3">{{detalle_referido.dni_padre}}</h4>
                     </div>
                 </div>
                 <div class="card-footer">
-                    <p class="text-dark">Ingresar Nuevo Padre</p>
+                    <p class="text-dark">Ingresar Nuevo Patrocinador</p>
                     <input autocomplete="off" class="form-control" type="text" formControlName="numDocPadre" (keyup)="getInfoPadre($event)"
                         onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g,'')"
                         placeholder="N° Documento" required>
@@ -55,14 +55,14 @@
             <div class="card" style="border: 1px solid #e9edf4 !important">
                 <div class="card-body row text-center">
                     <div class="col-md-12 col-sm-12 col-lg-12">
-                        <h3 class="card-title">Datos Nuevo Padre</h3>
+                        <h3 class="card-title">Datos Nuevo Patrocinador</h3>
                         <hr>
-                        <h4 class="h4 mb-0 mt-3">{{detalle_padre.nombre_padre}}</h4>
-                        <h4 class="h4 mb-0 mt-3">{{detalle_padre.dni_padre}}</h4>
+                        <h4 class="h4 mb-0 mt-3">{{detalle_padre.nombre}} {{detalle_padre.apellido}}</h4>
+                        <h4 class="h4 mb-0 mt-3">{{detalle_padre.dni}}</h4>
                     </div>
                 </div>
                 <div class="card-footer text-center">
-                    <button class="btn btn-outline-primary" (click)="changePadre()">Cambiar Referido</button>
+                    <button class="btn btn-outline-primary" (click)="changePadre()">Cambiar Patrocinador</button>
                 </div>
             </div>
         </div>

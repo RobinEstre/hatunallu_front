@@ -15,6 +15,9 @@ import { ButtonsTableReferidosComponent } from './pages/list-todos/buttons-table
 import { ReconsumosComponent } from './pages/reconsumos/reconsumos.component';
 import { ButtonsTableReconsumosComponent } from './pages/reconsumos/buttons-table-reconsumos/buttons-table-reconsumos.component';
 import { CambioReferidoComponent } from './pages/cambio-referido/cambio-referido.component';
+import { HMesComponent } from './pages/h-mes/h-mes.component';
+import { AfiliadosComponent } from './pages/h-mes/afiliados/afiliados.component';
+import { HPagosComponent } from './pages/h-pagos/h-pagos.component';
 
 
 @NgModule({
@@ -24,7 +27,10 @@ import { CambioReferidoComponent } from './pages/cambio-referido/cambio-referido
     ButtonsTableReferidosComponent,
     ReconsumosComponent,
     ButtonsTableReconsumosComponent,
-    CambioReferidoComponent
+    CambioReferidoComponent,
+    HMesComponent,
+    AfiliadosComponent,
+    HPagosComponent
   ],
   imports: [
     CommonModule,

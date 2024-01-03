@@ -83,6 +83,8 @@ export class HReconsumoComponent implements OnInit {
 
   formfiltros = this.fb.group({
     estados: [null, Validators.required],
+    fecha_inicio: ['', Validators.required],
+    fecha_fin: ['', Validators.required],
   });
 
   columns: Array<any> = [];
@@ -107,6 +109,7 @@ export class HReconsumoComponent implements OnInit {
   ];
 
   public paginate:any; public start_paginate:number=0; register_count:number; fillter_params:any; data_detalle:any; estados:any;data_user:any
+  public f_inicio:any; public f_fin:any
 
   ngOnInit(): void {
     this.listEstados()
@@ -158,8 +161,8 @@ export class HReconsumoComponent implements OnInit {
         this.data_user=resp.data_usuario;
         this.columns.push(
             {title: 'N°', data:'id' },
-            {title: 'CLIENTE', data: 'cliente.id'},
-            {title: 'IMPORTE', data: 'importe'},
+            {title: 'CLIENTE', data: 'cliente_name'},
+            {title: 'IMPORTE', data: 'monto_neto'},
             {title: 'N° OPERACION', data: 'num_operacion'},
             {title: 'F. PAGO', data: 'created_at'},
             { title: 'ESTADO',
@@ -231,22 +234,26 @@ export class HReconsumoComponent implements OnInit {
                 this.paginate = 1
               }
               if(this.formfiltros.controls.estados.value!=null){id=this.formfiltros.controls.estados.value}
-              this.fillter_params = `?pagina=${this.paginate}&cantidad=${body_params['length']}&estado_id=${id}&tipo_venta_id=2&usuario_id=${this.data_user.persona}&cliente_name=${body_params['search']['value']}`
+              this.fillter_params = `?pagina=${this.paginate}&cantidad=${body_params['length']}&estado_id=${id}
+                &tipo_venta_id=2&usuario_id=${this.data_user.persona}&cliente_name=${body_params['search']['value']}`
             }
             this.service.getHistoryReconsumo(this.fillter_params).subscribe(resp => {
               let data:any=[]
               resp['data'].forEach(i=>{
                 let created_at= this.datePipe.transform(i.created_at,"dd/MM/yyyy")
                 let updated_at= this.datePipe.transform(i.updated_at,"dd/MM/yyyy")
+                let nombre= i.cliente.nombre + ' ' + i.cliente.apellido
                 data.push({
                   "id": 16,
                   "cliente": i.cliente,
+                  "cliente_name": nombre,
                   "tipo_venta": i.tipo_venta,
                   "estado": i.estado,
                   "patrocinador_id": i.patrocinador_id,
                   "data": i.data,
                   "url_voucher": i.url_voucher,
                   "importe": i.importe,
+                  "monto_neto": i.monto_neto,
                   "num_operacion": i.num_operacion,
                   "created_at": created_at,
                   "updated_at": updated_at,
@@ -335,7 +342,7 @@ export class HReconsumoComponent implements OnInit {
   closeModalIMG(){
     this.modalRefIMG.close()
   }
-
+  
   cambiarEstado(data){
     this.data_detalle=data
     var options = {};

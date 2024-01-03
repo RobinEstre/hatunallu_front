@@ -5,6 +5,8 @@ import { PerfilComponent } from './pages/perfil/perfil.component';
 import { DashboardComponent } from '../panel/pages/dashboard/dashboard.component';
 import { ReconsumosComponent } from './pages/reconsumos/reconsumos.component';
 import { CambioReferidoComponent } from './pages/cambio-referido/cambio-referido.component';
+import { HMesComponent } from './pages/h-mes/h-mes.component';
+import { HPagosComponent } from './pages/h-pagos/h-pagos.component';
 
 const routes: Routes = [
   {
@@ -26,6 +28,14 @@ const routes: Routes = [
   {
     path: 'cambio-referido',
     component: CambioReferidoComponent
+  },
+  {
+    path: 'historial-reconsumo',
+    component: HMesComponent
+  },
+  {
+    path: 'historial-pagos',
+    component: HPagosComponent
   }
 ];
 

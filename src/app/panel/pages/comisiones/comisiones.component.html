@@ -12,9 +12,31 @@
     <div class="card-header">
         HISTORIAL COMISIONES
     </div>
-    <div class="card-body row">
+    <form [formGroup]="formfiltros" class="card-body row">
         <div class="col-sm-12 col-md-12 col-lg-12 text-center">
             <span class="badge rounded-pill bg-primary" style="font-size: 15px;">COMISIÓN TOTAL: S/ {{(total_ganancia).toFixed(2)}}</span>
+        </div>
+        <br>
+        <div class="col-md-2 col-sm-12 col-lg-2 mb-2">
+            <div class="form-group">
+                <small class="form-label"><b>Fecha Inicio</b></small>
+                <input type="date" formControlName="fecha_inicio" class="form-control bordes text-muted"
+                       (change)="getfechainicio()">
+            </div>
+        </div>
+        <div class="col-md-2 col-sm-12 col-lg-2 mb-2">
+            <div class="form-group">
+                <small class="form-label"><b>Fecha Fin</b></small>
+                <input type="date" formControlName="fecha_fin" class="form-control bordes text-muted"
+                       (change)="getfechafin()">
+            </div>
+        </div>
+        <div class="col-md-2 col-sm-12 col-lg-2 mb-2">
+            <div class="form-group">
+                <small class="form-label "><b>Refrescar</b></small>
+                <button class="btn btn btn-white" (click)="refreshData()" title="Cargar Data Actualizada"><i
+                        class="fa fa-refresh"></i></button>
+            </div>
         </div>
         <div class="col-sm-12 col-md-12 col-lg-12">
             <!--TABLA-->
@@ -67,7 +89,7 @@
               </table>
             </div>
         </div>
-    </div>
+    </form>
 </div>
 <!-- SPINNER -->
 <ngx-spinner type="timer"></ngx-spinner>

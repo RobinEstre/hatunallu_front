@@ -1,0 +1,24 @@
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12">
+        <div class="table-responsive invoice-table" id="table">
+            <ng-template #idTpl let-rowIndex="rowIndex" let-row="row">
+                {{rowIndex+1}}
+            </ng-template>
+            <ng-template #is_estado let-data="adtData" let-emitter="captureEvents">
+                <p *ngIf="data.estado">
+                    <span class="badge bg-warning p-1" *ngIf="data.estado.name=='PENDIENTE'">{{data.estado.name}}</span>
+                    <span class="badge bg-danger p-1" *ngIf="data.estado.name=='ANULADO'">{{data.estado.name}}</span>
+                    <span class="badge bg-success p-1" *ngIf="data.estado.name=='APROBADO'">{{data.estado.name}}</span>
+                    <span class="badge bg-success p-1" *ngIf="data.estado.name=='ENTREGADO'">{{data.estado.name}}</span>
+                </p>
+                <p *ngIf="!data.estado">
+                  <span class="badge bg-light text-dark p-1">Sin Estado</span>
+                </p>
+            </ng-template>
+            <table id="material--template-dt" datatable *ngIf="columns.length" [dtOptions]="dtOptions" id="table"
+                style="width: 100%;" [dtTrigger]="dtTrigger"></table>
+        </div>
+    </div>
+</div>
+<!-- SPINNER -->
+<ngx-spinner type="timer"></ngx-spinner>

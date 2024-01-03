@@ -1,0 +1,160 @@
+<div class="page-header">
+    <h1 class="page-title my-auto">Jatun Ayllu</h1>
+    <div>
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"> <a href="javascript:void(0)"><i class="fe fe-home"></i></a></li> 
+            <li class="breadcrumb-item"> <a href="javascript:void(0)">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">H. Reconsumos</li>
+        </ol> 
+    </div>
+</div>
+<div class="card">
+    <div class="card-header">
+        HISTORIAL RECONSUMOS
+    </div>
+    <form [formGroup]="formfiltros" class="card-body row">
+        <div class="col-sm-12 col-md-12 col-lg-12 text-center">
+            <a href="javascript:void(0)" (click)="openModalAf()">
+                <span class="badge rounded-pill bg-primary" style="font-size: 15px;">AFILIADOS NUEVOS: {{data_afiliado}}</span>
+            </a>
+        </div>
+        <br>
+        <div class="col-md-2 col-sm-12 col-lg-2 mb-2">
+            <div class="form-group">
+                <small class="form-label"><b>Fecha Inicio</b></small>
+                <input type="date" formControlName="fecha_inicio" class="form-control bordes text-muted"
+                       (change)="getfechainicio()">
+            </div>
+        </div>
+        <div class="col-md-2 col-sm-12 col-lg-2 mb-2">
+            <div class="form-group">
+                <small class="form-label"><b>Fecha Fin</b></small>
+                <input type="date" formControlName="fecha_fin" class="form-control bordes text-muted"
+                       (change)="getfechafin()">
+            </div>
+        </div>
+        <div class="col-md-2 col-sm-12 col-lg-2 mb-2">
+            <div class="form-group">
+                <small class="form-label "><b>Refrescar</b></small>
+                <button class="btn btn btn-white" (click)="refreshData()" title="Cargar Data Actualizada"><i
+                        class="fa fa-refresh"></i></button>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-12 col-lg-3 mb-2"></div>
+        <div class="col-md-3 col-sm-12 col-lg-3 mb-2">
+            <div class="form-group">
+            <small class="form-label"><b>Filtrar Tipo Reconsumo</b></small>
+            <ng-select class="text-uppercase"
+                        formControlName="estados"
+                        [items]="estados"
+                        bindLabel="name"
+                        bindValue="id"
+                        placeholder="SELECCIONAR TIPO"
+                        (change)="selectTipo($event)">
+            </ng-select>
+            </div>
+        </div>
+        <hr>
+        <div class="col-sm-12 col-md-12 col-lg-12 text-end new-class" *ngIf="reporte">
+            <span class="badge bg-success mx-2">Cant. Premium: {{reporte.cantidad_premiun}}</span>
+            <span class="badge bg-success">Monto Premium: S/ {{reporte.monto_premiun.toFixed(2)}}</span>
+            <span class="badge bg-warning mx-2">Cant. Normal: {{reporte.cantidad_normal}}</span>
+            <span class="badge bg-warning">Monto Premium: S/ {{reporte.monto_normal.toFixed(2)}}</span>
+            <br>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <!--TABLA-->
+            <div class="table-responsive invoice-table" id="table">
+              <table class="table table-striped table-bordered" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+                <thead>
+                <tr>
+                    <th class="text-center">CLIENTE</th>
+                    <th class="text-center">TIPO RECONSUMO</th>
+                    <th class="text-center">CANT. PRODUCTOS</th>
+                    <th class="text-center">BANCO</th>
+                    <th class="text-center">FECHA PAGO</th>
+                    <th class="text-center">IMPORTE</th>
+                    <th class="text-center">ACC</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let valHistorial of historial">
+                    <!-- <td class="text-center text-dark text-capitalize">
+                        {{ordenes.created_at | date:'dd/MM/yyyy'}}
+                    </td> -->
+                    <td class="text-center text-dark">
+                        {{valHistorial.cliente.nombre}} {{valHistorial.cliente.apellido}}
+                    </td>
+                    <td class="text-center text-dark">
+                        <div *ngIf="valHistorial.data.PREMIUN">
+                            <p>PREMIUM</p>
+                        </div>
+                        <div *ngIf="!valHistorial.data.PREMIUN">
+                            <p>ESTÁNDAR</p>
+                        </div>
+                    </td>
+                    <td class="text-center text-dark">
+                        {{valHistorial.cantidad_products}}
+                    </td>
+                    <td class="text-center text-dark">
+                        {{valHistorial.banco.name}}
+                    </td>
+                    <td class="text-center text-dark">
+                        {{valHistorial.fecha_pago | date:'dd/MM/yyyy'}}
+                    </td>
+                    <td class="text-center text-dark">
+                        <div *ngIf="valHistorial.monto_neto">
+                            <p>S/ {{(+valHistorial.monto_neto).toFixed(2)}}</p>
+                        </div>
+                        <div *ngIf="!valHistorial.monto_neto">
+                            <p>Sin Importe</p>
+                        </div>
+                    </td>
+                    <td class="text-center text-dark">
+                        <button class="btn btn-sm btn-success mx-1" data-bs-toggle="tooltip" data-bs-placement="right" title="Ver Comprobante"
+                            (click)="openModalIMG(valHistorial)">
+                            <i class="fa fa-eye"></i>
+                        </button>
+                        <a href=""></a>
+                    </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- Modal Afiliados -->
+<ng-template #modal_afiliado let-modal>
+    <div class="modal-body row">
+        <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+            <h5>Detalle Afiliados</h5>
+            <hr>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+            <app-afiliados [inicio]="f_inicio" [fin]="f_fin"></app-afiliados>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+            <hr>
+            <button class="btn btn-danger" (click)="closeModalAf()"> Cerrar</button>
+        </div>
+    </div>
+</ng-template>
+<!-- Modal IMG -->
+<ng-template #modal_img let-modal>
+    <div class="modal-body row">
+        <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+            <h5>Imagen Comprobante {{data_detalle.cliente.nombre}} {{data_detalle.cliente.apellido}}</h5>
+            <hr>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+           <img src="{{data_detalle.url_voucher}}" alt="#" style="width: 100%;">
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+            <hr>
+            <button class="btn btn-danger" (click)="closeModalIMG()"> Cerrar</button>
+        </div>
+    </div>
+</ng-template>
+<!-- SPINNER -->
+<ngx-spinner type="timer"></ngx-spinner>

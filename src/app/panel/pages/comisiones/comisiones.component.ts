@@ -6,6 +6,7 @@ import {Subject} from "rxjs";
 import localeEs from '@angular/common/locales/es';
 import Swal from "sweetalert2";
 import { GeneralService } from '../../services/general.service';
+import { FormBuilder, Validators } from '@angular/forms';
 registerLocaleData(localeEs, 'es');
 
 @Component({
@@ -68,12 +69,17 @@ export class ComisionesComponent implements OnInit {
   @ViewChild(DataTableDirective, {static: false})
   dtElement: DataTableDirective;
   
-  constructor(private spinner: NgxSpinnerService, private service: GeneralService) { }
+  constructor(private spinner: NgxSpinnerService, private service: GeneralService, private datePipe: DatePipe, private fb: FormBuilder,) { }
+
+  formfiltros = this.fb.group({
+    fecha_inicio: ['', Validators.required],
+    fecha_fin: ['', Validators.required],
+  });
   
   dtOptions: any;
   dtTrigger: Subject<any> = new Subject<any>();
 
-  comisiones:any; total_ganancia:any=0
+  comisiones:any; total_ganancia:any=0; f_inicio:any; f_fin:any; params:any; id_user:any
 
   ngOnInit(): void {
     this.listInit()
@@ -83,7 +89,8 @@ export class ComisionesComponent implements OnInit {
     this.spinner.show()
     this.service.getProfile().subscribe(resp => {
       if(resp['success']==true){
-        this.listTable(resp.data_usuario.persona)
+        this.id_user=resp.data_usuario.persona
+        this.first_and_last_date_month()
       }
     },error => {
       if(error.status==400){
@@ -112,7 +119,21 @@ export class ComisionesComponent implements OnInit {
     })
   }
 
-  listTable(id){
+  first_and_last_date_month(){
+    var date = new Date();
+    var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+    var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+    let f_inicio:any = this.datePipe.transform(firstDay, 'yyyy-MM-dd');
+    let f_fin:any = this.datePipe.transform(lastDay, 'yyyy-MM-dd');
+    this.f_inicio = firstDay.getTime() / 1000;
+    this.f_fin = lastDay.getTime() / 1000;
+    this.formfiltros.controls['fecha_inicio'].setValue(f_inicio)
+    this.formfiltros.controls['fecha_fin'].setValue(f_fin)
+    this.params = `fecha_inicio=${this.f_inicio}&fecha_fin=${this.f_fin}`
+    this.listTable()
+  }
+
+  listTable(){
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 20,
@@ -128,7 +149,7 @@ export class ComisionesComponent implements OnInit {
       ],
       language: ComisionesComponent.spanish_datatables
     }
-    this.service.getComisiones(id).subscribe(resp => {
+    this.service.getComisiones2(this.id_user, this.params).subscribe(resp => {
       if(resp['success']==true){
         let data:any=[]
         resp.data.forEach(i=>{
@@ -185,5 +206,33 @@ export class ComisionesComponent implements OnInit {
   ngOnDestroy(): void {
     // Do not forget to unsubscribe the event
     this.dtTrigger.unsubscribe();
+  }
+
+  getfechainicio(){
+    let date:any=this.formfiltros.controls.fecha_inicio.value
+    const start = new Date((date));
+    start.setDate(start.getDate() + 1)
+    start.setHours(0, 0, 0, 0);
+    this.f_inicio = this.datePipe.transform(start, "yyyy-MM-dd")
+    this.f_inicio = start.getTime() / 1000;
+  }
+
+  getfechafin(){
+    let date:any=this.formfiltros.controls.fecha_fin.value
+    const end = new Date((date));
+    end.setDate(end.getDate() + 1)
+    end.setHours(23, 59, 59, 999);
+    this.f_fin = this.datePipe.transform(end, "yyyy-MM-dd")
+    this.f_fin = end.getTime() / 1000;
+  }
+
+  refreshData(){
+    this.spinner.show()
+    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+      // Destroy the table first
+      dtInstance.destroy();
+      // Call the dtTrigger to rerender again
+      this.listTable()
+    });
   }
 }
