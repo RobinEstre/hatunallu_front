@@ -1,14 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, LOCALE_ID, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthServiceService } from '../../services/auth-service.service';
 import { ToastrService } from 'ngx-toastr';
 import Swal from 'sweetalert2'
+import localeEs from '@angular/common/locales/es';
+import {DatePipe, registerLocaleData} from "@angular/common";
+registerLocaleData(localeEs, 'es');
+
 
 @Component({
   selector: 'app-recover-password',
   templateUrl: './recover-password.component.html',
-  styleUrls: ['./recover-password.component.scss']
+  styleUrls: ['./recover-password.component.scss'],
+  providers: [ { provide: LOCALE_ID, useValue: 'es' }, DatePipe]
 })
 export class RecoverPasswordComponent implements OnInit {
   public loginForm: FormGroup;
@@ -18,6 +23,7 @@ export class RecoverPasswordComponent implements OnInit {
       username : ['',[Validators.required]]
     });
   }
+  date: Date = new Date();
 
   disabled = ""; active:any;
 

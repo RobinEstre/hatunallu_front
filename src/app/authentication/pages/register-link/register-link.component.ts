@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, LOCALE_ID, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { AuthService } from '../../../shared/services/auth.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
@@ -9,11 +9,16 @@ import { GeneralService } from 'src/app/panel/services/general.service';
 import { Clipboard } from '@angular/cdk/clipboard';
 import Swal from "sweetalert2";
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import localeEs from '@angular/common/locales/es';
+import {DatePipe, registerLocaleData} from "@angular/common";
+registerLocaleData(localeEs, 'es');
+
 
 @Component({
   selector: 'app-register-link',
   templateUrl: './register-link.component.html',
-  styleUrls: ['./register-link.component.scss']
+  styleUrls: ['./register-link.component.scss'],
+  providers: [ { provide: LOCALE_ID, useValue: 'es' }, DatePipe]
 })
 export class RegisterLinkComponent implements OnInit {
   @ViewChild('add') private modalContentAdd: TemplateRef<RegisterLinkComponent>;
@@ -54,6 +59,7 @@ export class RegisterLinkComponent implements OnInit {
     provincia : [null, Validators.required],
     distrito : [null, Validators.required],
   });
+  date: Date = new Date();
 
   banco:any;genero:any=[{name:'Masculino'},{name:'Femenino'}]; departamento:any; provincia:any; distrito:any
   pais:any=[];prefijo:any=[]; packs:any; validate_pack:any=false;detail_pack:any; code_url:any;  data_binance:any; txtCopiarBinance:any

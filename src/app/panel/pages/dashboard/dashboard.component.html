@@ -1,5 +1,5 @@
-<div class="page-header">
-    <h1 class="page-title my-auto">Jatun Ayllu</h1>
+<div class="page-header" *ngIf="profile">
+    <h1 class="page-title my-auto">Jatun Ayllu | Bienvenid@: {{profile.nombre}} {{profile.apellido}}</h1>
     <div>
         <ol class="breadcrumb mb-0">
             <li class="breadcrumb-item"> <a href="javascript:void(0)"><i class="fe fe-home"></i></a></li> 
@@ -15,10 +15,10 @@
             <div class="card-body">
                 <div class="d-flex">
                     <div class="text-white">
-                        <h2 class="mb-0">{{rango.data_range.name}}</h2>
+                        <h2 class="mb-0">{{rango.rango.name}}</h2>
                         <p class="text-white mb-0">Rango</p>
                     </div>
-                    <div class="ms-auto text-end"><img src="{{rango.data_range.url_img}}" alt="" style="width: 50%;"></div>
+                    <div class="ms-auto text-end"><img src="{{rango.rango.url_img}}" alt="" style="width: 50%;"></div>
                 </div>
             </div>
         </div>
@@ -28,7 +28,7 @@
             <div class="card-body">
                 <div class="d-flex">
                     <div class="text-white">
-                        <h2 class="mb-0 number-font">{{rango.cantidad_puntos.cantidad_puntos}} PTS.</h2>
+                        <h2 class="mb-0 number-font">{{rango.cantidad_puntos}} PTS.</h2>
                         <p class="text-white mb-0">Puntos</p>
                     </div>
                     <div class="ms-auto"> <i class="fa fa-user-o text-white fs-30 me-2 mt-2"></i> </div>
@@ -42,7 +42,7 @@
             <div class="card-body">
                 <div class="d-flex">
                     <div class="text-white">
-                        <h2 class="mb-0 number-font">{{rango.cantidad_puntos.num_afiliados}}</h2>
+                        <h2 class="mb-0 number-font">{{rango.num_afiliados}}</h2>
                         <p class="text-white mb-0">N° Afiliados</p>
                     </div>
                     <div class="ms-auto"> <i class="fa fa-user-o text-white fs-30 me-2 mt-2"></i> </div>
@@ -56,7 +56,7 @@
             <div class="card-body">
                 <div class="d-flex">
                     <div class="text-white">
-                        <h2 class="mb-0 number-font">{{rango.cantidad_puntos.directos}}</h2>
+                        <h2 class="mb-0 number-font">{{rango.directos}}</h2>
                         <p class="text-white mb-0">Directos</p>
                     </div>
                     <div class="ms-auto"> <i class="fa fa-user-o text-white fs-30 me-2 mt-2"></i> </div>
@@ -71,7 +71,7 @@
             <div class="card-body">
                 <div class="d-flex">
                     <div class="text-white">
-                        <h2 class="mb-0 number-font">{{rango.cantidad_puntos.n_reconsumos_standar}}</h2>
+                        <h2 class="mb-0 number-font">{{rango.n_reconsumos_standar}}</h2>
                         <p class="text-white mb-0">N° Reconsumos Estándar</p>
                     </div>
                     <div class="ms-auto"> <i class="fa fa-ticket text-white fs-30 me-2 mt-2"></i> </div>
@@ -84,7 +84,7 @@
             <div class="card-body">
                 <div class="d-flex">
                     <div class="text-white">
-                        <h2 class="mb-0 number-font">{{rango.cantidad_puntos.n_reconsumos_premium}}</h2>
+                        <h2 class="mb-0 number-font">{{rango.n_reconsumos_premium}}</h2>
                         <p class="text-white mb-0">N° Reconsumos Premium</p>
                     </div>
                     <div class="ms-auto"> <i class="fa fa-ticket text-white fs-30 me-2 mt-2"></i> </div>
@@ -112,7 +112,7 @@
             <div class="card-body">
                 <div class="d-flex">
                     <div class="text-white">
-                        <h2 class="mb-0 number-font">S/ {{((+rango.data_range.ganancia)+rango.cantidad_puntos.ganancias_reconsumo+comisiones).toFixed(2)}}</h2>
+                        <h2 class="mb-0 number-font">S/ {{((+rango.rango.ganancia)+rango.ganancias_reconsumo+comisiones).toFixed(2)}}</h2>
                         <p class="text-white mb-0">Comisión del Mes</p>
                     </div>
                     <div class="ms-auto"> <i class="fa fa-money text-white fs-30 me-2 mt-2"></i> </div>

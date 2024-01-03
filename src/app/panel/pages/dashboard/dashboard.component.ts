@@ -19,7 +19,7 @@ export class DashboardComponent implements OnInit {
   constructor(private spinner: NgxSpinnerService, private generalService: GeneralService, public navServices: NavService,private router: Router,
     private servicePanel: PanelService, private datePipe: DatePipe) { }
   
-  menuItems: any[] = []; group_name:any; rango:any; days:any; comisiones:any
+  menuItems: any[] = []; group_name:any; rango:any; days:any; comisiones:any; profile: any
 
   ngOnInit(): void {
     this.listGroup()
@@ -41,7 +41,6 @@ export class DashboardComponent implements OnInit {
         localStorage.setItem('group_name', name)
         this.navServices.getMenu(name).subscribe(menuItems => {
           this.group_name=localStorage.getItem('group_name')
-          this.spinner.hide()
           this.menuItems = menuItems['data'];
           this.navServices.sendLista(this.menuItems)
           this.servicePanel.sendShow(true)
@@ -56,6 +55,12 @@ export class DashboardComponent implements OnInit {
     }, error => {
       this.spinner.hide()
     })
+    this.generalService.getProfile().subscribe(resp=>{
+      if(resp.success){
+        this.profile=resp.data;
+      }
+    },error => {
+    })
   }
 
   list(id){
@@ -63,14 +68,20 @@ export class DashboardComponent implements OnInit {
     var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
     let f_fin:any = this.datePipe.transform(lastDay, 'dd');
     let f_inicio:any = this.datePipe.transform(date, 'dd');
+    var date = new Date();
+    var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+    let inicio:any = firstDay.getTime() / 1000;
+    let fin:any = lastDay.getTime() / 1000;
+    let params = `fecha_inicio=${inicio}&fecha_fin=${fin}`
     this.days = f_fin - f_inicio;
     
-    this.generalService.getComisiones(id).subscribe(resp => {
+    this.generalService.getComisiones2(id, params).subscribe(resp => {
       if(resp['success']==true){
         this.comisiones=+resp.ganancia_total
         this.generalService.getRango(id).subscribe(resp=>{
           if(resp.success){
-            this.rango=resp
+            this.rango=resp.cantidad_puntos
+            this.spinner.hide()
           }
         })
       }

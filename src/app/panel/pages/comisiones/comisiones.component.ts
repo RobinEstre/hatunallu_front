@@ -210,11 +210,14 @@ export class ComisionesComponent implements OnInit {
 
   getfechainicio(){
     let date:any=this.formfiltros.controls.fecha_inicio.value
-    const start = new Date((date));
+    //console.log(date)
+    const start = new Date(date);
     start.setDate(start.getDate() + 1)
     start.setHours(0, 0, 0, 0);
-    this.f_inicio = this.datePipe.transform(start, "yyyy-MM-dd")
+    let inicio:any = this.datePipe.transform(start, "yyyy-MM-dd")
     this.f_inicio = start.getTime() / 1000;
+    console.log(this.f_inicio)
+    console.log(inicio)
   }
 
   getfechafin(){
@@ -222,7 +225,7 @@ export class ComisionesComponent implements OnInit {
     const end = new Date((date));
     end.setDate(end.getDate() + 1)
     end.setHours(23, 59, 59, 999);
-    this.f_fin = this.datePipe.transform(end, "yyyy-MM-dd")
+    let fin = this.datePipe.transform(end, "yyyy-MM-dd")
     this.f_fin = end.getTime() / 1000;
   }
 
@@ -232,6 +235,7 @@ export class ComisionesComponent implements OnInit {
       // Destroy the table first
       dtInstance.destroy();
       // Call the dtTrigger to rerender again
+      this.params = `fecha_inicio=${this.f_inicio}&fecha_fin=${this.f_fin}`
       this.listTable()
     });
   }

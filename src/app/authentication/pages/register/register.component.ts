@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, LOCALE_ID, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { AuthService } from '../../../shared/services/auth.service';
 import {Router} from '@angular/router';
 import { FormBuilder, Validators } from '@angular/forms';
@@ -7,11 +7,16 @@ import {NgbModal, NgbModalRef} from "@ng-bootstrap/ng-bootstrap";
 import { NgxSpinnerService } from 'ngx-spinner';
 import { GeneralService } from 'src/app/panel/services/general.service';
 import Swal from "sweetalert2";
+import localeEs from '@angular/common/locales/es';
+import {DatePipe, registerLocaleData} from "@angular/common";
+registerLocaleData(localeEs, 'es');
+
 
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+  styleUrls: ['./register.component.scss'],
+  providers: [ { provide: LOCALE_ID, useValue: 'es' }, DatePipe]
 })
 export class RegisterComponent implements OnInit {
   @ViewChild('add') private modalContentAdd: TemplateRef<RegisterComponent>;
@@ -26,6 +31,7 @@ export class RegisterComponent implements OnInit {
   constructor(private authservice: AuthServiceService, private router:Router, private fb: FormBuilder,private spinner: NgxSpinnerService,
     private modalService: NgbModal,private service: GeneralService,) {
   }
+  date: Date = new Date();
   
   formPass = this.fb.group({
     banco: [null, Validators.required],

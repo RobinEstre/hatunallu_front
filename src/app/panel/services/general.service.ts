@@ -67,6 +67,9 @@ export class GeneralService {
   getHistoryReconsumo(params){
     return this.httpClient.get<any>(this.envUrl.urlAddress + 'red/reconsumo-productos/'+params);
   }
+  getComisionesReconsumo(data){
+    return this.httpClient.get<any>(this.envUrl.urlAddress + 'au/listar/data-reconsumo-comision/'+data.id+'?fecha_inicio='+data.inicio+'&fecha_fin='+data.fin);
+  }
   getProductos(){
     return this.httpClient.get<any>(this.envUrl.urlAddress + 'red/productos/');
   }

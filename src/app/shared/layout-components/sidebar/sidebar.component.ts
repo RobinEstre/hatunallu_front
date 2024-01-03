@@ -105,7 +105,6 @@ export class SidebarComponent implements OnInit {
   }
 
   listMenu(){
-    this.spinner.show()
     this.generalService.listGrupos().subscribe(resp => {
       let name = null
       resp['grupos'].forEach(i=>{
@@ -114,7 +113,6 @@ export class SidebarComponent implements OnInit {
       if(name){
         localStorage.setItem('group_name', name)
         this.navServices.getMenu(name).subscribe(menuItems => {
-          this.spinner.hide()
           this.menuItems = menuItems['data'];
           this.navServices.sendLista(this.menuItems)
           this.servicePanel.sendShow(true)
@@ -123,13 +121,10 @@ export class SidebarComponent implements OnInit {
             (items) => (this.menuItems = items)
           )
         }, error => {
-          this.spinner.hide()
         })
       }else {
-        this.spinner.hide()
       }
     }, error => {
-      this.spinner.hide()
     })
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild,  } from '@angular/core';
+import { Component, LOCALE_ID, OnInit, ViewChild,  } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../shared/services/auth.service';
@@ -6,11 +6,15 @@ import {AuthServiceService} from "../../services/auth-service.service";
 import * as CryptoJS from 'crypto-js';
 import {NotifierService} from "angular-notifier";
 import { ToastrService } from 'ngx-toastr';
+import localeEs from '@angular/common/locales/es';
+import {DatePipe, registerLocaleData} from "@angular/common";
+registerLocaleData(localeEs, 'es');
 
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
-  styleUrls: ['./login-page.component.scss']
+  styleUrls: ['./login-page.component.scss'],
+  providers: [ { provide: LOCALE_ID, useValue: 'es' }, DatePipe]
 })
 export class LoginPageComponent implements OnInit {
   @ViewChild('passwordEyeRegister') passwordEye:any;
@@ -25,6 +29,7 @@ export class LoginPageComponent implements OnInit {
     });
   }
 
+  date: Date = new Date();
   public error:any = '';
 
   disabled = ""
