@@ -7,6 +7,7 @@ import { PerfilComponent } from './pages/perfil/perfil.component';
 import { ReconsumoComponent } from './pages/reconsumo/reconsumo.component';
 import { ComisionesComponent } from './pages/comisiones/comisiones.component';
 import { HReconsumoComponent } from './pages/h-reconsumo/h-reconsumo.component';
+import { HComisionesComponent } from './pages/h-comisiones/h-comisiones.component';
 
 const routes: Routes = [
   {
@@ -34,8 +35,12 @@ const routes: Routes = [
     component: HReconsumoComponent
   },
   {
-    path: 'comisiones',
+    path: 'historial-comisiones',
     component: ComisionesComponent
+  },
+  {
+    path: 'comisiones',
+    component: HComisionesComponent
   }
 ];
 

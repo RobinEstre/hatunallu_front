@@ -88,6 +88,9 @@ export class GeneralService {
   getProfile(){
     return this.httpClient.get<any>(this.envUrl.urlAddress + 'au/listar/datos-user/');
   }
+  getHistoryPagosId(id, mes, ano){
+    return this.httpClient.get<any>(this.envUrl.urlAddress + `red/listar/pago-afiliado/${id}?num_month=${mes}&num_year=${ano}`);
+  }
   getRango(id){
     return this.httpClient.get<any>(this.envUrl.urlAddress + 'au/listar/puntos-rango/'+id);
   }

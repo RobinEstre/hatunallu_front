@@ -1,0 +1,15 @@
+::ng-deep{
+    
+    @media only screen and (max-width: 768px){
+        .tab_wrapper.right_side>ul {
+            width: 100% !important;
+        }
+    }
+}
+
+.nav.panel-tabs a.active {
+    // color: var(--primary-bg-color);
+    color: #ffff;
+    background-color: var(--primary-bg-color);
+    width: 100%;
+}

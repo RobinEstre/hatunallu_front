@@ -9,7 +9,7 @@
 </div>
 
 <!-- ROW OPEN  *ngIf="group_name=='AFILIADO'" -->
-<div class="row" *ngIf="rango && group_name=='AFILIADO'">
+<div class="row my-3" *ngIf="rango && group_name=='AFILIADO'">
     <div class="col-sm-12 col-md-3 col-lg-3">
         <div class="card bg-dark img-card box-dark-shadow">
             <div class="card-body">
@@ -135,13 +135,13 @@
     </div>
     <!-- COL END -->
 </div>
-<div class="row" *ngIf="rango && group_name=='ADMINISTRADOR'">
+<div class="row my-3" *ngIf="reporte && group_name=='ADMINISTRADOR'">
     <div class="col-sm-12 col-md-3 col-lg-3">
         <div class="card bg-secondary img-card box-secondary-shadow">
             <div class="card-body">
                 <div class="d-flex">
                     <div class="text-white">
-                        <h2 class="mb-0 number-font">{{rango.cantidad_puntos.num_afiliados}}</h2>
+                        <h2 class="mb-0 number-font">{{data_afiliado}}</h2>
                         <p class="text-white mb-0">N° Afiliados</p>
                     </div>
                     <div class="ms-auto"> <i class="fa fa-user-o text-white fs-30 me-2 mt-2"></i> </div>
@@ -150,11 +150,11 @@
         </div>
     </div>
     <div class="col-sm-12 col-md-3 col-lg-3">
-        <div class="card bg-info img-card box-info-shadow">
+        <div class="card bg-success img-card box-info-shadow">
             <div class="card-body">
                 <div class="d-flex">
                     <div class="text-white">
-                        <h2 class="mb-0 number-font">{{rango.cantidad_puntos.n_reconsumos_standar}}</h2>
+                        <h2 class="mb-0 number-font">{{reporte.cantidad_normal}}</h2>
                         <p class="text-white mb-0">N° Reconsumos Estándar</p>
                     </div>
                     <div class="ms-auto"> <i class="fa fa-ticket text-white fs-30 me-2 mt-2"></i> </div>
@@ -167,7 +167,7 @@
             <div class="card-body">
                 <div class="d-flex">
                     <div class="text-white">
-                        <h2 class="mb-0 number-font">{{rango.cantidad_puntos.n_reconsumos_premium}}</h2>
+                        <h2 class="mb-0 number-font">{{reporte.cantidad_premiun}}</h2>
                         <p class="text-white mb-0">N° Reconsumos Premium</p>
                     </div>
                     <div class="ms-auto"> <i class="fa fa-ticket text-white fs-30 me-2 mt-2"></i> </div>

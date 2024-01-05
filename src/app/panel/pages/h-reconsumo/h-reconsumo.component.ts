@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, LOCALE_ID, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, LOCALE_ID, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import {DataTableDirective} from "angular-datatables";
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Subject } from 'rxjs';
@@ -112,11 +112,12 @@ export class HReconsumoComponent implements OnInit {
   dtTrigger: Subject<any> = new Subject<any>();
 
   //public paginate:any; public start_paginate:number=0; register_count:number; fillter_params:any; 
-  data_detalle:any; estados:any;data_user:any; reconsumos:any; total_ganancia:any
-  public f_inicio:any; public f_fin:any
+  data_detalle:any; estados:any; data_user:any; reconsumos:any; total_ganancia:any
+  @Input() f_inicio:any; @Input() f_fin:any; @Input() id_user:any; 
 
   ngOnInit(): void {
-    this.listEstados()
+    this.listarData()
+    //this.listEstados()
   }
 
   listEstados(){
@@ -175,6 +176,7 @@ export class HReconsumoComponent implements OnInit {
   }
 
   listarData(): void {
+    this.spinner.show()
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 20,
@@ -191,7 +193,7 @@ export class HReconsumoComponent implements OnInit {
       language: HReconsumoComponent.spanish_datatables
     }
     let data={
-      id: this.data_user.persona,
+      id: this.id_user,
       inicio: this.f_inicio,
       fin: this.f_fin
     }

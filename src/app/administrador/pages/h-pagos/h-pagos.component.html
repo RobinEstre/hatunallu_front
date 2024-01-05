@@ -1,1 +1,149 @@
-<p>h-pagos works!</p>
+<div class="page-header">
+    <h1 class="page-title my-auto">Jatun Ayllu</h1>
+    <div>
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"> <a href="javascript:void(0)"><i class="fe fe-home"></i></a></li> 
+            <li class="breadcrumb-item"> <a href="javascript:void(0)">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Pagos</li>
+        </ol> 
+    </div>
+</div>
+<div class="card">
+    <div class="card-header">
+        PAGOS COMISIONES
+    </div>
+    <form [formGroup]="formfiltros" class="card-body row">
+        <div class="col-md-2 col-sm-12 col-lg-2 mb-2">
+            <div class="form-group">
+                <small class="form-label"><b>Mes</b></small>
+                <ng-select class="text-uppercase"
+                            formControlName="mes"
+                            [items]="mes"
+                            bindLabel="name"
+                            bindValue="id"
+                            placeholder="SELECCIONAR MES"
+                            (change)="selectMes($event)">
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-md-2 col-sm-12 col-lg-2 mb-2">
+            <div class="form-group">
+                <small class="form-label"><b>Año</b></small>
+                <ng-select class="text-uppercase"
+                            formControlName="ano"
+                            [items]="ano"
+                            bindLabel="name"
+                            bindValue="name"
+                            placeholder="SELECCIONAR AÑO"
+                            (change)="selectAno($event)">
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-md-2 col-sm-12 col-lg-2 mb-2">
+            <div class="form-group">
+                <small class="form-label "><b>Refrescar</b></small>
+                <button class="btn btn btn-white" (click)="refreshData()" title="Cargar Data Actualizada"><i
+                        class="fa fa-refresh"></i></button>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <!--TABLA-->
+            <div class="table-responsive invoice-table" id="table">
+              <table class="table table-striped table-bordered" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+                <thead>
+                <tr>
+                    <th class="text-center">CLIENTE</th>
+                    <th class="text-center">RANGO</th>
+                    <th class="text-center">CANT. PRODUCTOS</th>
+                    <th class="text-center">COMISION RECONSUMOS</th>
+                    <th class="text-center">COMISION AFILIADOS</th>
+                    <th class="text-center">COMISION RANGO</th>
+                    <th class="text-center">TOTAL</th>
+                    <th class="text-center">ESTADO PAGO</th>
+                    <th class="text-center">ACC</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let valHistorial of pagos">
+                    <!-- <td class="text-center text-dark text-capitalize">
+                        {{ordenes.created_at | date:'dd/MM/yyyy'}}
+                    </td> -->
+                    <td class="text-dark">
+                        {{valHistorial.nombre_completo}}
+                    </td>
+                    <td class="text-center text-dark">
+                        {{valHistorial.rango}}
+                    </td>
+                    <td class="text-center text-dark">
+                        {{+valHistorial.total_productos}}
+                    </td>
+                    <td class="text-center text-dark">
+                        S/ {{(+valHistorial.comision_reconsumos).toFixed(2)}}
+                    </td>
+                    <td class="text-center text-dark">
+                        S/ {{(+valHistorial.comision_referico).toFixed(2)}}
+                    </td>
+                    <td class="text-center text-dark">
+                        S/ {{(+valHistorial.rango_ganancia).toFixed(2)}}
+                    </td>
+                    <td class="text-center text-dark">
+                        S/ {{((+valHistorial.comision_reconsumos)+(+valHistorial.comision_referico)+(+valHistorial.rango_ganancia)).toFixed(2)}}
+                    </td>
+                    <td class="text-center text-dark">
+                        <div *ngIf="valHistorial.is_pagado">
+                            <span class="badge bg-success">Pagado</span>
+                        </div>
+                        <div *ngIf="!valHistorial.is_pagado">
+                            <span class="badge bg-danger">Pendiente</span>
+                        </div>
+                    </td>
+                    <td class="text-center text-dark">
+                        <button class="btn btn-sm btn-success mx-1" data-bs-toggle="tooltip" data-bs-placement="right" title="Realizar Pago"
+                            (click)="validatePago(valHistorial)">
+                            <i class="fa fa-eye"></i>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- Modal IMG -->
+<ng-template #modal_img let-modal>
+    <div class="modal-body row">
+        <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+            <h5>Cliente: {{data_detalle.nombre_completo}}</h5>
+            <hr>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 text-center" *ngIf="!data_pago">
+            <h5>MONTO A PAGAR: S/ {{((+data_detalle.comision_reconsumos)+(+data_detalle.comision_referico)+(+data_detalle.rango_ganancia)).toFixed(2)}}</h5>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12" *ngIf="!data_pago">
+            <small>Imagen Pago (Opcional)</small>
+            <div class="custom-dropzone text-center" ngx-dropzone [accept]="'image/*'" (change)="onSelect($event)">
+                <ngx-dropzone-label>
+                    Selecciona Imagen
+                </ngx-dropzone-label>
+                <ngx-dropzone-image-preview ngProjectAs="ngx-dropzone-preview" *ngFor="let f of files" [file]="f"
+                    [removable]="true" (removed)="onRemove(f)">
+                    <ngx-dropzone-label>{{ f.name }} ({{ f.type }})</ngx-dropzone-label>
+                </ngx-dropzone-image-preview>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 text-center" *ngIf="data_pago">
+            <h5>MONTO PAGADO: S/ {{((+data_pago.importe)).toFixed(2)}}</h5>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 text-center" *ngIf="data_pago">
+            <img src="{{data_pago.comprobante_url}}" alt="" style="width: 100%;">
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+            <hr>
+            <button class="btn btn-success mx-2" (click)="generatePago()" *ngIf="!data_pago"> Pagar</button>
+            <button class="btn btn-danger" (click)="closeModalIMG()"> Cerrar</button>
+        </div>
+    </div>
+</ng-template>
+<!-- SPINNER -->
+<ngx-spinner type="timer"></ngx-spinner>

@@ -87,7 +87,7 @@ export class HMesComponent implements OnInit {
   dtOptions: any;
   dtTrigger: Subject<any> = new Subject<any>();
 
-  historial:any; f_inicio:any; f_fin:any; params:any; data_afiliado:any; data_detalle:any; reporte:any
+  historial:any; f_inicio:any; f_fin:any; params:any; data_afiliado:any; data_detalle:any; reporte:any; monto_afiliado:any=0
   estados:any=[{id:0, name:'TODOS'},{id:1, name:'ESTÁNDAR'},{id:2, name:'PREMIUM'},]
 
   ngOnInit(): void {
@@ -110,6 +110,7 @@ export class HMesComponent implements OnInit {
     this.service.getNumberAfiliados(this.f_inicio, this.f_fin).subscribe(resp => {
       if(resp['success']==true){
         this.data_afiliado=resp.cantidad
+        this.monto_afiliado=+resp.montos_total
         this.params = `fecha_inicio=${this.f_inicio}&fecha_fin=${this.f_fin}`
         this.listTable()
       }

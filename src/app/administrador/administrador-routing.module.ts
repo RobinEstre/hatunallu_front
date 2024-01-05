@@ -30,7 +30,7 @@ const routes: Routes = [
     component: CambioReferidoComponent
   },
   {
-    path: 'historial-reconsumo',
+    path: 'historial-ventas',
     component: HMesComponent
   },
   {

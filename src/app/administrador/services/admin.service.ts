@@ -18,6 +18,18 @@ export class AdminService {
   getHistoryMes(params){
     return this.httpClient.get<any>(this.envUrl.urlAddress + 'red/listar/reconsumos-admin-fechas/?'+params);
   }
+  getHistoryPagos(params){
+    return this.httpClient.get<any>(this.envUrl.urlAddress + 'red/listar/pagos-afiliados-query/?'+params);
+  }
+  getHistoryPagosId(id, mes, ano){
+    return this.httpClient.get<any>(this.envUrl.urlAddress + `red/listar/pago-afiliado/${id}?num_month=${mes}&num_year=${ano}`);
+  }
+  registerPago(data){
+    return this.httpClient.post<any>(this.envUrl.urlAddress + 'red/registrar/pago-afiliado/',data);
+  }
+  subirIMG(data){
+    return this.httpClient.post<any>(this.envUrl.urlAddress + 'au/subir/archivo-s3/?type=jpeg',data);
+  }
   getNumberAfiliados(inicio, fin){
     return this.httpClient.get<any>(this.envUrl.urlAddress + 'red/reconsumo-productos/?cantidad=10&pagina=1&tipo_venta_id=1&fecha_inicio='+inicio+'&fecha_fin='+fin);
   }

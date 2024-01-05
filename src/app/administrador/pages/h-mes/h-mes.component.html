@@ -15,8 +15,16 @@
     <form [formGroup]="formfiltros" class="card-body row">
         <div class="col-sm-12 col-md-12 col-lg-12 text-center">
             <a href="javascript:void(0)" (click)="openModalAf()">
-                <span class="badge rounded-pill bg-primary" style="font-size: 15px;">AFILIADOS NUEVOS: {{data_afiliado}}</span>
+                <span class="badge rounded-pill bg-primary" style="font-size: 15px;">
+                    AFILIADOS: {{data_afiliado}} = S/ {{+monto_afiliado.toFixed(2)}}
+                </span>
             </a>
+            <span class="badge rounded-pill bg-primary mx-2" style="font-size: 15px;" *ngIf="reporte">
+                RECONSUMOS: {{reporte.cantidad_premiun+reporte.cantidad_normal}} = S/ {{(reporte.monto_premiun+reporte.monto_normal).toFixed(2)}}
+            </span>
+            <span class="badge rounded-pill bg-success" style="font-size: 15px;" *ngIf="reporte">
+                TOTAL = S/ {{((+monto_afiliado)+(reporte.monto_premiun+reporte.monto_normal)).toFixed(2)}}
+            </span>
         </div>
         <br>
         <div class="col-md-2 col-sm-12 col-lg-2 mb-2">
@@ -55,11 +63,15 @@
             </div>
         </div>
         <hr>
+        <div class="col-sm-12 col-md-12 col-lg-12 text-uppercase">
+            <h6>Tabla Reconsumos</h6>
+        </div>
+        <hr>
         <div class="col-sm-12 col-md-12 col-lg-12 text-end new-class" *ngIf="reporte">
-            <span class="badge bg-success mx-2">Cant. Premium: {{reporte.cantidad_premiun}}</span>
-            <span class="badge bg-success">Monto Premium: S/ {{reporte.monto_premiun.toFixed(2)}}</span>
+            <span class="badge bg-danger mx-2">Cant. Premium: {{reporte.cantidad_premiun}}</span>
+            <span class="badge bg-danger">Monto Premium: S/ {{reporte.monto_premiun.toFixed(2)}}</span>
             <span class="badge bg-warning mx-2">Cant. Normal: {{reporte.cantidad_normal}}</span>
-            <span class="badge bg-warning">Monto Premium: S/ {{reporte.monto_normal.toFixed(2)}}</span>
+            <span class="badge bg-warning">Monto Normal: S/ {{reporte.monto_normal.toFixed(2)}}</span>
             <br>
         </div>
         <div class="col-sm-12 col-md-12 col-lg-12">

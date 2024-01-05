@@ -1,4 +1,4 @@
-import { Component, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
 import { DataTableDirective } from 'angular-datatables';
 import {DatePipe, registerLocaleData} from "@angular/common";
 import {NgxSpinnerService} from "ngx-spinner";
@@ -79,10 +79,14 @@ export class ComisionesComponent implements OnInit {
   dtOptions: any;
   dtTrigger: Subject<any> = new Subject<any>();
 
-  comisiones:any; total_ganancia:any=0; f_inicio:any; f_fin:any; params:any; id_user:any
+  comisiones:any; total_ganancia:any=0;
+  @Input() f_inicio:any; @Input() f_fin:any; @Input() id_user:any; params:any;
 
   ngOnInit(): void {
-    this.listInit()
+    console.log(this.f_inicio)
+    console.log(this.f_fin)
+    this.first_and_last_date_month()
+    //this.listInit()
   }
 
   listInit(){
@@ -119,17 +123,26 @@ export class ComisionesComponent implements OnInit {
     })
   }
 
+  // first_and_last_date_month(){
+  //   var date = new Date();
+  //   var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+  //   var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+  //   let f_inicio:any = this.datePipe.transform(firstDay, 'yyyy-MM-dd');
+  //   let f_fin:any = this.datePipe.transform(lastDay, 'yyyy-MM-dd');
+  //   this.f_inicio = firstDay.getTime() / 1000;
+  //   this.f_fin = lastDay.getTime() / 1000;
+  //   this.formfiltros.controls['fecha_inicio'].setValue(f_inicio)
+  //   this.formfiltros.controls['fecha_fin'].setValue(f_fin)
+  //   this.params = `fecha_inicio=${this.f_inicio}&fecha_fin=${this.f_fin}`
+  //   this.listTable()
+  // }
+
   first_and_last_date_month(){
-    var date = new Date();
-    var firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
-    var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
-    let f_inicio:any = this.datePipe.transform(firstDay, 'yyyy-MM-dd');
-    let f_fin:any = this.datePipe.transform(lastDay, 'yyyy-MM-dd');
-    this.f_inicio = firstDay.getTime() / 1000;
-    this.f_fin = lastDay.getTime() / 1000;
-    this.formfiltros.controls['fecha_inicio'].setValue(f_inicio)
-    this.formfiltros.controls['fecha_fin'].setValue(f_fin)
-    this.params = `fecha_inicio=${this.f_inicio}&fecha_fin=${this.f_fin}`
+    let start = new Date(this.f_inicio);
+    let end = new Date(this.f_fin);
+    let f_inicio = start.getTime() / 1000;
+    let f_fin = end.getTime() / 1000;
+    this.params = `fecha_inicio=${f_inicio}&fecha_fin=${f_fin}`
     this.listTable()
   }
 

@@ -1,0 +1,160 @@
+<div class="page-header">
+    <h1 class="page-title my-auto">Jatun Ayllu</h1>
+    <div>
+        <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"> <a href="javascript:void(0)"><i class="fe fe-home"></i></a></li> 
+            <li class="breadcrumb-item"> <a href="javascript:void(0)">Dashboard</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Comisiones</li>
+        </ol> 
+    </div>
+</div>
+<div class="card">
+    <div class="card-header">
+        COMISIONES
+    </div>
+    <form [formGroup]="formfiltros" class="card-body row">
+        <div class="col-sm-12 col-md-3 col-lg-3">
+            <div class="card bg-warning img-card box-secondary-shadow">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="text-white">
+                            <h2 class="mb-0 number-font">S/ {{ganancia_afiliados.toFixed(2)}}</h2>
+                            <p class="text-white mb-0">Ganancia Afiliados</p>
+                        </div>
+                        <div class="ms-auto"> <i class="fa fa-money text-white fs-30 me-2 mt-2"></i> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-3 col-lg-3">
+            <div class="card bg-primary img-card box-secondary-shadow">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="text-white">
+                            <h2 class="mb-0 number-font">S/ {{ganancia_reconsumo.toFixed(2)}}</h2>
+                            <p class="text-white mb-0">Ganancia Reconsumos</p>
+                        </div>
+                        <div class="ms-auto"> <i class="fa fa-money text-white fs-30 me-2 mt-2"></i> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-3 col-lg-3">
+            <div class="card bg-dark img-card box-secondary-shadow">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="text-white">
+                            <h2 class="mb-0 number-font">S/ {{(+ganancia_rango.ganancia).toFixed(2)}}</h2>
+                            <p class="text-white mb-0">G. Rango: {{ganancia_rango.name}}</p>
+                        </div>
+                        <div class="ms-auto text-end"><img src="{{ganancia_rango.url_img}}" alt="" style="width: 50%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-3 col-lg-3">
+            <div class="card bg-success img-card box-secondary-shadow">
+                <div class="card-body">
+                    <div class="d-flex">
+                        <div class="text-white">
+                            <h2 class="mb-0 number-font">S/ {{(ganancia_afiliados+ganancia_reconsumo+(+ganancia_rango.ganancia)).toFixed(2)}}</h2>
+                            <p class="text-white mb-0">Comisión Total</p>
+                        </div>
+                        <div class="ms-auto"> <i class="fa fa-money text-white fs-30 me-2 mt-2"></i> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="col-md-2 col-sm-12 col-lg-2 mb-2">
+            <div class="form-group">
+                <small class="form-label"><b>Mes</b></small>
+                <ng-select class="text-uppercase"
+                            formControlName="mes"
+                            [items]="mes"
+                            bindLabel="name"
+                            bindValue="id"
+                            placeholder="SELECCIONAR MES"
+                            (change)="selectMes($event)">
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-md-2 col-sm-12 col-lg-2 mb-2">
+            <div class="form-group">
+                <small class="form-label"><b>Año</b></small>
+                <ng-select class="text-uppercase"
+                            formControlName="ano"
+                            [items]="ano"
+                            bindLabel="name"
+                            bindValue="name"
+                            placeholder="SELECCIONAR AÑO"
+                            (change)="selectAno($event)">
+                </ng-select>
+            </div>
+        </div>
+        <div class="col-md-2 col-sm-12 col-lg-2 mb-2">
+            <div class="form-group">
+                <small class="form-label "><b>Refrescar</b></small>
+                <button class="btn btn btn-white" (click)="refreshData()" title="Cargar Data Actualizada"><i
+                        class="fa fa-refresh"></i></button>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-12 col-lg-4 mb-2"></div>
+        <div class="col-md-2 col-sm-12 col-lg-2 mb-2 text-end">
+            <br><br>
+            <a href="javascript:void(0)" (click)="openModalIMG()"><span class="badge bg-success" style="font-size: 15px;" *ngIf="data_pago">Pagado</span></a>
+            <span class="badge bg-warning" style="font-size: 15px;" *ngIf="!data_pago">Pendiente</span>
+        </div>
+        <div class="col-sm-12 col-md-12 col-lg-12" *ngIf="afiliados">
+            <div class="card-body my-4">
+                <div class="panel panel-primary">
+                    <div class="tab-menu-heading">
+                        <div class="tabs-menu ">
+                            <!-- Tabs -->
+                            <ul ngbNav #nav="ngbNav" [activeId]="1" class="panel-tabs">
+                                <li class="me-2 mb-1" [ngbNavItem]="1">
+                                  <a ngbNavLink>Afiliados</a>
+                                  <ng-template ngbNavContent>
+                                    <app-comisiones [id_user]="id_user" [f_inicio]="f_inicio" [f_fin]="f_fin"></app-comisiones>
+                                  </ng-template>
+                                </li>
+                                <li class="me-2 mb-1" [ngbNavItem]="2">
+                                  <a ngbNavLink>Reconsumo</a>
+                                  <ng-template ngbNavContent>
+                                    <div class="tab-pane">
+                                        <app-h-reconsumo [id_user]="id_user" [f_inicio]="f_inicio" [f_fin]="f_fin"></app-h-reconsumo>
+                                    </div>
+                                  </ng-template>
+                                </li>
+                              </ul>             
+                        </div>
+                    </div>
+                    <div class="panel-body tabs-menu-body">
+                        <div [ngbNavOutlet]="nav"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<!-- Modal IMG -->
+<ng-template #modal_img let-modal>
+    <div class="modal-body row">
+        <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+            <h5>Cliente: {{data_detalle.name}}</h5>
+            <hr>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 text-center" *ngIf="data_pago">
+            <h5>MONTO PAGADO: S/ {{((+data_pago.importe)).toFixed(2)}}</h5>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 text-center" *ngIf="data_pago">
+            <img src="{{data_pago.comprobante_url}}" alt="" style="width: 100%;">
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 text-center">
+            <hr>
+            <button class="btn btn-danger" (click)="closeModalIMG()"> Cerrar</button>
+        </div>
+    </div>
+</ng-template>
+<!-- SPINNER -->
+<ngx-spinner type="timer"></ngx-spinner>
