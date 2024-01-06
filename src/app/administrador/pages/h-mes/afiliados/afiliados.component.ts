@@ -114,7 +114,7 @@ export class AfiliadosComponent implements OnInit {
         {title: 'CLIENTE', data: 'cliente_name'},
         {title: 'IMPORTE', data: 'importe'},
         {title: 'N° OPERACION', data: 'num_operacion'},
-        {title: 'F. PAGO', data: 'created_at'},
+        {title: 'F. PAGO', data: 'fecha_pago'},
         { title: 'ESTADO',
           data: 'estado',
           defaultContent: '',
@@ -192,6 +192,7 @@ export class AfiliadosComponent implements OnInit {
             let cliente_name=i.cliente.nombre+' '+i.cliente.apellido
             let created_at= this.datePipe.transform(i.created_at,"d MMMM, y")
             let updated_at= this.datePipe.transform(i.updated_at,"d MMMM, y")
+            let fecha_pago= this.datePipe.transform(i.fecha_pago,"d MMMM, y")
             data.push({
               "id": i.id,
               "cliente": i.cliente,
@@ -204,6 +205,7 @@ export class AfiliadosComponent implements OnInit {
               "num_operacion": i.num_operacion,
               "created_at": created_at,
               "updated_at": updated_at,
+              "fecha_pago": fecha_pago,
               "forma_ganar": i.forma_ganar,
               "pack": i.pack,
               cliente_name: cliente_name,

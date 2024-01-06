@@ -94,7 +94,8 @@
                             <span class="badge bg-success">Pagado</span>
                         </div>
                         <div *ngIf="!valHistorial.is_pagado">
-                            <span class="badge bg-danger">Pendiente</span>
+                            <span class="badge bg-danger" *ngIf="valHistorial.sepaga">Pendiente</span>
+                            <span class="badge bg-dark" *ngIf="!valHistorial.sepaga">No Apto</span>
                         </div>
                     </td>
                     <td class="text-center text-dark">
