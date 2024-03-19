@@ -451,8 +451,11 @@ export class ReconsumoComponent implements OnInit {
         cantidad += i.cantidad
       })
       if(cantidad>=6){
-        let descuento:any=0
-        if(this.data_productos[0].precio==80){descuento=60}
+        let descuento:any=0, num=0
+        this.data_productos.forEach(i=>{
+          if(this.data_productos[num].precio==80){descuento=60}
+          num++
+        })
         if(this.data_productos[0].precio==90){descuento=80}
         if(this.data_productos[0].precio==100){descuento=100}
         if(this.data_productos[0].precio==110){descuento=120}

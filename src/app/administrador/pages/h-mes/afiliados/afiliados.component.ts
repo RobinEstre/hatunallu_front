@@ -202,6 +202,7 @@ export class AfiliadosComponent implements OnInit {
               "data": i.data,
               "url_voucher": i.url_voucher,
               "importe": i.importe,
+              "monto_neto": i.monto_neto,
               "num_operacion": i.num_operacion,
               "created_at": created_at,
               "updated_at": updated_at,
