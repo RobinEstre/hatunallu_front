@@ -14,7 +14,7 @@ export const environment = {
     measurementId: "********************************"
   },
   urlAddress: 'https://api.jatunayllu.com/api/'
-  //'http://127.0.0.1:8000/api/'
+  //urlAddress: 'http://127.0.0.1:8000/api/'
 };
 
 /*

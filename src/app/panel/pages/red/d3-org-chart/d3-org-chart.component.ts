@@ -44,7 +44,7 @@ export class D3OrgChartComponent implements OnInit, OnChanges {
       .initialZoom(1)
       .onNodeClick(d => console.log(d + ' node clicked'))
       .nodeContent(function (d, i, arr, state) {
-        console.log(d )
+        //console.log(d)
         return `
           <div style="padding-top:30px;background-color:none;margin-left:1px;height:${
             d.height
@@ -52,22 +52,18 @@ export class D3OrgChartComponent implements OnInit, OnChanges {
             <div style="height:${
               d.height - 32
             }px;padding-top:0px;background-color:white;border:1px solid lightgray;">
-
               <img src=" ${
                 d.data.img
               }" style="margin-top:-30px;margin-left:${d.width / 2 - 30}px;border-radius:100px;width:60px;height:60px;" />
-
               <div style="margin-right:10px;margin-top:15px;float:right">${
                 d.data.telefono
               }</div>
               <div style="margin-left:10px;margin-top:-15px;float:left">${
                 d.data.dni
               }</div>
-            
-            <div style="margin-top:-30px;background-color:#E33A59;height:10px;width:${
+            <div style="margin-top:-30px;background-color:${d.data.color};height:10px;width:${
               d.width - 2
             }px;border-radius:1px"></div>
-
             <div style="padding:20px; padding-top:35px;text-align:center">
                 <div style="color:#111672;font-size:16px;font-weight:bold"> <small>${
                   d.data.nombre + ' '+ d.data.apellido

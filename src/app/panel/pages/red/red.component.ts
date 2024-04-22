@@ -101,11 +101,15 @@ export class RedComponent implements OnInit {
     ).then(data => {
       let new_data:any=[]
       data.data.forEach(i=>{
-        let padre_id=i.padre_id
+        let padre_id=i.padre_id, color=''
         if(i.nivel==0){padre_id=null}
+        if(i.cantidad_ventas_mes_actual==0){color='#f31f1f'}
+        if(i.cantidad_ventas_mes_actual>=4){color='#77dd77'}
+        if(i.cantidad_ventas_mes_actual>0&&i.cantidad_ventas_mes_actual<4){color='#ffd700'}
         new_data.push({
           "nodeId": i.hijo_id,
           "parentNodeId": i.padre_id,
+          "color": color,
           "width": 400,
           "height": 200,
           "borderWidth": 1,
