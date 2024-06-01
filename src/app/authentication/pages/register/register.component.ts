@@ -54,9 +54,29 @@ export class RegisterComponent implements OnInit {
     provincia : [null, Validators.required],
     distrito : [null, Validators.required],
   });
+  countries:any=[
+    {
+      'id': 1,
+      'name': 'Perú'
+    },
+    {
+      'id': 2,
+      'name': 'Extranjero'
+    },
+  ];
+  prefijo:any=[
+    {
+      'id': 'PER',
+      'name': '+51'
+    },
+    {
+      'id': 2,
+      'name': 'Extranjero'
+    },
+  ];
 
   banco:any;genero:any=[{name:'Masculino'},{name:'Femenino'}]; departamento:any; provincia:any; distrito:any
-  pais:any=[]; prefijo:any=[]; files: File[] = []; packs:any; validar_pago:boolean=false; data_pago:any; data_pack:any
+  pais:any=[];files: File[] = []; packs:any; validar_pago:boolean=false; data_pago:any; data_pack:any
 
   ngOnInit(): void {
     this.formRegister.controls.distrito.disable()
@@ -66,38 +86,38 @@ export class RegisterComponent implements OnInit {
 
   list(){
     this.spinner.show();
-    this.authservice.listCountry().subscribe(data => {
-      let dato:any=[], pref:any=[], id
-      data.forEach(i=>{
-        dato.push({
-          name: i.name.common,
-          id: i.fifa
-        })
-      })
-      data.forEach(i=>{
-        if(Array.isArray(i.idd.suffixes)){
-          id=i.idd.suffixes[0]
-        }else{id=i.idd.suffixes}
-        dato.push({
-          name: i.name.common,
-          id: i.fifa
-        })
-        pref.push({
-          name: i.idd.root+id,
-          id: i.fifa
-        })
-      })
-      this.prefijo=pref
-      this.pais=dato
-      let id_Peru:any='PER'
-      this.formRegister.controls.pais.setValue(id_Peru)
-      this.prefijo.forEach(i=>{
-        if(i.id=='PER'){
-          this.formRegister.controls.prefijo.setValue(i.id)
-        }
-      })
-      this.listPacks()
-    })
+    // this.authservice.listCountry().subscribe(data => {
+    //   let dato:any=[], pref:any=[], id
+    //   data.forEach(i=>{
+    //     dato.push({
+    //       name: i.name.common,
+    //       id: i.fifa
+    //     })
+    //   })
+    //   data.forEach(i=>{
+    //     if(Array.isArray(i.idd.suffixes)){
+    //       id=i.idd.suffixes[0]
+    //     }else{id=i.idd.suffixes}
+    //     dato.push({
+    //       name: i.name.common,
+    //       id: i.fifa
+    //     })
+    //     pref.push({
+    //       name: i.idd.root+id,
+    //       id: i.fifa
+    //     })
+    //   })
+    //   this.prefijo=pref
+    //   this.pais=dato
+    //   let id_Peru:any='PER'
+    //   this.formRegister.controls.pais.setValue(id_Peru)
+    //   this.prefijo.forEach(i=>{
+    //     if(i.id=='PER'){
+    //       this.formRegister.controls.prefijo.setValue(i.id)
+    //     }
+    //   })
+    //   this.listPacks()
+    // })
     this.service.getBancos().subscribe(resp=>{
       if(resp.success){
         this.banco=resp.data
@@ -105,12 +125,18 @@ export class RegisterComponent implements OnInit {
     })
     this.service.listDepartamento().subscribe(resp=>{
       if(resp.success){
+        this.listPacks()
         this.departamento=resp.data
       }
     })
   }
 
   listPacks(){
+    let id:any='PER', id_pais:any=1
+    this.formRegister.controls.prefijo.setValue(id)
+    this.formRegister.controls.prefijo.disable()
+    this.formRegister.controls.pais.setValue(id_pais)
+    this.formRegister.controls.pais.disable()
     this.service.getPacks().subscribe(resp=>{
       if(resp.success){
         let pack:any=[]

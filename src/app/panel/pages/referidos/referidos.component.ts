@@ -7,6 +7,7 @@ import { GeneralService } from '../../services/general.service';
 import { Clipboard } from '@angular/cdk/clipboard';
 import Swal from 'sweetalert2'
 import { ToastrService } from 'ngx-toastr';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-referidos',
@@ -22,7 +23,7 @@ export class ReferidosComponent implements OnInit {
   private modalRefBinance: NgbModalRef;
 
   constructor(private fb: FormBuilder,private spinner: NgxSpinnerService,private authservice: AuthServiceService,private modalService: NgbModal,
-    private service: GeneralService, private clipboard: Clipboard, private toastr: ToastrService) { 
+    private service: GeneralService, private clipboard: Clipboard, private toastr: ToastrService,private http: HttpClient) { 
   }
 
   formPass = this.fb.group({
@@ -45,9 +46,29 @@ export class ReferidosComponent implements OnInit {
     provincia : [null, Validators.required],
     distrito : [null, Validators.required],
   });
+  countries:any=[
+    {
+      'id': 1,
+      'name': 'Perú'
+    },
+    {
+      'id': 2,
+      'name': 'Extranjero'
+    },
+  ];
+  prefijo:any=[
+    {
+      'id': 'PER',
+      'name': '+51'
+    },
+    {
+      'id': 2,
+      'name': 'Extranjero'
+    },
+  ];
 
   banco:any;genero:any=[{name:'Masculino'},{name:'Femenino'}]; departamento:any; provincia:any; distrito:any
-  pais:any=[]; prefijo:any=[]; packs:any; validate_pack:any=false; detail_pack:any; info_qr:any; text_modal:any; textoACopiar:any
+  pais:any=[]; packs:any; validate_pack:any=false; detail_pack:any; info_qr:any; text_modal:any; textoACopiar:any
   data_binance:any; txtCopiarBinance:any; files: File[] = []; validar_pago:boolean=false; data_pago:any; data_pack:any; data_user:any
 
   ngOnInit(): void {
@@ -58,38 +79,71 @@ export class ReferidosComponent implements OnInit {
 
   listCountries(){
     this.spinner.show();
-    this.authservice.listCountry().subscribe(data => {
-      let dato:any=[], pref:any=[], id
-      data.forEach(i=>{
-        dato.push({
-          name: i.name.common,
-          id: i.fifa
-        })
-      })
-      data.forEach(i=>{
-        if(Array.isArray(i.idd.suffixes)){
-          id=i.idd.suffixes[0]
-        }else{id=i.idd.suffixes}
-        dato.push({
-          name: i.name.common,
-          id: i.fifa
-        })
-        pref.push({
-          name: i.idd.root+id,
-          id: i.fifa
-        })
-      })
-      this.prefijo=pref
-      this.pais=dato 
-      let id_Peru:any='PER'
-      this.formRegister.controls.pais.setValue(id_Peru)
-      this.prefijo.forEach(i=>{
-        if(i.id=='PER'){
-          this.formRegister.controls.prefijo.setValue(i.id)
-        }
-      })
-      this.listInit()
-    })
+    // this.http.get('https://restcountries.com/v3.1/all').subscribe((data:any)=>{
+    //   let dato:any=[], pref:any=[], id
+    //   data.forEach(i=>{
+    //     dato.push({
+    //       name: i.name.common,
+    //       id: i.fifa
+    //     })
+    //   })
+    //   data.forEach(i=>{
+    //     if(Array.isArray(i.idd.suffixes)){
+    //       id=i.idd.suffixes[0]
+    //     }else{id=i.idd.suffixes}
+    //     dato.push({
+    //       name: i.name.common,
+    //       id: i.fifa
+    //     })
+    //     pref.push({
+    //       name: i.idd.root+id,
+    //       id: i.fifa
+    //     })
+    //   })
+    //   this.prefijo=pref
+    //   this.pais=dato 
+    //   let id_Peru:any='PER'
+    //   this.formRegister.controls.pais.setValue(id_Peru)
+    //   this.prefijo.forEach(i=>{
+    //     if(i.id=='PER'){
+    //       this.formRegister.controls.prefijo.setValue(i.id)
+    //     }
+    //   })
+    //   this.listInit()
+    // })
+    // this.authservice.listCountry().subscribe(data => {
+    //   let dato:any=[], pref:any=[], id
+    //   data.forEach(i=>{
+    //     dato.push({
+    //       name: i.name.common,
+    //       id: i.fifa
+    //     })
+    //   })
+    //   data.forEach(i=>{
+    //     if(Array.isArray(i.idd.suffixes)){
+    //       id=i.idd.suffixes[0]
+    //     }else{id=i.idd.suffixes}
+    //     dato.push({
+    //       name: i.name.common,
+    //       id: i.fifa
+    //     })
+    //     pref.push({
+    //       name: i.idd.root+id,
+    //       id: i.fifa
+    //     })
+    //   })
+    //   this.prefijo=pref
+    //   this.pais=dato 
+    //   let id_Peru:any='PER'
+    //   this.formRegister.controls.pais.setValue(id_Peru)
+    //   this.prefijo.forEach(i=>{
+    //     if(i.id=='PER'){
+    //       this.formRegister.controls.prefijo.setValue(i.id)
+    //     }
+    //   })
+    //   this.listInit()
+    // })
+    this.listInit()
     this.service.getBancos().subscribe(resp=>{
       if(resp.success){
         this.banco=resp.data
@@ -103,6 +157,11 @@ export class ReferidosComponent implements OnInit {
   }
 
   listInit(){
+    let id:any='PER', id_pais:any=1
+    this.formRegister.controls.prefijo.setValue(id)
+    this.formRegister.controls.prefijo.disable()
+    this.formRegister.controls.pais.setValue(id_pais)
+    this.formRegister.controls.pais.disable()
     this.service.getProfile().subscribe(resp=>{
       if(resp.success){
         this.data_user=resp.data_usuario;
@@ -161,6 +220,7 @@ export class ReferidosComponent implements OnInit {
     this.prefijo.forEach(i=>{
       if(i.id==event.id){
         this.formRegister.controls.prefijo.setValue(i.id)
+        this.formRegister.controls.prefijo.disable()
       }
     })
   }
