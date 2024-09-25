@@ -60,7 +60,7 @@ export class RegisterLinkComponent implements OnInit {
     distrito : [null, Validators.required],
   });
   date: Date = new Date();
-  countries:any=[
+  pais:any=[
     {
       'id': 1,
       'name': 'Perú'
@@ -82,7 +82,7 @@ export class RegisterLinkComponent implements OnInit {
   ];
 
   banco:any;genero:any=[{name:'Masculino'},{name:'Femenino'}]; departamento:any; provincia:any; distrito:any
-  pais:any=[];packs:any; validate_pack:any=false;detail_pack:any; code_url:any;  data_binance:any; txtCopiarBinance:any
+  packs:any; validate_pack:any=false;detail_pack:any; code_url:any;  data_binance:any; txtCopiarBinance:any
   files: File[] = []; validar_pago:boolean=false; data_pago:any; data_pack:any
 
   ngOnInit(): void {
@@ -160,6 +160,7 @@ export class RegisterLinkComponent implements OnInit {
     this.formRegister.controls.prefijo.disable()
     this.formRegister.controls.pais.setValue(id_pais)
     this.formRegister.controls.pais.disable()
+    this.spinner.hide();
     // this.authservice.listCountry().subscribe(data => {
     //   let dato:any=[], pref:any=[], id
     //   data.forEach(i=>{
@@ -268,7 +269,7 @@ export class RegisterLinkComponent implements OnInit {
   getInfoCliente(event){
     const inputValue = event.target.value;
     let num_doc= this.formRegister.controls.numDoc.value
-    if(this.formRegister.controls.pais.value=='PER'){
+    // if(this.formRegister.controls.pais.value=='PER'){
       if(inputValue.length === 8){
         this.formRegister.controls.numDoc.disable()
         this.spinner.show()
@@ -285,13 +286,39 @@ export class RegisterLinkComponent implements OnInit {
             this.spinner.hide()
             return
           }
+        },error => {
+          if(error.status==400) {
+            Swal.fire({
+              title: 'Advertencia!',
+              text: error.error.error,
+              icon: 'error',
+              showCancelButton: true,
+              showConfirmButton: false,
+              cancelButtonColor: '#c02c2c',
+              cancelButtonText: 'Cerrar'
+            })
+          }
+          if(error.status==500){
+            Swal.fire({
+              title: 'Advertencia!',
+              text: 'Comuniquese con el Área de Sistemas',
+              icon: 'error',
+              showCancelButton: true,
+              showConfirmButton: false,
+              cancelButtonColor: '#c02c2c',
+              cancelButtonText: 'Cerrar'
+            })
+          }
+          this.formRegister.controls.numDoc.setValue('')
+          this.formRegister.controls.numDoc.enable()
+          this.spinner.hide()
         })
       }
       else{
         this.formRegister.controls.nombres.setValue('')
         this.formRegister.controls.apellidos.setValue('')
       }
-    }
+    // }
   }
 
   update(){

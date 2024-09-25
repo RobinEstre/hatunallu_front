@@ -54,7 +54,7 @@ export class RegisterComponent implements OnInit {
     provincia : [null, Validators.required],
     distrito : [null, Validators.required],
   });
-  countries:any=[
+  pais:any=[
     {
       'id': 1,
       'name': 'Perú'
@@ -76,7 +76,7 @@ export class RegisterComponent implements OnInit {
   ];
 
   banco:any;genero:any=[{name:'Masculino'},{name:'Femenino'}]; departamento:any; provincia:any; distrito:any
-  pais:any=[];files: File[] = []; packs:any; validar_pago:boolean=false; data_pago:any; data_pack:any
+  files: File[] = []; packs:any; validar_pago:boolean=false; data_pago:any; data_pack:any
 
   ngOnInit(): void {
     this.formRegister.controls.distrito.disable()
@@ -377,30 +377,56 @@ export class RegisterComponent implements OnInit {
   getInfoCliente(event){
     const inputValue = event.target.value;
     let num_doc= this.formRegister.controls.numDoc.value
-    if(this.formRegister.controls.pais.value=='PER'){
-      if(inputValue.length === 8){
-        this.formRegister.controls.numDoc.disable()
-        this.spinner.show()
-        this.service.getDni(num_doc).subscribe(dni=>{
-          if(dni.success){
-            this.formRegister.controls.nombres.setValue(dni['data']['nombres'])
-            this.formRegister.controls.apellidos.setValue(dni['data']['apellidoPaterno']+' '+dni['data']['apellidoMaterno'])
-            this.formRegister.controls.numDoc.enable()
-            this.spinner.hide()
-            return
-          }else{
-            this.formRegister.controls.numDoc.setValue('')
-            this.formRegister.controls.numDoc.enable()
-            this.spinner.hide()
-            return
-          }
-        })
-      }
-      else{
-        this.formRegister.controls.nombres.setValue('')
-        this.formRegister.controls.apellidos.setValue('')
-      }
+    //if(this.formRegister.controls.pais.value=='PER'){
+    if(inputValue.length === 8){
+      this.formRegister.controls.numDoc.disable()
+      this.spinner.show()
+      this.service.getDni(num_doc).subscribe(dni=>{
+        if(dni.success){
+          this.formRegister.controls.nombres.setValue(dni['data']['nombres'])
+          this.formRegister.controls.apellidos.setValue(dni['data']['apellidoPaterno']+' '+dni['data']['apellidoMaterno'])
+          this.formRegister.controls.numDoc.enable()
+          this.spinner.hide()
+          return
+        }else{
+          this.formRegister.controls.numDoc.setValue('')
+          this.formRegister.controls.numDoc.enable()
+          this.spinner.hide()
+          return
+        }
+      },error => {
+        if(error.status==400) {
+          Swal.fire({
+            title: 'Advertencia!',
+            text: error.error.error,
+            icon: 'error',
+            showCancelButton: true,
+            showConfirmButton: false,
+            cancelButtonColor: '#c02c2c',
+            cancelButtonText: 'Cerrar'
+          })
+        }
+        if(error.status==500){
+          Swal.fire({
+            title: 'Advertencia!',
+            text: 'Comuniquese con el Área de Sistemas',
+            icon: 'error',
+            showCancelButton: true,
+            showConfirmButton: false,
+            cancelButtonColor: '#c02c2c',
+            cancelButtonText: 'Cerrar'
+          })
+        }
+        this.formRegister.controls.numDoc.setValue('')
+        this.formRegister.controls.numDoc.enable()
+        this.spinner.hide()
+      })
     }
+    else{
+      this.formRegister.controls.nombres.setValue('')
+      this.formRegister.controls.apellidos.setValue('')
+    }
+    //}
   }
 
   onSelect(event: { addedFiles: any; }) {
